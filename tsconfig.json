@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "baseUrl": "src",
+    "allowJs": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "isolatedModules": true,
+    "moduleResolution": "Node",
+    "strict": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+
+    "skipLibCheck": true,
+    "paths": {
+      "@components": [
+        "src/components"
+      ],
+      "@pages": [
+        "src/pages"
+      ],
+      "@store": [
+        "src/store"
+      ],
+      "@utils": [
+        "src/utils"
+      ]
+    }
+  },
+  "include": [
+    "src",
+  ]
+}

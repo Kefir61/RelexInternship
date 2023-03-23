@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "es6",
-    "baseUrl": "src",
+    "baseUrl": "./",
     "allowJs": true,
     "jsx": "react",
     "esModuleInterop": true,
@@ -12,11 +12,10 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "isolatedModules": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "strict": false,
     "noImplicitReturns": false,
     "noImplicitThis": false,
-
     "skipLibCheck": true,
     "paths": {
       "@components": [
@@ -30,6 +29,9 @@
       ],
       "@utils": [
         "src/utils"
+      ],
+      "assets": [
+        "src/assets"
       ]
     }
   },

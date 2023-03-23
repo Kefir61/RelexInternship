@@ -1,11 +1,10 @@
 import React from "react";
+import {Router} from "./router/Router";
 
 const App = () => {
     return (
-        <div className="">
-            Relex-Coin!
-        </div>
-    )
+       <Router/>
+    );
 }
 
 export default App;

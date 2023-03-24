@@ -1,0 +1,30 @@
+.input {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  min-width: 200px;
+  padding: 4px 11px;
+  color: #000000e0;
+  line-height: 1.57;
+  font-size: 14px;
+  background-color: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+  border-radius: 6px;
+  transition: all 0.2s;
+  &:hover {
+    border-color: #4096ff;
+    border-inline-end-width: 1px;
+    z-index: 1;
+  }
+  &:focus {
+    border-color: #4096ff;
+    box-shadow: 0 0 0 2px #0591ff1a;
+    border-inline-end-width: 1px;
+    outline: 0;
+  }
+  &::placeholder {
+    color: #bcbcbc;
+  }
+}

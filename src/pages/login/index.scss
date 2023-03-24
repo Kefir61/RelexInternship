@@ -1,0 +1,50 @@
+.wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px #00000080;
+  & > * {
+    margin-bottom: 40px;
+  }
+  &__title {
+    font-size: 36px;
+    font-weight: 500;
+  }
+  &__button {
+    width: 100%;
+    padding: 11px 11px;
+    line-height: 1.57;
+    background-color: #1677ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    &:hover {
+      background-color: #4096ff;
+      cursor: pointer;
+    }
+    &:disabled {
+      cursor: no-drop;
+      background-color: #4096ff;
+    }
+  }
+  &__input {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.input-error {
+  font-size: 10px;
+  color: #ff0000;
+  margin-bottom: 2px;
+}

@@ -4,12 +4,13 @@ import {PageRoutes} from '../../utils/constants/routes';
 import { PrivateWrapper } from '../privateRouter/PrivateWrapper';
 import { NotFound } from '../../pages/notFound/NotFound'
 import { Layout } from '../layout/Layout';
+import Login from '../../pages/login/Login';
 export const Router:FC = () => {
     const isAuthorized = true;
     return (
         <BrowserRouter>
             <Routes>
-                {isAuthorized && <Route path={PageRoutes.LOGIN} element={<p>Login page</p>}/>}
+                {isAuthorized && <Route path={PageRoutes.LOGIN} element={<Login/>}/>}
                 <Route path={PageRoutes.LAYOUT} element={<Layout/>}>
                     <Route element={<PrivateWrapper roles={['user', 'admin_events']} />}>
                         <Route path={PageRoutes.SHARED_FEED} element={<p> Feed общий</p>}/>
@@ -37,3 +38,5 @@ export const Router:FC = () => {
         </BrowserRouter>
     )
 }
+
+export default Router

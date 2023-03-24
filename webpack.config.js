@@ -63,6 +63,7 @@ module.exports = {
         compress: true,
         historyApiFallback: true,
         hot: true,
+        historyApiFallback:true,
     },    
     plugins: [
         new HtmlWebpackPlugin({

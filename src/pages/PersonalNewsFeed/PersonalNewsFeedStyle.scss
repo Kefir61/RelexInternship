@@ -1,0 +1,154 @@
+.content {
+    display:flex;
+    margin-left:35px;
+    gap:300px;
+
+    .feed {
+        display:flex;
+        flex-direction: column;
+        max-width: 780px;
+        flex:3;
+        
+        .searchBar {
+            display:flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            gap: 50px;
+
+            .contextSearch {
+                width: 260px;
+            }
+
+            .chooseBlock {
+                display:flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 285px;
+            }
+        }
+
+        .newsBlock {
+            display: flex;
+            flex-direction: column;
+            gap:35px;
+
+            .news {
+                display: flex;
+                flex-direction: column;
+    
+                .typeOfNews {
+                    color:#00aa2b;
+                }
+    
+                .dateAndCreator {
+                    display: flex;
+                    gap: 40px;
+                    color: #818183
+                }
+            }
+    
+            .commentAndLikeSection {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+    
+                .commentSection {
+                    color: #818183
+                }
+    
+                .likeSection {
+                    display: flex;
+                    gap:10px;
+    
+                    .notZeroLikes {
+                        color: #00aa2b
+                    }
+        
+                    .notZeroDisLikes {
+                        color: #aa0000
+                    }
+                }
+            }
+        }
+    }
+
+    .linksAndCongrats {
+        display:flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex:2;
+        margin-top: 80px;
+
+        .linksBlock {
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 300px;
+            gap:10px;
+            margin-bottom: 30px;
+
+            .link {
+                color: #0000ff
+            }
+        }
+
+        .eventBlock {
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 300px;
+            gap:10px;
+            margin-bottom: 30px;
+
+            .event {
+                color: #0000ff
+            }
+        }
+
+        .congratsBlock {
+            display:flex;
+            flex-direction: column;
+            gap:10px;
+
+            .congratsElem {
+                display:flex;
+                width: 500px;
+                gap:10px;
+                
+                .getCurrency {
+                    color: #00aa2b
+                }
+
+                .lostCurrency {
+                    color: #aa0000
+                }
+
+                .infoBlock {
+                    width: 100%;
+                    max-width: 300px;
+
+                    .dateAndCreator {
+                        display: flex;
+                        flex-direction: column;
+                        color: #818183
+                    }
+    
+                    .commentAndLikeSection {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+    
+                        .commentSection {
+                            color: #818183
+                        }
+    
+                        .notZeroLikes {
+                            color: #00aa2b
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

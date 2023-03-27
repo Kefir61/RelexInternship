@@ -1,0 +1,1 @@
+export {PersonalNewsFeed} from './PersonalNewsFeed/PersonalNewsFeed'

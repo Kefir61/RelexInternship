@@ -1,0 +1,38 @@
+.congratsElem {
+    display:flex;
+    width: 500px;
+    gap:10px;
+    
+    .getCurrency {
+        color: #00aa2b
+    }
+
+    .lostCurrency {
+        color: #aa0000
+    }
+
+    .infoBlock {
+        width: 100%;
+        max-width: 300px;
+
+        .dateAndCreator {
+            display: flex;
+            flex-direction: column;
+            color: #818183
+        }
+
+        .commentAndLikeSection {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .commentSection {
+                color: #818183
+            }
+
+            .notZeroLikes {
+                color: #00aa2b
+            }
+        }
+    }
+}

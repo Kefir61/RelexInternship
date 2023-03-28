@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { useLocation, Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { Roles } from '../../utils/types/roles';
-import { PageRoutes } from '../../utils/constants/routes';
+import { Roles, PageRoutes } from '@utils';
 
 /** Временный интерфейс пользователя*/
 interface IUser {
@@ -26,7 +25,7 @@ export const PrivateWrapper: FC<IPrivateWrapper> = ({roles}) => {
     }
     
     /** Допилить редирект на страницу, с которой пытались перейти вручную*/
-    if (roles.includes) {
+    if (roles.includes(user.role)) {
         return <Outlet/>
     } else {
         return user

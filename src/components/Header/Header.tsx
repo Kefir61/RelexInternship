@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from 'react'
 import { SearchOutlined, StarOutlined, ShoppingCartOutlined, UserOutlined, DownOutlined} from '@ant-design/icons'
 import { Input, Dropdown } from 'antd'
 import './Header.scss'
-import {PageRoutes} from '../../utils/constants/routes'
+import {PageRoutes} from '@utils'
 import {Link, useLocation} from 'react-router-dom'
-import {ProfileItems, MenuItems, menuLinks} from './consts'
+import {ProfileItems, MenuItems, menuLinks} from '@components'
 
 export const Header: FC = () => {
     const location = useLocation()

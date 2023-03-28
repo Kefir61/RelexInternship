@@ -3,7 +3,7 @@ import "./PersonalNewsFeedStyle.scss";
 import { Input } from "antd";
 import { AutoComplete } from "../../components/AutoComplete/AutoComplete";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyThanks } from "src/store/slices/myThanksSlice";
+import { fetchMyThanks } from "../../store/slices/myThanksSlice";
 import { AppDispatch, RootState } from "src/store/store";
 
 export const PersonalNewsFeed: FC = () => {

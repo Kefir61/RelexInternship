@@ -14,14 +14,14 @@ module.exports = {
             '@store': path.resolve(__dirname, 'src/store'),
             '@assets': path.resolve(__dirname, 'src/assets'),
         },
-        extensions: ['.ts', '.tsx', '.js', '.css', '.scss']
+        extensions: ['.ts', '.tsx', '.js', '.css', '.scss'],
     },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/,
+                exclude: '/node_modules/',
             },
             {
                 test: /\.css$/,
@@ -47,6 +47,9 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
+                        options: {
+                            name: 'asset/[name].[ext]',
+                          },
                     },
                 ]
             },

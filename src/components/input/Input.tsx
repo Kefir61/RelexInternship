@@ -8,6 +8,7 @@ type InputProps = {
   isRequired: boolean;
   value: string;
   onChange: (value: string) => void;
+  onBlur: (value: boolean) => void;
 };
 
 /*
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   isRequired,
   value,
   onChange,
+  onBlur,
 }) => {
   return (
     <input
@@ -30,6 +32,7 @@ const Input: React.FC<InputProps> = ({
       name={name}
       type={type}
       required={isRequired}
+      onBlur={() => onBlur(true)}
     />
   );
 };

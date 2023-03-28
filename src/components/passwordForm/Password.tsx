@@ -6,6 +6,7 @@ type PasswordFormProps = {
   value: string;
   placeholder: string;
   onChange: (value: string) => void;
+  onBlur: (value: boolean) => void;
 };
 
 /*
@@ -15,6 +16,7 @@ const Password: React.FC<PasswordFormProps> = ({
   value,
   onChange,
   placeholder,
+  onBlur,
 }) => {
   return (
     <Space direction="vertical">
@@ -22,6 +24,7 @@ const Password: React.FC<PasswordFormProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={() => onBlur(true)}
       />
     </Space>
   );

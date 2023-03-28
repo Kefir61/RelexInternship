@@ -1,11 +1,6 @@
+import { applyValidators, maxLength, minLength, postLogin, required } from "@utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  applyValidators,
-  maxLength,
-  minLength,
-  required,
-} from "../../utils/validations";
 import Input from "../../components/input/Input";
 import Password from "../../components/passwordForm/Password";
 import "./index.scss";
@@ -14,7 +9,9 @@ export const Login = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useState("");
   const [pass, setPass] = useState("");
-  const [error, setError] = useState(false);
+  const [isDirtyLogin, setDirtyLogin] = useState(false);
+  const [isDirtyPass, setDirtyPass] = useState(false);
+
   const errorsLogin = applyValidators(login, [
     maxLength(56),
     required(),
@@ -25,18 +22,20 @@ export const Login = () => {
     required(),
     minLength(6),
   ]);
-  const handleLogin = () => {
+
+  const handleLogin = async () => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
-      setError(true);
       return;
     }
-    const loginValue = login;
-    const passValue = pass;
-    const json = JSON.stringify({ loginValue, passValue });
-    localStorage.setItem("user", json);
-    navigate("/");
+    try {
+      const response = await postLogin(login, pass);
+      localStorage.setItem("token", response.accessToken);
+      navigate("/");
+    } catch (e) {
+      console.log(e.response?.data?.message);
+    }
   };
-  const disabled = login === "" || pass === "" ? true : false;
+  const disabled = login === "" || pass === "";
   return (
     <div className="wrapper">
       <form className="login">
@@ -49,8 +48,9 @@ export const Login = () => {
             isRequired={true}
             value={login}
             onChange={setLogin}
+            onBlur={setDirtyLogin}
           />
-          {error &&
+          {isDirtyLogin &&
             errorsLogin &&
             errorsLogin.map((title) => (
               <label className="input-error">{title}</label>
@@ -61,8 +61,9 @@ export const Login = () => {
             value={pass}
             onChange={setPass}
             placeholder="Введите пароль..."
+            onBlur={setDirtyPass}
           />
-          {error &&
+          {isDirtyPass &&
             errorsPass &&
             errorsPass.map((title) => (
               <label className="input-error">{title}</label>

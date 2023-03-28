@@ -10,7 +10,7 @@ import Input from "../../components/input/Input";
 import Password from "../../components/passwordForm/Password";
 import "./index.scss";
 
-const Login = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useState("");
   const [pass, setPass] = useState("");
@@ -79,5 +79,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

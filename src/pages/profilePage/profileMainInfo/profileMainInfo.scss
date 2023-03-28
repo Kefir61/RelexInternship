@@ -1,0 +1,58 @@
+$mainColor: #2986CC;
+$secondaryColor: #F1F3F4;
+
+.mainInfo {
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &__inner {
+        width: 75vw;
+        margin-bottom: 32px;
+    }
+    &__blocks {
+        display: flex;
+        align-items: start;
+        justify-content: flex-start;
+        gap: 40px;
+    }
+    &__name {
+        color: $mainColor;
+        font-size: 24px;
+        font-weight: 500;
+    }
+    &__lines { 
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 4px;
+    }
+    &__textarea {
+        width: 40vw;
+    }
+    &__line {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+    &__birth {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 8px;
+    }
+    &__buttons {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    &__img {
+        width: 200px;
+    }
+    &__status {
+        display: flex;
+        gap: 10px;
+    }
+}

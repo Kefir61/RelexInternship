@@ -1,10 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { PageRoutes } from "../../utils/constants/routes";
-import { PrivateWrapper } from "../privateRouter/PrivateWrapper";
-import { NotFound } from "../../pages/notFound/NotFound";
-import { Layout } from "../layout/Layout";
-import Login from "../../pages/login/Login";
+import { PageRoutes } from "@utils";
+import { PrivateWrapper, Layout} from "@components";
+import { NotFound, Login, ProfilePage } from "@pages";
 import { PersonalNewsFeed } from "../../pages/PersonalNewsFeed/PersonalNewsFeed";
 export const Router: FC = () => {
   const isAuthorized = true;
@@ -18,7 +16,7 @@ export const Router: FC = () => {
             <Route path={PageRoutes.USERS_FEED} element={<PersonalNewsFeed />} />
 
             <Route path={PageRoutes.SHOP} element={<p> Магазин </p>} />
-            <Route path={PageRoutes.PROFILE} element={<p> Профиль </p>} />
+            <Route path={PageRoutes.PROFILE} element={<ProfilePage/>} />
             <Route
               path={PageRoutes.SHOP_PRODUCT}
               element={<p> Страница товара по id, передаем в запросе </p>}

@@ -1,5 +1,5 @@
 import React from 'react'
-import {PageRoutes} from '../../utils/constants/routes'
+import {PageRoutes} from '@utils'
 import {Link} from 'react-router-dom'
 import type { MenuProps } from 'antd'
 

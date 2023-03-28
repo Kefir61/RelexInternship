@@ -1,7 +1,7 @@
 import React from "react";
-import {Router} from "./router/Router";
+import {Router} from '@components';
 
-const App = () => {
+export const App = () => {
     return (
        <Router/>
     );

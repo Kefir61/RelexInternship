@@ -1,5 +1,5 @@
 export * from './App';
-export * from './footer';
+export * from './Footer';
 export * from './Header';
 export * from './layout';
 export * from './privateRouter';

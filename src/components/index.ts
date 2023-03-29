@@ -1,7 +1,10 @@
-export * from './App';
-export * from './Footer';
-export * from './Header';
-export * from './layout';
-export * from './privateRouter';
-export * from './router';
+export * from "./App";
+export * from "./Footer";
+export * from "./Header";
+export * from "./layout";
+export * from "./privateRouter";
+export * from "./router";
+export * from "./shopItem";
+export * from "./sort";
+export * from "./filter";
 export { AutoComplete } from "./AutoComplete/AutoComplete";

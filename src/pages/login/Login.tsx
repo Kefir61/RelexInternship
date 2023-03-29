@@ -1,4 +1,10 @@
-import { applyValidators, maxLength, minLength, postLogin, required } from "@utils";
+import {
+  applyValidators,
+  maxLength,
+  minLength,
+  loginFn,
+  required,
+} from "@utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
@@ -28,7 +34,7 @@ export const Login = () => {
       return;
     }
     try {
-      const response = await postLogin(login, pass);
+      const response = await loginFn(login, pass);
       localStorage.setItem("token", response.accessToken);
       navigate("/");
     } catch (e) {
@@ -52,7 +58,7 @@ export const Login = () => {
           />
           {isDirtyLogin &&
             errorsLogin &&
-            errorsLogin.map((title) => (
+            errorsLogin.map((title: string) => (
               <label className="input-error">{title}</label>
             ))}
         </div>
@@ -65,7 +71,7 @@ export const Login = () => {
           />
           {isDirtyPass &&
             errorsPass &&
-            errorsPass.map((title) => (
+            errorsPass.map((title: string) => (
               <label className="input-error">{title}</label>
             ))}
         </div>

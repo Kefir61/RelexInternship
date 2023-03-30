@@ -114,7 +114,6 @@ export const PersonalNewsFeed: FC = () => {
         </div>
         <div className="congratsBlock">
           <h3>Мои благодарности:</h3>
-<<<<<<< HEAD
           <ListWithPagination
             content={MyThanksList}
             onChangePage={onChangeThanksPage}
@@ -122,28 +121,6 @@ export const PersonalNewsFeed: FC = () => {
               <OneMyThanks key={OneThank.user.id + OneThank.createdAt} thanks={OneThank} />
             )}
             totalPages={MyThanksPageCount}
-=======
-          {/* <ListWithPagination /> */}
-          <div className="congratsElem">
-            <div className="lostCurrency">-21</div>
-            <div className="infoBlock">
-              <div className="dateAndCreator">
-                <div>Благодарность для К.П. Ни</div>
-                <div>03.03.2023 11:15</div>
-              </div>
-              <div>Спасибо</div>
-              <div className="commentAndLikeSection">
-                <CommentsSection comments={MockComments} />
-                <div className="notZeroLikes">Лайки: 141</div>
-              </div>
-            </div>
-          </div>
-          <ListWithPagination
-            content={[{ a: "1" }, { a: "2" }, { a: "3" }]}
-            onChangePage={onChangeThanksPage}
-            renderElement={(e: { a: string }) => <div>{e.a}</div>}
-            totalElementCount={3}
->>>>>>> origin/main
           />
         </div>
       </div>

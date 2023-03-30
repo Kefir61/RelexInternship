@@ -1,4 +1,4 @@
-import { applyValidators, maxLength, minLength, postLogin, required } from "@utils";
+import { applyValidators, maxLength, minLength, loginFn, required } from "@utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
@@ -12,23 +12,15 @@ export const Login = () => {
   const [isDirtyLogin, setDirtyLogin] = useState(false);
   const [isDirtyPass, setDirtyPass] = useState(false);
 
-  const errorsLogin = applyValidators(login, [
-    maxLength(56),
-    required(),
-    minLength(6),
-  ]);
-  const errorsPass = applyValidators(pass, [
-    maxLength(56),
-    required(),
-    minLength(6),
-  ]);
+  const errorsLogin = applyValidators(login, [maxLength(56), required(), minLength(6)]);
+  const errorsPass = applyValidators(pass, [maxLength(56), required(), minLength(6)]);
 
   const handleLogin = async () => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
       return;
     }
     try {
-      const response = await postLogin(login, pass);
+      const response = await loginFn(login, pass);
       localStorage.setItem("token", response.accessToken);
       navigate("/");
     } catch (e) {
@@ -52,9 +44,7 @@ export const Login = () => {
           />
           {isDirtyLogin &&
             errorsLogin &&
-            errorsLogin.map((title) => (
-              <label className="input-error">{title}</label>
-            ))}
+            errorsLogin.map((title) => <label className="input-error">{title}</label>)}
         </div>
         <div className="login__input">
           <Password
@@ -65,9 +55,7 @@ export const Login = () => {
           />
           {isDirtyPass &&
             errorsPass &&
-            errorsPass.map((title) => (
-              <label className="input-error">{title}</label>
-            ))}
+            errorsPass.map((title) => <label className="input-error">{title}</label>)}
         </div>
         <input
           value="Отправить"

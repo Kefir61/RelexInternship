@@ -27,6 +27,9 @@ export const Login = () => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
       return;
     }
+    if(loginValue != 'relexCoin' || pass!='123456'){
+      return alert('Ошибка при вводе логина или пароля, проверьте данные')
+    }
     try {
       const response = await login(loginValue, pass);
       localStorage.setItem("token", response.accessToken);
@@ -52,8 +55,8 @@ export const Login = () => {
           />
           {isDirtyLogin &&
             errorsLogin &&
-            errorsLogin.map((title: string) => (
-              <label className="input-error">{title}</label>
+            errorsLogin.map((title: string, index:number) => (
+              <label className="input-error" key={index}>{title}</label>
             ))}
         </div>
         <div className="login__input">
@@ -65,8 +68,8 @@ export const Login = () => {
           />
           {isDirtyPass &&
             errorsPass &&
-            errorsPass.map((title: string) => (
-              <label className="input-error">{title}</label>
+            errorsPass.map((title: string, index: number) => (
+              <label className="input-error" key={index}>{title}</label>
             ))}
         </div>
         <input

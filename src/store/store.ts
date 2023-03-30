@@ -4,6 +4,7 @@ import myThanksReducer from "./slices/myThanksSlice";
 export const store = configureStore({
   reducer: {
     MyThanks: myThanksReducer
+    filter: filterReducer,
   },
 });
 

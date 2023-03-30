@@ -2,14 +2,14 @@ import { Pagination, Spin } from "antd";
 import React, { FC, ReactNode, useMemo, useState } from "react";
 
 interface ListProps {
-  totalElementCount: number;
+  totalPages: number;
   renderElement: (elem: object) => ReactNode;
   onChangePage: (pageNum: number) => void;
   content: object[];
 }
 
 export const ListWithPagination: FC<ListProps> = ({
-  totalElementCount,
+  totalPages,
   renderElement,
   onChangePage,
   content,
@@ -19,8 +19,9 @@ export const ListWithPagination: FC<ListProps> = ({
       {content.map((item) => renderElement(item))}
       <Pagination
         size="small"
+        pageSize={content.length}
         defaultCurrent={1}
-        total={totalElementCount}
+        total={totalPages * content.length}
         onChange={onChangePage}
       />
     </div>

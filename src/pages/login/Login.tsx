@@ -12,10 +12,6 @@ export const Login = () => {
   const [isDirtyLogin, setDirtyLogin] = useState(false);
   const [isDirtyPass, setDirtyPass] = useState(false);
 
-  const errorsLogin = applyValidators(loginValue, [
-    maxLength(56),
-    required(),
-    minLength(6),
   ]);
   const errorsPass = applyValidators(pass, [
     maxLength(56),
@@ -25,7 +21,9 @@ export const Login = () => {
 
   const handleLogin = async () => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
-      return;
+    }
+    if(loginValue != 'relexCoin' || pass!='123456'){
+      return alert('Ошибка при вводе логина или пароля, проверьте данные')
     }
     if(loginValue != 'relexCoin' || pass!='123456'){
       return alert('Ошибка при вводе логина или пароля, проверьте данные')

@@ -2,7 +2,7 @@
     display:flex;
     margin-top: 30px;
     margin-left:35px;
-    gap:250px;
+    gap:300px;
 
     .feed {
         display:flex;
@@ -50,6 +50,7 @@
     
             .commentAndLikeSection {
                 display: flex;
+                justify-content: space-between;
                 width: 100%;
     
                 .commentSection {
@@ -75,6 +76,7 @@
     .eventsAndCongrats {
         display:flex;
         flex-direction: column;
+        justify-content: space-between;
         flex:2;
 
         .eventBlock {

@@ -1,12 +1,7 @@
-export interface IUser {
-    id:number,
-    lastName: string,
-    firstName: string,
-    patronymic: string,
-    mainImageId: number,
-  }
+import { IComment } from "./IComment";
+import { IUser } from "./IUser";
   
-export enum EOperaionType {'TO', 'FROM'}
+export enum EOperaionType {TO = 'TO', FROM = 'FROM'}
 
 export interface IOneMyThanks {
     operationType: EOperaionType,
@@ -15,6 +10,9 @@ export interface IOneMyThanks {
     votesUp: number,
     votesDown: number,
     id: number,
+    commentsCount:number,
+    comments:IComment[]
     thanksAmount: number,
     createdAt: string,
   }
+

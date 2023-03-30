@@ -1,15 +1,14 @@
 import React, { FC, useEffect } from "react";
-import "./PersonalNewsFeedStyle.scss";
+import "./SharedFeedStyle.scss";
 import { Input } from "antd";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import { fetchMyThanks } from "../../store/slices/myThanksSlice";
 import { AppDispatch, RootState } from "src/store/store";
-import { IOneMyThanks } from "@utils";
-import { AutoComplete, OneMyThanks } from "@components";
+import { IOneMyThanks, PageRoutes } from "@utils";
+import { CommentsSection, ListWithPagination, OneMyThanks } from "@components";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { CommentsSection, ListWithPagination } from "@components";
 
-export const PersonalNewsFeed: FC = () => {
+export const SharedFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
   const MyThanksList = AppSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
@@ -29,8 +28,11 @@ export const PersonalNewsFeed: FC = () => {
         <div className="searchBar">
           <Input className="contextSearch" placeholder="Context Search" />
           <div className="chooseBlock">
-            <div>Сотрудник: </div>
-            <AutoComplete />
+            <div>Тип сообщение: </div>
+            <select>
+              <option>Благодарность</option>
+              <option>Событие</option>
+            </select>
           </div>
         </div>
         <div className="newsBlock">
@@ -114,7 +116,6 @@ export const PersonalNewsFeed: FC = () => {
         </div>
         <div className="congratsBlock">
           <h3>Мои благодарности:</h3>
-<<<<<<< HEAD
           <ListWithPagination
             content={MyThanksList}
             onChangePage={onChangeThanksPage}
@@ -122,28 +123,6 @@ export const PersonalNewsFeed: FC = () => {
               <OneMyThanks key={OneThank.user.id + OneThank.createdAt} thanks={OneThank} />
             )}
             totalPages={MyThanksPageCount}
-=======
-          {/* <ListWithPagination /> */}
-          <div className="congratsElem">
-            <div className="lostCurrency">-21</div>
-            <div className="infoBlock">
-              <div className="dateAndCreator">
-                <div>Благодарность для К.П. Ни</div>
-                <div>03.03.2023 11:15</div>
-              </div>
-              <div>Спасибо</div>
-              <div className="commentAndLikeSection">
-                <CommentsSection comments={MockComments} />
-                <div className="notZeroLikes">Лайки: 141</div>
-              </div>
-            </div>
-          </div>
-          <ListWithPagination
-            content={[{ a: "1" }, { a: "2" }, { a: "3" }]}
-            onChangePage={onChangeThanksPage}
-            renderElement={(e: { a: string }) => <div>{e.a}</div>}
-            totalElementCount={3}
->>>>>>> origin/main
           />
         </div>
       </div>

@@ -32,7 +32,7 @@ export const AutoComplete: FC = () => {
     <AutoCompleteAntd
       options={options}
       style={{
-        width: 200,
+        width: 180,
       }}
       onSearch={handleSearch}
     >

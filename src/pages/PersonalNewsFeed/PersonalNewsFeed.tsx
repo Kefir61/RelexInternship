@@ -5,19 +5,48 @@ import { AutoComplete } from "../../components/AutoComplete/AutoComplete";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyThanks } from "../../store/slices/myThanksSlice";
 import { AppDispatch, RootState } from "src/store/store";
+import { CommentsSection, ListWithPagination } from "@components";
+
+const MockComments = [
+  {
+    comment: "smth logn and dilicious and another one and another and another",
+    createdAt: "2020-21-21T21:12",
+    id: 2,
+    user: {
+      id: "1",
+      midlename: "Сергеевич",
+      name: "Василий",
+      surname: "Федотов",
+    },
+  },
+  {
+    comment: "smth logn",
+    createdAt: "2020-21-21T21:12",
+    id: 2,
+    user: {
+      id: "1",
+      midlename: "Сергеевич",
+      name: "Василий",
+      surname: "Федотов",
+    },
+  },
+];
 
 export const PersonalNewsFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   // const currentUser = useSelector<RootState>((state) => state.User.list);
   const MyThanksList = useSelector<RootState>((state) => state.MyThanks.list);
   useEffect(() => {
-    dispatch(fetchMyThanks({ id: 1, currentPage: 1, pageSize: 6 }));
-  }, [dispatch]);
+    dispatch(fetchMyThanks({ id: 1, currentPage: 1, pageSize: 3 }));
+  }, []);
+
+  const onChangeThanksPage = (pageNum: number) => {
+    dispatch(fetchMyThanks({ id: 1, currentPage: pageNum, pageSize: 3 }));
+  };
 
   return (
     <div className="content">
       <div className="feed">
-        <h1>Личная лента событий</h1>
         <div className="searchBar">
           <Input className="contextSearch" placeholder="Context Search" />
           <div className="chooseBlock">
@@ -93,20 +122,26 @@ export const PersonalNewsFeed: FC = () => {
         <div className="congratsBlock">
           <h3>Мои благодарности:</h3>
           {/* <ListWithPagination /> */}
-          {/* <div className="congratsElem">
+          <div className="congratsElem">
             <div className="lostCurrency">-21</div>
             <div className="infoBlock">
-              <div className="itemInformation">
+              <div className="dateAndCreator">
                 <div>Благодарность для К.П. Ни</div>
                 <div>03.03.2023 11:15</div>
               </div>
               <div>Спасибо</div>
               <div className="commentAndLikeSection">
-                <div className="commentSection">Комментарии (141) {">"}</div>
+                <CommentsSection comments={MockComments} />
                 <div className="notZeroLikes">Лайки: 141</div>
               </div>
             </div>
-          </div> */}
+          </div>
+          <ListWithPagination
+            content={[{ a: "1" }, { a: "2" }, { a: "3" }]}
+            onChangePage={onChangeThanksPage}
+            renderElement={(e: { a: string }) => <div>{e.a}</div>}
+            totalElementCount={3}
+          />
         </div>
       </div>
     </div>

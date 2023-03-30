@@ -4,7 +4,7 @@ import { StarOutlined } from "@ant-design/icons";
 import { ShopProductItem } from "src/store/slices/shopSlice";
 
 /*
- * component shop item
+ * Component shop item
  */
 export const ShopItem: React.FC<ShopProductItem> = ({
   imgUrl,

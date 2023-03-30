@@ -1,16 +1,13 @@
 import React from "react";
 import { Select, Space } from "antd";
-import { useDispatch } from "react-redux";
-import { setFilterColor, setFilterSize } from "../../store/slices/filterSlice";
 
-export const Filter: React.FC = () => {
-  const dispatch = useDispatch();
-  const handleFilterColor = (value: string) => {
-    dispatch(setFilterColor(value))
-  };
-  const handleFilterSize = (value: string) => {
-    dispatch(setFilterSize(value))
-  };
+type FilterProp = {
+  handleFilterSize: (value:string) => void;
+  handleFilterColor: (value:string) => void;
+}
+
+export const Filter: React.FC<FilterProp> = ({handleFilterSize, handleFilterColor}) => {
+  
   return (
     <Space wrap>
       <Select

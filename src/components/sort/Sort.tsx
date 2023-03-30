@@ -1,5 +1,5 @@
 import React from "react";
 
-export function Sort() {
+export const Sort = () => {
   return <div>Sort</div>;
-}
+};

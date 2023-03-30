@@ -2,30 +2,36 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 
+type TSortDirection = "ASC" | "DESC";
+type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
+
 export type ShopProductItem = {
   id: number;
   imgUrl: string;
-  price: string;
-  inStock: number;
+  price: number;
+  amout: number;
   title: string;
   colors: string[];
   sizes: string[];
 };
+
 type FetchShopArgs = {
-  filter: string;
-  sort: string;
+  filterSize: string;
+  filterColor: string;
+  sort: TSortDirection;
   currentPage: number;
 };
+
 interface ShopSliceState {
   list: ShopProductItem[];
   loading: boolean;
-  status: string;
+  status: TStatus;
 }
 
 export const fetchMenu = createAsyncThunk<ShopProductItem[], FetchShopArgs>(
   "shop/fetchShopStatus",
   async (params) => {
-    const { filter, sort, currentPage } = params;
+    const { filterSize, filterColor, sort, currentPage } = params;
     const { data } = await axios.get<ShopProductItem[]>(`url`);
     return data;
   }
@@ -36,8 +42,8 @@ const initialState: ShopSliceState = {
     {
       id: 1,
       imgUrl: "",
-      price: "20.00",
-      inStock: 5,
+      price: 20.0,
+      amout: 5,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: ["XS", "S", "L", "XL"],
@@ -45,8 +51,8 @@ const initialState: ShopSliceState = {
     {
       id: 2,
       imgUrl: "",
-      price: "20.00",
-      inStock: 15,
+      price: 20.0,
+      amout: 15,
       title: "Название товара",
       colors: [],
       sizes: [],
@@ -54,8 +60,8 @@ const initialState: ShopSliceState = {
     {
       id: 3,
       imgUrl: "",
-      price: "15.00",
-      inStock: 25,
+      price: 15.0,
+      amout: 25,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: [],
@@ -63,8 +69,8 @@ const initialState: ShopSliceState = {
     {
       id: 4,
       imgUrl: "",
-      price: "12.00",
-      inStock: 5,
+      price: 12.0,
+      amout: 5,
       title: "Название товара",
       colors: [],
       sizes: ["XS", "S", "L", "XL"],
@@ -72,8 +78,8 @@ const initialState: ShopSliceState = {
     {
       id: 5,
       imgUrl: "",
-      price: "8.00",
-      inStock: 11,
+      price: 8.0,
+      amout: 11,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: ["XS", "S", "L", "XL"],
@@ -81,8 +87,8 @@ const initialState: ShopSliceState = {
     {
       id: 6,
       imgUrl: "",
-      price: "5.00",
-      inStock: 9,
+      price: 5.0,
+      amout: 9,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: [],
@@ -90,8 +96,8 @@ const initialState: ShopSliceState = {
     {
       id: 7,
       imgUrl: "",
-      price: "5.00",
-      inStock: 1,
+      price: 5.0,
+      amout: 1,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: ["XS", "S", "L", "XL"],
@@ -99,8 +105,8 @@ const initialState: ShopSliceState = {
     {
       id: 8,
       imgUrl: "",
-      price: "4.00",
-      inStock: 17,
+      price: 4.0,
+      amout: 17,
       title: "Название товара",
       colors: [],
       sizes: [],

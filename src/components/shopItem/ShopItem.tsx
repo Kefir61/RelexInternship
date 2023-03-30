@@ -9,7 +9,7 @@ import { ShopProductItem } from "src/store/slices/shopSlice";
 export const ShopItem: React.FC<ShopProductItem> = ({
   imgUrl,
   price,
-  inStock,
+  amout,
   title,
   colors,
   sizes,
@@ -26,7 +26,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       <div className="product--informations">
         <div className="product--informations__price">{price}</div>
         <div className="product--informations__stock">
-          В наличии: {inStock} шт
+          В наличии: {amout} шт
         </div>
       </div>
       <div className="product--title">{title}</div>
@@ -34,8 +34,9 @@ export const ShopItem: React.FC<ShopProductItem> = ({
         {colors.length != 0 && (
           <>
             Цвета:
-            {colors.map((item) => (
+            {colors.map((item, index) => (
               <div
+                key={index}
                 className="product--colors__item"
                 style={{ backgroundColor: `${item}` }}
               ></div>
@@ -47,8 +48,10 @@ export const ShopItem: React.FC<ShopProductItem> = ({
         {sizes.length != 0 && (
           <>
             Размеры:
-            {sizes.map((item) => (
-              <div className="product--sizes__item">{item}</div>
+            {sizes.map((item, index) => (
+              <div key={index} className="product--sizes__item">
+                {item}
+              </div>
             ))}
           </>
         )}

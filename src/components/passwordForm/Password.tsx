@@ -21,6 +21,7 @@ const Password: React.FC<PasswordFormProps> = ({
   return (
     <Space direction="vertical">
       <Input.Password
+        style={{ width: "200px" }}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}

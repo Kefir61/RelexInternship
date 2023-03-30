@@ -52,7 +52,7 @@ export const Login = () => {
           />
           {isDirtyLogin &&
             errorsLogin &&
-            errorsLogin.map((title) => (
+            errorsLogin.map((title: string) => (
               <label className="input-error">{title}</label>
             ))}
         </div>
@@ -65,7 +65,7 @@ export const Login = () => {
           />
           {isDirtyPass &&
             errorsPass &&
-            errorsPass.map((title) => (
+            errorsPass.map((title: string) => (
               <label className="input-error">{title}</label>
             ))}
         </div>

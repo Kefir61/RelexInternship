@@ -4,5 +4,9 @@ export * from './Header';
 export * from './layout';
 export * from './privateRouter';
 export * from './router';
-export * from './ListWithPagination'
+export * from './CommentsSection';
+export * from './ListWithPagination';
+export * from "./shopItem";
+export * from "./sort";
+export * from "./filter";
 export { AutoComplete } from "./AutoComplete/AutoComplete";

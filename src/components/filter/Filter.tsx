@@ -1,7 +1,7 @@
 import React from "react";
 import { Select, Space } from "antd";
 import { useDispatch } from "react-redux";
-import { setFilterColor, setFilterSize } from "src/store/slices/filterSlice";
+import { setFilterColor, setFilterSize } from "../../store/slices/filterSlice";
 
 export const Filter: React.FC = () => {
   const dispatch = useDispatch();

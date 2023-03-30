@@ -1,1 +1,1 @@
-export * from './PersonalNewsFeed'
+export * from './PersonalNewsFeed';

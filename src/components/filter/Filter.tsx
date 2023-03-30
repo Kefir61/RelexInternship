@@ -1,16 +1,22 @@
 import React from "react";
 import { Select, Space } from "antd";
 import { useDispatch } from "react-redux";
+import { setFilterColor, setFilterSize } from "src/store/slices/filterSlice";
 
 export const Filter: React.FC = () => {
   const dispatch = useDispatch();
-  const handleChange = (value: string) => {};
+  const handleFilterColor = (value: string) => {
+    dispatch(setFilterColor(value))
+  };
+  const handleFilterSize = (value: string) => {
+    dispatch(setFilterSize(value))
+  };
   return (
     <Space wrap>
       <Select
         defaultValue="Размер"
         style={{ width: 120 }}
-        onChange={handleChange}
+        onChange={handleFilterSize}
         options={[
           { value: "", label: "Все" },
           { value: "XS", label: "XS" },
@@ -22,7 +28,7 @@ export const Filter: React.FC = () => {
       <Select
         defaultValue="Цвет"
         style={{ width: 120 }}
-        onChange={handleChange}
+        onChange={handleFilterColor}
         options={[
           { value: "", label: "Все" },
           { value: "red", label: "Красный" },

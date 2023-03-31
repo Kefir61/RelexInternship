@@ -13,7 +13,7 @@
 
     .infoBlock {
         width: 100%;
-        max-width: 300px;
+        max-width: 350px;
 
         .dateAndCreator {
             display: flex;
@@ -30,8 +30,21 @@
                 color: #818183
             }
 
-            .notZeroLikes {
-                color: #00aa2b
+            .likeSection {
+                display: flex;
+                gap:10px;
+
+                .notZeroLikes {
+                    color: #00aa2b
+                }
+    
+                .notZeroDisLikes {
+                    color: #aa0000
+                }
+
+                .zeroLikesOrDis {
+                    color: #818183
+                }
             }
         }
     }

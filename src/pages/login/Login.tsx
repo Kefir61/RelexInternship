@@ -1,4 +1,4 @@
-import { applyValidators, maxLength, minLength, login, required } from "@utils";
+import { applyValidators, maxLength, minLength, login as postLogin, required } from "@utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
@@ -12,23 +12,18 @@ export const Login = () => {
   const [isDirtyLogin, setDirtyLogin] = useState(false);
   const [isDirtyPass, setDirtyPass] = useState(false);
 
-  const errorsLogin = applyValidators(loginValue, [
-    maxLength(56),
-    required(),
-    minLength(6),
-  ]);
-  const errorsPass = applyValidators(pass, [
-    maxLength(56),
-    required(),
-    minLength(6),
-  ]);
+  const errorsLogin = applyValidators(loginValue, [maxLength(56), required(), minLength(6)]);
+  const errorsPass = applyValidators(pass, [maxLength(56), required(), minLength(6)]);
 
   const handleLogin = async () => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
       return;
     }
+    if (loginValue != "relexCoin" || pass != "123456") {
+      return alert("Ошибка при вводе логина или пароля, проверьте данные");
+    }
     try {
-      const response = await login(loginValue, pass);
+      const response = await postLogin(loginValue, pass);
       localStorage.setItem("token", response.accessToken);
       navigate("/");
     } catch (e) {
@@ -52,8 +47,10 @@ export const Login = () => {
           />
           {isDirtyLogin &&
             errorsLogin &&
-            errorsLogin.map((title: string) => (
-              <label className="input-error">{title}</label>
+            errorsLogin.map((title: string, index: number) => (
+              <label className="input-error" key={index}>
+                {title}
+              </label>
             ))}
         </div>
         <div className="login__input">
@@ -65,8 +62,10 @@ export const Login = () => {
           />
           {isDirtyPass &&
             errorsPass &&
-            errorsPass.map((title: string) => (
-              <label className="input-error">{title}</label>
+            errorsPass.map((title: string, index: number) => (
+              <label className="input-error" key={index}>
+                {title}
+              </label>
             ))}
         </div>
         <input

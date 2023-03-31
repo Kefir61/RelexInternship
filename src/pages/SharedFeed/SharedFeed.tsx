@@ -1,15 +1,14 @@
 import React, { FC, useEffect } from "react";
-import "./PersonalNewsFeedStyle.scss";
+import "./SharedFeedStyle.scss";
 import { Input } from "antd";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import { fetchMyThanks } from "../../store/slices/myThanksSlice";
 import { AppDispatch, RootState } from "src/store/store";
-import { IOneMyThanks } from "@utils";
-import { AutoComplete, OneMyThanks } from "@components";
+import { IOneMyThanks, PageRoutes } from "@utils";
+import { CommentsSection, ListWithPagination, OneMyThanks } from "@components";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { CommentsSection, ListWithPagination } from "@components";
 
-export const PersonalNewsFeed: FC = () => {
+export const SharedFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
   const MyThanksList = AppSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
@@ -29,8 +28,11 @@ export const PersonalNewsFeed: FC = () => {
         <div className="searchBar">
           <Input className="contextSearch" placeholder="Context Search" />
           <div className="chooseBlock">
-            <div>Сотрудник: </div>
-            <AutoComplete />
+            <div>Тип сообщение: </div>
+            <select>
+              <option>Благодарность</option>
+              <option>Событие</option>
+            </select>
           </div>
         </div>
         <div className="newsBlock">

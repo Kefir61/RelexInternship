@@ -4,6 +4,12 @@
     padding: 20px 10px;
     display: flex;
     justify-content: space-between;
+    &__sort {
+      display: flex;
+      & > * {
+        margin-left: 20px;
+      }
+    }
   }
   &--items {
     display: flex;

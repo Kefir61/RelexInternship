@@ -1,10 +1,10 @@
-import { Filter, ShopItem, Sort } from "@components";
+import { Filter, ListWithPagination, ShopItem, Sort } from "@components";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectShop } from "../../store/slices/shopSlice";
 import "./Shop.scss";
 import { useDispatch } from "react-redux";
-import { setFilterColor, setFilterSize } from "../../store/slices/filterSlice";
+import { setFilterColor, setFilterSize, setPage } from "../../store/slices/filterSlice";
 
 export const Shop = () => {
   const dispatch = useDispatch();
@@ -13,13 +13,29 @@ export const Shop = () => {
     dispatch(setFilterSize(value));
   };
   const handleFilterColor = (value: string) => {
-    dispatch(setFilterSize(value));
+    dispatch(setFilterColor(value));
   };
+  const onChangePage = () => {
+    dispatch(setPage())
+  }
   return (
     <div className="shop">
       <div className="shop--panel">
-        <Filter handleFilterSize={handleFilterSize} handleFilterColor={handleFilterColor}/>
-        <Sort />
+        <div className="shop--panel__filters">
+          <Filter
+            handleFilterSize={handleFilterSize}
+            handleFilterColor={handleFilterColor}
+          />
+        </div>
+        <div className="shop--panel__sort">
+          <Sort />
+          <ListWithPagination
+            totalElementCount={8}
+            renderElement={({}) => <div></div>}
+            content={[{}]}
+            onChangePage={onChangePage}
+          />
+        </div>
       </div>
       <div className="shop--items">
         {list.map((item) => (

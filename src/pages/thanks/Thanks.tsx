@@ -1,9 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
-import { AutoComplete } from '@components';
+import { AutoComplete, Loader } from '@components';
 import { Button, Input, InputNumber } from 'antd';
 import './Thanks.scss';
 import axios from 'axios';
 import { BASE_URL, API_URLS } from '@utils';
+import { AppDispatch} from '../../store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import { sendThanks, selectSendThanks } from '../../store/slices/sendThanksSlice';
 
 
 export const Thanks: FC = () => {
@@ -14,6 +17,10 @@ export const Thanks: FC = () => {
     const [response, setResponse] = useState(false);
     const [success, setSuccess] = useState(true);
     const [responseMessage, setResponseMessage] = useState('');
+
+    
+   const dispatch = useDispatch<AppDispatch>();
+   const {loading} = useSelector(selectSendThanks)
 
     useEffect(() => {
         (thanksValue.trim().length && sumValue > 0)
@@ -29,7 +36,7 @@ export const Thanks: FC = () => {
         setSumValue(sum);
     }
 
-    const sendThanks = () => {
+    const send = () => {
         const data = JSON.stringify({
             fromUserId: 2,
             toUserId: 10,
@@ -37,36 +44,40 @@ export const Thanks: FC = () => {
             comment: thanksValue
         })
         
-        axios.post(`${BASE_URL + API_URLS.THANKS}`,
-        data,
-        {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                 Accept: '*/*',
-            }
-        }
-        )
-          .then((response) => {
-            console.log(response);
-            if(response.status === 200){
-                setSuccess(true)
-                setResponse(true)
-                setResponseMessage('Благодарность отправлена успешно');
-                setTimeout(() => setResponse(false), 5000)   
-            }
-        })
-          .catch((error) => {
-            console.log(error);
+        dispatch(sendThanks(data))
+        //console.log(responseStatus)
+        //console.log(loading)
+        
+        // axios.post(`${BASE_URL + API_URLS.THANKS}`,
+        // data,
+        // {
+        //     headers: {
+        //         'Access-Control-Allow-Origin': '*',
+        //         'Content-Type': 'application/json',
+        //          Accept: '*/*',
+        //     }
+        // }
+        // // )
+        //   .then((response) => {
+        //     console.log(response);
+        //     if(response.status === 200){
+        //         setSuccess(true)
+        //         setResponse(true)
+        //         setResponseMessage('Благодарность отправлена успешно');
+        //         setTimeout(() => setResponse(false), 5000)   
+        //     }
+        // })
+        //   .catch((error) => {
+        //     console.log(error);
 
-            if(error.code === 'INSUFFICIENT_BALANCE'){
-                setResponseMessage('Недостаточно баллов на счете');
-            }else{
-                setResponseMessage('Что-то пошло не так. Попробуйте еще раз');
-            }
-            setResponse(true)
-            setSuccess(false)
-        });
+        //     if(error.code === 'INSUFFICIENT_BALANCE'){
+        //         setResponseMessage('Недостаточно баллов на счете');
+        //     }else{
+        //         setResponseMessage('Что-то пошло не так. Попробуйте еще раз');
+        //     }
+        //     setResponse(true)
+        //     setSuccess(false)
+        // });
         clearFields()
     }
 
@@ -117,10 +128,13 @@ export const Thanks: FC = () => {
                         />
                     </div>
                 </div>
+                
+                {loading? <div className='form__loader'><Loader /></div> : null}
 
                 {response? 
                     <div className={success? "form__error success" : "form__error error"}>
                         <p className="error__title">{responseMessage}</p>
+                        <Loader />
                     </div>
                 : null}
 
@@ -128,7 +142,7 @@ export const Thanks: FC = () => {
                     type="primary"
                     size="middle"
                     disabled={disabledButtons}
-                    onClick={sendThanks}
+                    onClick={send}
                     className='form__button'
                 >
                     Отправить

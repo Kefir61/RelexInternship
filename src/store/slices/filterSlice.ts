@@ -13,7 +13,7 @@ const initialState: FilterSliceState = {
   filterSize: "",
   filterColor: "",
   sort: "",
-  currentPage: null,
+  currentPage: 1,
 };
 
 const filterSlice = createSlice({

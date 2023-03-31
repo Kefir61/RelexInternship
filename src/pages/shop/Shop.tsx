@@ -15,8 +15,8 @@ export const Shop = () => {
   const handleFilterColor = (value: string) => {
     dispatch(setFilterColor(value));
   };
-  const onChangePage = () => {
-    dispatch(setPage())
+  const onChangePage = (value:number) => {
+    dispatch(setPage(value))
   }
   return (
     <div className="shop">
@@ -30,8 +30,8 @@ export const Shop = () => {
         <div className="shop--panel__sort">
           <Sort />
           <ListWithPagination
-            totalElementCount={8}
-            renderElement={({}) => <div></div>}
+            totalPages={8}
+            renderElement={({}) => <></>}
             content={[{}]}
             onChangePage={onChangePage}
           />

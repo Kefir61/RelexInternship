@@ -6,15 +6,17 @@
     justify-content: space-between;
     &__sort {
       display: flex;
+      align-items: center;
       & > * {
         margin-left: 20px;
       }
     }
   }
   &--items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    grid-gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    justify-content: space-between; 
+    row-gap: 20px;
+    column-gap: 40px;
   }
 }

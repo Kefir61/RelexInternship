@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Select, Space } from "antd";
+import { colorOptions, sizeOptions } from "@utils";
 
 type FilterProp = {
   handleFilterSize: (value: string) => void;
@@ -10,21 +11,6 @@ export const Filter: FC<FilterProp> = ({
   handleFilterSize,
   handleFilterColor,
 }) => {
-  const sizeOptions = [
-    { value: "", label: "Все" },
-    { value: "XS", label: "XS" },
-    { value: "S", label: "S" },
-    { value: "L", label: "L" },
-    { value: "XL", label: "XL" },
-  ];
-
-  const colorOptions = [
-    { value: "", label: "Все" },
-    { value: "red", label: "Красный" },
-    { value: "blue", label: "Синий" },
-    { value: "orange", label: "Оранжевый" },
-  ];
-  
   return (
     <Space wrap>
       <Select

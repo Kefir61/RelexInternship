@@ -7,13 +7,13 @@ import './sort.scss';
 export const Sort = () => {
   const dispatch = useDispatch()
   const [sortValue, setSortValue] = useState('ASC')
-  const onClickSort = () => {
+  const changeSortValue = () => {
     setSortValue(sortValue!='DESC' ? 'DESC' : 'ASC')
     dispatch(setSort(sortValue))
   }
   return (
-    <div onClick={onClickSort} className="sort">
-      По цене: <ArrowDownOutlined className={`sort--arow ${sortValue === 'ASC' ? 'sort--arrow_button' : 'sort--arrow__top'}`}/>
+    <div onClick={changeSortValue} className="sort">
+      По цене: <ArrowDownOutlined className={`sort--arow ${sortValue === 'DESC' ? 'sort--arrow__top' : ''}`}/>
     </div>
   );
 };

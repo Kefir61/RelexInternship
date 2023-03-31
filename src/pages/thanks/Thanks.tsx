@@ -20,13 +20,34 @@ export const Thanks: FC = () => {
 
     
    const dispatch = useDispatch<AppDispatch>();
-   const {loading} = useSelector(selectSendThanks)
+   const {loading, responseStatus, errorCode} = useSelector(selectSendThanks)
 
     useEffect(() => {
         (thanksValue.trim().length && sumValue > 0)
           ? setDisabledButtons(false)
           : setDisabledButtons (true)
     }, [thanksValue, sumValue])
+
+    useEffect(() =>{
+        if(responseStatus === 200){
+            setSuccess(true)
+            setResponse(true)
+            setResponseMessage('Благодарность отправлена успешно');
+            setTimeout(() => setResponse(false), 5000)   
+        }
+    }, [responseStatus])
+
+    useEffect(() =>{
+        if(errorCode){
+            if(errorCode === 'INSUFFICIENT_BALANCE'){
+                setResponseMessage('Недостаточно баллов на счете');
+            }else{
+                setResponseMessage('Что-то пошло не так. Попробуйте еще раз');
+            }
+            setResponse(true)
+            setSuccess(false)
+        }
+    }, [errorCode])
     
     const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setThanksValue(e.target.value);
@@ -45,39 +66,6 @@ export const Thanks: FC = () => {
         })
         
         dispatch(sendThanks(data))
-        //console.log(responseStatus)
-        //console.log(loading)
-        
-        // axios.post(`${BASE_URL + API_URLS.THANKS}`,
-        // data,
-        // {
-        //     headers: {
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Content-Type': 'application/json',
-        //          Accept: '*/*',
-        //     }
-        // }
-        // // )
-        //   .then((response) => {
-        //     console.log(response);
-        //     if(response.status === 200){
-        //         setSuccess(true)
-        //         setResponse(true)
-        //         setResponseMessage('Благодарность отправлена успешно');
-        //         setTimeout(() => setResponse(false), 5000)   
-        //     }
-        // })
-        //   .catch((error) => {
-        //     console.log(error);
-
-        //     if(error.code === 'INSUFFICIENT_BALANCE'){
-        //         setResponseMessage('Недостаточно баллов на счете');
-        //     }else{
-        //         setResponseMessage('Что-то пошло не так. Попробуйте еще раз');
-        //     }
-        //     setResponse(true)
-        //     setSuccess(false)
-        // });
         clearFields()
     }
 
@@ -134,7 +122,6 @@ export const Thanks: FC = () => {
                 {response? 
                     <div className={success? "form__error success" : "form__error error"}>
                         <p className="error__title">{responseMessage}</p>
-                        <Loader />
                     </div>
                 : null}
 

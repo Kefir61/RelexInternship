@@ -3,12 +3,11 @@ import { API_URLS, BASE_URL } from '@utils';
 import axios from 'axios';
 import { RootState } from "../store";
 
-let responseStatus: number;
-
 export const sendThanks = createAsyncThunk<any, any, {rejectValue: string}>(
     'thanks/sendThanks',
-    async (data) => {
-        axios.post(`${BASE_URL + API_URLS.THANKS}`,
+    async (data, {rejectWithValue}) => {
+        try{
+            const response = await axios.post(`${BASE_URL + API_URLS.THANKS}`,
             data,
             {
                 headers: {
@@ -18,26 +17,10 @@ export const sendThanks = createAsyncThunk<any, any, {rejectValue: string}>(
                }
             }
         )
-        .then((response) => {
-          console.log(response);
-          if(response.status === 200){
-            //   setSuccess(true)
-            //   setResponse(true)
-            //   setResponseMessage('Благодарность отправлена успешно');
-            //   setTimeout(() => setResponse(false), 5000)   
-          }
-      })
-        .catch((error) => {
-          console.log(error);
-          
-          //if(error.code === 'INSUFFICIENT_BALANCE'){
-            //setResponseMessage('Недостаточно баллов на счете');
-            //}else{
-                //setResponseMessage('Что-то пошло не так. Попробуйте еще раз');
-            //}
-            //setResponse(true)
-            //setSuccess(false)
-    });
+        return response.status;
+        }catch(error){
+            return rejectWithValue(error.code);
+        }
     }
 )
 
@@ -63,12 +46,13 @@ const sendThanksSlice = createSlice({
         .addCase(sendThanks.pending, (state)=>{
           state.loading = true
         })
-        .addCase(sendThanks.fulfilled, (state)=>{
+        .addCase(sendThanks.fulfilled, (state, action)=>{
             state.loading = false
-            state.responseStatus = responseStatus
+            state.responseStatus = action.payload
         })
-        .addCase(sendThanks.rejected, (state)=>{
+        .addCase(sendThanks.rejected, (state, action)=>{
             state.loading = false
+            state.errorCode = action.payload
         })
     }
 })

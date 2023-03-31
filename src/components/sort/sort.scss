@@ -1,0 +1,8 @@
+.sort {
+  cursor: pointer;
+  &--arrow {
+    &__top {
+      transform: rotate(180deg);
+    }
+  }
+}

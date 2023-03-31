@@ -4,7 +4,12 @@ import { useSelector } from "react-redux";
 import { selectShop } from "../../store/slices/shopSlice";
 import "./Shop.scss";
 import { useDispatch } from "react-redux";
-import { setFilterColor, setFilterSize, setPage } from "../../store/slices/filterSlice";
+import {
+  setFilterColor,
+  setFilterSize,
+  setPage,
+} from "../../store/slices/shopFilterSlice";
+import { ShopProductItem } from "src/store/slices/shopSlice";
 
 export const Shop = () => {
   const dispatch = useDispatch();
@@ -15,9 +20,9 @@ export const Shop = () => {
   const handleFilterColor = (value: string) => {
     dispatch(setFilterColor(value));
   };
-  const onChangePage = (value:number) => {
-    dispatch(setPage(value))
-  }
+  const onChangePage = (value: number) => {
+    dispatch(setPage(value));
+  };
   return (
     <div className="shop">
       <div className="shop--panel">
@@ -38,7 +43,7 @@ export const Shop = () => {
         </div>
       </div>
       <div className="shop--items">
-        {list.map((item) => (
+        {list.map((item: ShopProductItem) => (
           <ShopItem key={item.id} {...item} />
         ))}
       </div>

@@ -1,12 +1,29 @@
-import React from "react";
+import React, { FC } from "react";
 import { Select, Space } from "antd";
 
 type FilterProp = {
-  handleFilterSize: (value:string) => void;
-  handleFilterColor: (value:string) => void;
-}
+  handleFilterSize: (value: string) => void;
+  handleFilterColor: (value: string) => void;
+};
 
-export const Filter: React.FC<FilterProp> = ({handleFilterSize, handleFilterColor}) => {
+export const Filter: FC<FilterProp> = ({
+  handleFilterSize,
+  handleFilterColor,
+}) => {
+  const sizeOptions = [
+    { value: "", label: "Все" },
+    { value: "XS", label: "XS" },
+    { value: "S", label: "S" },
+    { value: "L", label: "L" },
+    { value: "XL", label: "XL" },
+  ];
+
+  const colorOptions = [
+    { value: "", label: "Все" },
+    { value: "red", label: "Красный" },
+    { value: "blue", label: "Синий" },
+    { value: "orange", label: "Оранжевый" },
+  ];
   
   return (
     <Space wrap>
@@ -14,24 +31,13 @@ export const Filter: React.FC<FilterProp> = ({handleFilterSize, handleFilterColo
         defaultValue="Размер"
         style={{ width: 120 }}
         onChange={handleFilterSize}
-        options={[
-          { value: "", label: "Все" },
-          { value: "XS", label: "XS" },
-          { value: "S", label: "S" },
-          { value: "L", label: "L" },
-          { value: "XL", label: "XL" },
-        ]}
+        options={sizeOptions}
       />
       <Select
         defaultValue="Цвет"
         style={{ width: 120 }}
         onChange={handleFilterColor}
-        options={[
-          { value: "", label: "Все" },
-          { value: "red", label: "Красный" },
-          { value: "blue", label: "Синий" },
-          { value: "orange", label: "Оранжевый" },
-        ]}
+        options={colorOptions}
       />
     </Space>
   );

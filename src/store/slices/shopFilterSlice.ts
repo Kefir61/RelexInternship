@@ -16,8 +16,8 @@ const initialState: FilterSliceState = {
   currentPage: 1,
 };
 
-const filterSlice = createSlice({
-  name: "filter",
+const shopFilterSlice = createSlice({
+  name: "shopFilter",
   initialState,
   reducers: {
     setFilterSize(state, action: PayloadAction<string>) {
@@ -34,8 +34,8 @@ const filterSlice = createSlice({
     },
   },
 });
-export const selectFilter = (state: RootState) => state.filter;
+export const selectFilter = (state: RootState) => state.shopFilter;
 
-export const {setFilterSize, setFilterColor, setSort, setPage} = filterSlice.actions;
+export const {setFilterSize, setFilterColor, setSort, setPage} = shopFilterSlice.actions;
 
-export default filterSlice.reducer;
+export default shopFilterSlice.reducer;

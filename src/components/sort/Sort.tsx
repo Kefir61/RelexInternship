@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { setSort } from "../../store/slices/filterSlice";
+import { setSort } from "../../store/slices/shopFilterSlice";
 import './sort.scss';
 
 export const Sort = () => {

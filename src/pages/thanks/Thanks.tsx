@@ -5,7 +5,6 @@ import './Thanks.scss';
 import axios from 'axios';
 import { BASE_URL, API_URLS } from '@utils';
 
-
 export const Thanks: FC = () => {
     const { TextArea } = Input;
     const [thanksValue, setThanksValue] = useState('');

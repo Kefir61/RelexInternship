@@ -1,0 +1,26 @@
+.page-header{
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+
+    &__text{
+        display: flex;
+    }
+
+    &__title{
+        font-size: 2rem;
+    }
+
+    &__icon{
+        color: #ffa500;
+        font-size: 2rem;
+        rotate: 5deg;
+        top: 0;
+        right: 0;
+        margin-left: 0.5rem;
+        margin-top: 0.3rem;
+    }
+
+    &__search{
+        width: 40%;
+    }
+}

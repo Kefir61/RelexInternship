@@ -3,9 +3,9 @@ import { API_URLS, BASE_URL } from '@utils';
 import axios from 'axios';
 import { RootState } from "../store";
 
-export const sendThanks = createAsyncThunk<any, any, {rejectValue: string}>(
+export const sendThanks = createAsyncThunk<number, string, {rejectValue: string}>(
     'thanks/sendThanks',
-    async (data, {rejectWithValue}) => {
+    async (data: string, {rejectWithValue}) => {
         try{
             const response = await axios.post(`${BASE_URL + API_URLS.THANKS}`,
             data,

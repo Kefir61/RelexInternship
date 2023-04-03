@@ -1,0 +1,16 @@
+#TODO add logging volume
+version: "3.9"
+services:
+  frontend_nginx:
+    container_name: frontend_nginx
+    image: practice.relex.ru:5050/relex.coin/frontend:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      frontend_net:
+      default:
+networks:
+  frontend_net:
+    external: true

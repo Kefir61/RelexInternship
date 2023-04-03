@@ -54,8 +54,8 @@ export const Thanks: FC = () => {
 
     const send = () => {
         const data = JSON.stringify({
-            fromUserId: 2,
-            toUserId: 10,
+            fromUserId: '2',
+            toUserId: '10',
             amount: sumValue,  
             comment: thanksValue
         })

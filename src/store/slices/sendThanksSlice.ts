@@ -36,7 +36,6 @@ const initialState: loaderSliceState = {
     responseStatus: 0,   
 }
 
-
 const sendThanksSlice = createSlice({
     name: 'loader',
     initialState,

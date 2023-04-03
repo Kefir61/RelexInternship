@@ -2,12 +2,9 @@ import React, {FC, useEffect, useState} from 'react';
 import { AutoComplete, Loader } from '@components';
 import { Button, Input, InputNumber } from 'antd';
 import './Thanks.scss';
-import axios from 'axios';
-import { BASE_URL, API_URLS } from '@utils';
 import { AppDispatch} from '../../store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import { sendThanks, selectSendThanks } from '../../store/slices/sendThanksSlice';
-
 
 export const Thanks: FC = () => {
     const { TextArea } = Input;
@@ -17,10 +14,8 @@ export const Thanks: FC = () => {
     const [response, setResponse] = useState(false);
     const [success, setSuccess] = useState(true);
     const [responseMessage, setResponseMessage] = useState('');
-
-    
-   const dispatch = useDispatch<AppDispatch>();
-   const {loading, responseStatus, errorCode} = useSelector(selectSendThanks)
+    const dispatch = useDispatch<AppDispatch>();
+    const {loading, responseStatus, errorCode} = useSelector(selectSendThanks)
 
     useEffect(() => {
         (thanksValue.trim().length && sumValue > 0)
@@ -117,13 +112,13 @@ export const Thanks: FC = () => {
                     </div>
                 </div>
                 
-                {loading? <div className='form__loader'><Loader /></div> : null}
+                {loading && <div className='form__loader'><Loader /></div>}
 
-                {response? 
+                {response && 
                     <div className={success? "form__error success" : "form__error error"}>
                         <p className="error__title">{responseMessage}</p>
                     </div>
-                : null}
+                }
 
                 <Button 
                     type="primary"

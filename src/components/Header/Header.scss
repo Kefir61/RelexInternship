@@ -222,6 +222,7 @@
         .user{
             display: flex;
             align-items: center;
+            cursor: pointer;
     
             &__image{
                 font-size: 2rem;

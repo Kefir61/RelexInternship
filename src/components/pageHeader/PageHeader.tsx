@@ -1,18 +1,13 @@
 import { SearchOutlined, StarOutlined } from "@ant-design/icons";
 import { Input } from "antd";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { useLocation } from "react-router";
 import {menuLinks } from "@components";
 import './PageHeader.scss'
 
 export const PageHeader: FC = () => {
     const location = useLocation();
-    // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
-    // useEffect(() => {
-    //   setMobileMenuOpen(false);
-    // }, [location]);
-  
+ 
     function getHeaderInfoRight() {
       if (menuLinks[location.pathname] === "Магазин") {
         return (

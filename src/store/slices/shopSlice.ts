@@ -1,25 +1,39 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-
 type TSortDirection = "ASC" | "DESC";
 type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
 
 export type ShopProductItem = {
   id: number;
-  imgUrl: string;
+  description: string;
+  mainImageId: number;
+  productImageIds: number[];
+  productVarieties: object[];
+  featured: boolean;
   price: number;
-  amout: number;
-  title: string;
-  colors: string[];
-  sizes: string[];
+  name: number;
 };
 
-type FetchShopArgs = {
-  filterSize: string;
-  filterColor: string;
-  sort: TSortDirection;
+type ShopFetch = {
+  products: ShopProductItem[];
   currentPage: number;
+  pageSize: number;
+  totalPages:number;
+  color: string | null;
+  size: string | null;
+  filter: string | null;
+  descending: boolean
+}
+
+type FetchShopArgs = {
+  pageSize: number;
+  totalPages: number;
+  color: string;
+  size: string;
+  descending: boolean;
+  currentPage: number;
+  filter: string;
 };
 
 interface ShopSliceState {
@@ -28,92 +42,44 @@ interface ShopSliceState {
   status: TStatus;
 }
 
-export const fetchMenu = createAsyncThunk<ShopProductItem[], FetchShopArgs>(
+const axiosProduct = axios.create({
+  baseURL: "https://07e8c250-9f0e-415c-81ff-2831f7637bc8.mock.pstmn.io",
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "*/*",
+  },
+});
+
+axiosProduct.interceptors.request.use((config) => {
+  config.headers.Authorization =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwibmFtZSI6ImpvaG5kb2UiLCJpYXQiOjk5OTk5OTk5OSwiYXV0aG9yaXRpZXMiOlsiZW1wbG95ZWUiLCJzeXN0ZW1fYWRtaW5pc3RyYXRvciIsInN0b3JlX2FkbWluaXN0cmF0b3IiLCJldmVudF9hZG1pbmlzdHJhdG9yIiwiYWNjcnVhbF9hZG1pbmlzdHJhdG9yIiwiYnVkZ2V0X293bmVyIiwiYXVkaXRvciIsImV2ZW50X29yZ2FuaXplciJdfQ.sqjyo3YQSc-kGLoyyDRIYiHeDQu8nWJyhoMxMnMDC14";
+  return config;
+});
+
+export const fetchProducts = createAsyncThunk<ShopFetch, FetchShopArgs>(
   "shop/fetchShopStatus",
   async (params) => {
-    const { filterSize, filterColor, sort, currentPage } = params;
-    const { data } = await axios.get<ShopProductItem[]>(`url`);
+    const {
+      currentPage,
+      pageSize,
+      totalPages,
+      color,
+      descending,
+      size,
+      filter,
+    } = params;
+    const { data } = await axiosProduct.get<ShopFetch>(
+      "/products"
+    );
     return data;
   }
 );
 
 const initialState: ShopSliceState = {
-  list: [
-    {
-      id: 1,
-      imgUrl: "",
-      price: 20.0,
-      amout: 5,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 2,
-      imgUrl: "",
-      price: 20.0,
-      amout: 15,
-      title: "Название товара",
-      colors: [],
-      sizes: [],
-    },
-    {
-      id: 3,
-      imgUrl: "",
-      price: 15.0,
-      amout: 25,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: [],
-    },
-    {
-      id: 4,
-      imgUrl: "",
-      price: 12.0,
-      amout: 5,
-      title: "Название товара",
-      colors: [],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 5,
-      imgUrl: "",
-      price: 8.0,
-      amout: 11,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 6,
-      imgUrl: "",
-      price: 5.0,
-      amout: 9,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: [],
-    },
-    {
-      id: 7,
-      imgUrl: "",
-      price: 5.0,
-      amout: 1,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 8,
-      imgUrl: "",
-      price: 4.0,
-      amout: 17,
-      title: "Название товара",
-      colors: [],
-      sizes: [],
-    },
-  ],
+  list: [],
   loading: false,
-  status: "",
+  status: "LOADING",
 };
 
 const shopSlice = createSlice({
@@ -121,15 +87,15 @@ const shopSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchMenu.pending, (state) => {
+    builder.addCase(fetchProducts.pending, (state) => {
       state.status = "LOADING";
       state.list = [];
     });
-    builder.addCase(fetchMenu.fulfilled, (state, action) => {
-      state.list = action.payload;
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.list = action.payload.products;
       state.status = "SUCCESS";
     });
-    builder.addCase(fetchMenu.rejected, (state) => {
+    builder.addCase(fetchProducts.rejected, (state) => {
       state.status = "ERROR";
       state.list = [];
     });

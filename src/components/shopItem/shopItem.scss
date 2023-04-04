@@ -11,6 +11,7 @@
   &--favotites {
     text-align: end;
     margin-bottom: 10px;
+    cursor:auto;
     & svg {
       cursor: pointer;
       transition: all 0.2s ease-in;
@@ -75,7 +76,12 @@
       height: 15px;
       margin: 0 5px;
       cursor: pointer;
+      border-radius: 50%;
       background-color: #000000;
+      transition: all 0.2s ease-in;
+      &:hover{
+        transform: scale(1.2);
+      }
     }
   }
   &--sizes {
@@ -84,8 +90,13 @@
     align-items: center;
     margin-bottom: 10px;
     &__item {
+      font-size: 14px;
       margin: 0 5px;
       cursor: pointer;
+      transition: all 0.2s ease-in;
+      &:hover{
+        transform: scale(1.2);
+      }
     }
   }
 }

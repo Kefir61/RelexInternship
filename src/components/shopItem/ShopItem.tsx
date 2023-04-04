@@ -7,17 +7,16 @@ import { ShopProductItem } from "src/store/slices/shopSlice";
  * Component shop item
  */
 export const ShopItem: React.FC<ShopProductItem> = ({
-  imgUrl,
+  mainImageId,
   price,
-  amout,
-  title,
-  colors,
-  sizes,
+  name,
 }) => {
+  const colors = ['red', 'green', 'blue']
+  const sizes = ['XS', 'L', 'M']
   const [favotites, setFavorites] = useState(false);
   return (
     <div className="shop--items__item product">
-      <img src={imgUrl} alt="img" className="product--img" />
+      <img src={`${mainImageId}`} alt="img" className="product--img" />
       <StarOutlined
         style={favotites ? { color: "gold" } : {}}
         className="product--favotites"
@@ -26,10 +25,10 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       <div className="product--informations">
         <div className="product--informations__price">{price}</div>
         <div className="product--informations__stock">
-          В наличии: {amout} шт
+          В наличии: {`0`} шт
         </div>
       </div>
-      <div className="product--title">{title}</div>
+      <div className="product--title">{name}</div>
       <div className="product--colors">
         {colors.length != 0 && (
           <>

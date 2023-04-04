@@ -5,8 +5,8 @@ RUN npm install -g npm@latest && npm i
 COPY ./ ./
 RUN npm run build
 
-FROM public.ecr.aws/ubuntu/nginx:1.22-22.10_beta
-RUN rm /etc/nginx/nginx.conf
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM public.ecr.aws/docker/library/nginx:1.22.1
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d
 COPY --from=BUILD /app/dist /usr/share/nginx/html
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

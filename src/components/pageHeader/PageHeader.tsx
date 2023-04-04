@@ -8,27 +8,29 @@ import './PageHeader.scss'
 export const PageHeader: FC = () => {
     const location = useLocation();
  
-    function getHeaderInfoRight() {
+    const getHeaderInfoRight = () => {
       if (menuLinks[location.pathname] === "Магазин") {
         return (
           <div className="page-header__search">
             <Input placeholder="Введите название товара" prefix={<SearchOutlined />} />
           </div>
         );
-      } else if (menuLinks[location.pathname] === "Избранное") {
+      } 
+      
+      if (menuLinks[location.pathname] === "Избранное") {
         return (
           <div className="page-header__text">
             <h1 className="page-header__title">Избранное</h1>
             <StarOutlined className="page-header__icon" />
           </div>
         );
-      } else {
-        return (
+      } 
+        
+      return (
           <div className="page-header__text">
             <h1 className="page-header__title">{menuLinks[location.pathname]}</h1>
           </div>
         );
-      }
     }
   
     return (

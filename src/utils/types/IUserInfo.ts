@@ -1,0 +1,20 @@
+import { IDelivery } from '@utils';
+export interface IUserInfo {
+    id: number,
+    username: string,
+    email: string,
+    lastName: string,
+    firstName: string,
+    patronymic: string,
+    birthday: string,
+    city: string,
+    address: string,
+    status: string,
+    dismissalDate: string,
+    mainImageId: string | null,
+    job: string,
+    statusMessage: string,
+    showBirthday: boolean,
+    fromOffice: true,
+    userDeliveries: IDelivery,
+};

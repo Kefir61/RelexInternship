@@ -1,0 +1,1 @@
+export const imageUrl = 'http://relex-coin.relex.ru:9101/api/core/images/';

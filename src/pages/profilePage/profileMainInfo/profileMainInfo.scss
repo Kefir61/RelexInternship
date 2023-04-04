@@ -9,6 +9,19 @@ $secondaryColor: #F1F3F4;
         justify-content: center;
         align-items: center;
     }
+    &__loading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 32vh;
+    }
+    &__overflow {
+        width: 200px;
+        height: 200px;
+        border-radius: 15px;
+        overflow: hidden;
+    }
     &__inner {
         width: 75vw;
         margin-bottom: 32px;

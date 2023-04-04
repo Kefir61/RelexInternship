@@ -77,7 +77,7 @@ export const Thanks: FC = () => {
                 <div className='form__item'>
                     <label htmlFor='employee' className='form__label'>Сотрудник: </label>
                     <div className='form__input-wrapper'>
-                        <AutoComplete /> {/*className, id, name и value в компонент должен добавить Олег*/}
+                        <AutoComplete />
                     </div>
                 </div>
 

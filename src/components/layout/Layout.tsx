@@ -15,7 +15,6 @@ export const Layout: FC = () => {
     <>
       <Header />
       <Outlet/>
-      <Footer/>
     </> 
   );
 };

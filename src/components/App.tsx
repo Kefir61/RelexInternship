@@ -3,7 +3,7 @@ import {Router} from '@components';
 
 export const App = () => {
     return (
-       <Router/>
+            <Router/>
     );
 }
 

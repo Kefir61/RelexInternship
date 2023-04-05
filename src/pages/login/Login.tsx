@@ -26,9 +26,7 @@ export const Login = () => {
       const response = await postLogin(loginValue, pass);
       localStorage.setItem("token", response.accessToken);
       navigate("/");
-    } catch (e) {
-      console.log(e.response?.data?.message);
-    }
+    } catch (e) {}
   };
   const disabled = loginValue === "" || pass === "";
   return (

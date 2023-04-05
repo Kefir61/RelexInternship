@@ -1,5 +1,5 @@
-import { EOperaionType, IOneMyThanks } from "@utils";
-import React, { useState } from "react";
+import { EOperaionType, IOneMyThanks, generateFio } from "@utils";
+import React, { useMemo, useState } from "react";
 import { FC } from "react";
 import "./OneMyThanksStyle.scss";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
@@ -10,6 +10,7 @@ interface OneMyThanksProps {
 }
 
 export const OneMyThanks: FC<OneMyThanksProps> = ({ thanks }) => {
+  const fio: string = useMemo(() => generateFio(thanks.user), []);
   return (
     <div className="congratsElem">
       <div className={thanks.thanksAmount > 0 ? "getCurrency" : "lostCurrency"}>
@@ -18,8 +19,7 @@ export const OneMyThanks: FC<OneMyThanksProps> = ({ thanks }) => {
       <div className="infoBlock">
         <div className="dateAndCreator">
           <div>
-            Благодарность {thanks.operationType === EOperaionType.TO ? "для" : "от"}{" "}
-            {thanks.user.lastName} {thanks.user.firstName[0]}. {thanks.user.patronymic[0]}.
+            Благодарность {thanks.operationType === EOperaionType.TO ? "для" : "от"} {fio}
           </div>
           <div>{thanks.createdAt.replace("T", " ")}</div>
         </div>

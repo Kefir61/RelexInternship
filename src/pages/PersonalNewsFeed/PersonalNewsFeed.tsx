@@ -15,13 +15,7 @@ export const PersonalNewsFeed: FC = () => {
   const MyThanksList = AppSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
   const MyThanksPageCount = AppSelector<number>((state) => state.MyThanks.totalPages);
 
-  // useEffect(() => {
-  //   dispatch(fetchMyThanks({ id: 1, currentPage: 1, pageSize: 3 }));
-  // }, []);
-
-  const onChangeThanksPage = (pageNum: number) => {
-    // dispatch(fetchMyThanks({ id: 1, currentPage: pageNum, pageSize: 3 }));
-  };
+  const onChangeThanksPage = (pageNum: number) => {};
 
   return (
     <div className="content">
@@ -118,7 +112,7 @@ export const PersonalNewsFeed: FC = () => {
             content={MyThanksList}
             onChangePage={onChangeThanksPage}
             renderElement={(OneThank: IOneMyThanks) => (
-              <OneMyThanks key={OneThank.user.id + OneThank.createdAt} thanks={OneThank} />
+              <OneMyThanks key={`${OneThank.user.id} ${OneThank.createdAt}`} thanks={OneThank} />
             )}
             totalPages={MyThanksPageCount}
           />

@@ -36,7 +36,8 @@ axiosOur.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await updateAccessToken();
+        const refresh_token = localStorage.getItem("refresh_token");
+        const response = await updateAccessToken(refresh_token);
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
         return axiosAuth.request(originalRequest);

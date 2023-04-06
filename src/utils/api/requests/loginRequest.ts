@@ -12,8 +12,7 @@ export const login = async (username: string, password: string) => {
     .catch((error) => console.log(error));
 };
 
-export const updateAccessToken = async () => {
-  const refresh_token = localStorage.getItem("refresh_token");
+export const updateAccessToken = async (refresh_token:string) => {
   return axiosAuth.post(``, {
     client_id: process.env.CLIENT_ID,
     grant_type: process.env.GRAND_TYPE,

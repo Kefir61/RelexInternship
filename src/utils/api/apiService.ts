@@ -1,5 +1,5 @@
 import axiosGlobal from "axios";
-import { BASE_URL } from "@utils";
+import { BASE_URL, updateAccessToken } from "@utils";
 
 export const axiosOur = axiosGlobal.create({
   baseURL: BASE_URL,
@@ -10,8 +10,7 @@ export const axiosOur = axiosGlobal.create({
   },
 });
 export const axiosAuth = axiosGlobal.create({
-  baseURL:
-    "http://relex-coin.relex.ru:8085/realms/coin/protocol/openid-connect/token",
+  baseURL: process.env.AUTH_URL,
   responseType: "json",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -37,19 +36,13 @@ axiosOur.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const client_id = "frontend";
-        const grant_type = "refresh_token";
-        const refresh_token = localStorage.getItem("refresh_token");
-        const response = await axiosAuth.post(``, {
-          client_id,
-          grant_type,
-          refresh_token,
-        });
+        const response = await updateAccessToken();
         localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("access_token", response.data.refresh_token);
+        localStorage.setItem("refresh_token", response.data.refresh_token);
         return axiosAuth.request(originalRequest);
       } catch (e) {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
       }
     }
     throw error;

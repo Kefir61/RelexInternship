@@ -3,7 +3,7 @@ import { Checkbox, Input, Button, Spin } from 'antd';
 import { TypedUseSelectorHook, useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../store/store";
 import { IUserInfo, IUpdateInfoParams, reformateDate } from "@utils";
-import { updateStatus, updateShowBirthday, updateUser } from '../../../store/slices/userSlice';
+import { updateStatus, updateShowBirthday, updateUser, resetUser } from '../../../store/slices/userSlice';
 import defaultImage from "../../../assets/images/profile.png";
 import './profileMainInfo.scss';
 
@@ -31,8 +31,7 @@ export const ProfileMainInfo: FC = () => {
   }
 
   const onCancel = () => {
-    dispatch(updateStatus(userLastState.statusMessage));
-    dispatch(updateShowBirthday(userLastState.showBirthday));
+    dispatch(resetUser());
   }
 
   const onSave = () => {

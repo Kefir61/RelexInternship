@@ -1,6 +1,6 @@
 import { IDelivery } from '@utils';
 export interface IUserInfo {
-    id: number,
+    id: string,
     username: string,
     email: string,
     lastName: string,
@@ -15,6 +15,14 @@ export interface IUserInfo {
     job: string,
     statusMessage: string,
     showBirthday: boolean,
-    fromOffice: true,
-    userDeliveries: IDelivery,
+    fromOffice: boolean,
+    userDeliveries: IDelivery[],
+};
+
+export interface IUserState {
+    user: IUserInfo,
+    userLastState: IUserInfo,
+    userImage: string,
+    error: string | null,
+    loading: boolean
 };

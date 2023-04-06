@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { EOperaionType, IOneMyThanks } from "@utils";
-import axios from "axios";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { EReactionType, IOneMyThanks, axiosOur } from "@utils";
+import { AppDispatch } from "../store";
 
 interface IMyThanksState {
   list:IOneMyThanks[],
@@ -10,8 +10,7 @@ interface IMyThanksState {
 }
 
 interface getListParams {
-  id:number,
-  currentPage: number,
+  currentPage: number,  
   pageSize: number,
 }
 
@@ -22,115 +21,78 @@ interface getJsonType {
   totalPages:number,
 }
 
-export const fetchMyThanks = createAsyncThunk<IOneMyThanks[], getListParams, {rejectValue: string}>(
+export const fetchMyThanks = createAsyncThunk<getJsonType, getListParams, {rejectValue: string}>(
   'thanks/fetchThanks',
-  function (requestParams, { rejectWithValue }) {
+  async (requestParams, { rejectWithValue }) => {
     const params = new URLSearchParams({
       currentPage:`${requestParams.currentPage}`,
-      pageSize: '3',
-    });  
-  const BASE_URL = 'http://relex-coin.relex.ru:9100/api/core';
-  const response = axios.get<getJsonType>(`${BASE_URL + '/thanks/history/user/2'}`,
-  {
-    params:params.toString(),
-      headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-           Accept: '*/*',
-      }
-  })
-  .then((response)=>{
-    console.log(response.data.history);
-    // const one = {list: response.data.history, totalPages:response.data.totalPages, loading:false, error:'NO'}
-    return response.data.history})
+      pageSize: `${requestParams.pageSize}`,
+    });
+  const data = await axiosOur.get<getJsonType>(`/thanks/history/user`, {params})
+  .then((response)=>{            
+    return response.data})
   .catch((error)=>rejectWithValue(error))
-  return response;
+  return data;
+}
+)
+
+interface reactParams {
+  id:number,
+  reaction:EReactionType,
+}
+
+export const fetchReactToThank = createAsyncThunk<string, reactParams, {rejectValue: string, dispatch: AppDispatch}>(
+  'thanks/fetchReactToThank',
+  async (requestParams, { rejectWithValue, dispatch }) => {
+  const body = {userReaction: requestParams.reaction}
+  await axiosOur.post(`/thanks/${requestParams.id}/vote/user`, body)
+  .then((response)=>{ 
+    dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))           
+    })
+  .catch((error)=>rejectWithValue(error))
+  return 'ok';
 }
 )
 
 const initialState: IMyThanksState = {
-  list:[{
-    comment:'asd', 
-    commentsCount:2, 
-    createdAt:'2022-21-21T21:21', 
-    id:3, operationType: EOperaionType.FROM, 
-    thanksAmount:3, 
-    votesDown:3, 
-    votesUp:0, 
-    comments:[{id:1,comment:'Привет', createdAt:'2022-21-21T21:21', user:{
-      firstName:'Алексей', 
-      id:3, 
-      lastName:'Петров', 
-      mainImageId:null, 
-      patronymic:'Сергеевич'
-    }}, 
-    {id:2,comment:'long message', createdAt:'2022-21-21T21:21', user:{
-      firstName:'Олег', 
-      id:2, 
-      lastName:'Васильев', 
-      mainImageId:null, 
-      patronymic:'Сергеевич'
-    }}, 
-    {id:3,comment:'long message and another and another and another', createdAt:'2022-21-21T21:21', user:{
-      firstName:'Олег', 
-      id:1, 
-      lastName:'Сидоров', 
-      mainImageId:null, 
-      patronymic:'Сергеевич'
-    }},
-  ],
-    user:{
-      firstName:'Олег', 
-      id:2, 
-      lastName:'Сидоров', 
-      mainImageId:null, 
-      patronymic:'Сергеевич'
-    }}, {
-      comment:'asd', 
-      commentsCount:2, 
-      createdAt:'2022-21-21T21:21', 
-      id:3, operationType: EOperaionType.FROM, 
-      thanksAmount:3, 
-      votesDown:3, 
-      votesUp:0, 
-      comments:[{id:1,comment:'Привет', createdAt:'2022-21-21T21:21', user:{
-        firstName:'Алексей', 
-        id:3, 
-        lastName:'Петров', 
-        mainImageId:null, 
-        patronymic:'Сергеевич'
-      }}, 
-      {id:2,comment:'long message', createdAt:'2022-21-21T21:21', user:{
-        firstName:'Олег', 
-        id:2, 
-        lastName:'Васильев', 
-        mainImageId:null, 
-        patronymic:'Сергеевич'
-      }}, 
-      {id:3,comment:'long message and another and another and another', createdAt:'2022-21-21T21:21', user:{
-        firstName:'Олег', 
-        id:1, 
-        lastName:'Сидоров', 
-        mainImageId:null, 
-        patronymic:'Сергеевич'
-      }},
-    ],
-      user:{
-        firstName:'Олег', 
-        id:1, 
-        lastName:'Сидоров', 
-        mainImageId:null, 
-        patronymic:'Сергеевич'
-      }}],   
-  totalPages: 2,
+  list:[],   
+  totalPages: 0,
   loading:false,
   error:null
 };
 
+interface IReactToThankPayload {
+  id:number, 
+  reaction: EReactionType,
+}
+
 const myThanksSlice = createSlice({
   name: "MyThanks",
   initialState,
-  reducers: {},
+  reducers: {
+    reactToThank(state, action: PayloadAction<IReactToThankPayload>) {
+      let index = state.list.findIndex(e => e.id === action.payload.id);
+      const oldReaction = state.list[index].userReaction
+      state.list[index].userReaction = action.payload.reaction;
+      if(action.payload.reaction === EReactionType.DISLIKE) {
+        state.list[index].votesDown++
+        if(oldReaction === EReactionType.LIKE) {
+          state.list[index].votesUp--
+        }
+      } else if(action.payload.reaction === EReactionType.LIKE) {
+        state.list[index].votesUp++
+        if(oldReaction === EReactionType.DISLIKE) {
+          state.list[index].votesDown--
+        }
+      } if(action.payload.reaction === EReactionType.NONE) {
+        if(oldReaction === EReactionType.DISLIKE) {
+          state.list[index].votesDown--
+        } else if(oldReaction === EReactionType.LIKE) {
+          state.list[index].votesUp--
+        } 
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
     .addCase(fetchMyThanks.pending, (state)=>{
@@ -138,13 +100,17 @@ const myThanksSlice = createSlice({
       state.error = null
     })
     .addCase(fetchMyThanks.fulfilled, (state, action)=>{
-      state.list = action.payload;
+      state.list = action.payload.history;
+      state.totalPages = action.payload.totalPages;
       state.loading = false
     })
-
+    .addCase(fetchMyThanks.rejected, (state, action)=>{
+      state.loading = false
+      state.error = action.error.message      
+    })
   }
 });
 
-export const {} = myThanksSlice.actions;
+export const {reactToThank} = myThanksSlice.actions;
 
 export default myThanksSlice.reducer;

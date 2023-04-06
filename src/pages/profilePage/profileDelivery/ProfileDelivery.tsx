@@ -1,107 +1,104 @@
-import React, {FC, useState, useMemo, useEffect} from "react";
+import React, { FC, useState, useMemo, useEffect } from "react";
 import { Select, Input, Button, Checkbox } from "antd";
-import { deliveryMethods } from "@utils";
-import './profileDelivery.scss';
+import { useDispatch } from "react-redux";
+import { IDelivery, IUserState, IUserInfo } from "@utils";
+import { AppDispatch } from "../../../store/store";
+import {
+  updateFromOffice,
+  updateOrderDelivery,
+  updateDeliveryAddress,
+  resetUser,
+  updateDelivery,
+} from "../../../store/slices/userSlice";
+import "./profileDelivery.scss";
+import { appSelector } from "../../../store/hooks";
 import { DefaultOptionType } from "antd/es/select";
 
 export const ProfileDelivery: FC = () => {
-  const [deliveryMethod, setDeliveryMethod] = useState(deliveryMethods[0]);
-  const [pickupFromOffice, setPicupFromOffice] = useState(false);
-  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const userInfo = appSelector<IUserState>((state) => state.UserInfo);
+  const user = appSelector<IUserInfo>((state) => state.UserInfo.user);
   const [isHiddenButtons, setHiddenButtons] = useState(true);
-
-  const memoizedDeliveryMethods = useMemo<DefaultOptionType[]>(() => 
-    deliveryMethods.map((deliveryMethod) => ({label: deliveryMethod, value: deliveryMethod})),
-    [deliveryMethod]
+  const deliveryMethods = useMemo<DefaultOptionType[]>(
+    () =>
+      user.userDeliveries.map((deliveryMethod: IDelivery) => ({
+        label: deliveryMethod.displayName,
+        value: deliveryMethod.name,
+      })),
+    [user.userDeliveries]
   );
 
-  //TODO: Добавить нормальное скрытие кнопок с юзеффектом
   useEffect(() => {
-    (!!deliveryAddress || (deliveryMethod !== deliveryMethods[0]) || pickupFromOffice)
-      ? setHiddenButtons(false)
-      : setHiddenButtons (true)
-  }, [deliveryMethod, pickupFromOffice, deliveryAddress])
-  
-  const handleSelectChange = (value: string) => {
-    setDeliveryMethod(value);
-    console.log(value);
-  }
+    const disableButtons = JSON.stringify(userInfo.user) === JSON.stringify(userInfo.userLastState);
+    setHiddenButtons(disableButtons);
+  }, [userInfo.user, userInfo.userLastState]);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryAddress(e.target.value);
-  }
+    dispatch(updateDeliveryAddress(e.target.value));
+  };
 
-  const onSave = () => {
-    //TODO:  Добавить запрос на сервер + редакс
-  }
+  const handleSelectChange = (value: string) => {
+    dispatch(updateOrderDelivery(value));
+  };
 
   const onChangeCheckbox = () => {
-    setPicupFromOffice(!pickupFromOffice);
-  }
-  
+    dispatch(updateFromOffice());
+  };
+
+  const onSave = () => {
+    dispatch(updateDelivery());
+  };
+
   const onCancel = () => {
-    setDeliveryMethod(deliveryMethods[0]);
-    setDeliveryAddress('');
-  }
-    return (
-        <div className="delivery">
-          <div className="delivery__wrapper">
-            <div className="delivery__inner">
-              <div className="delivery__info">
-                *Доставка доступна только для сотрудников, проживающих за пределами г. Воронеж
-              </div>
-              <div className="delivery__text">
-                Укажите предпочитаемый Вами способ доставки:
-              </div>
-              <div className="delivery__line">
-                <div className="delivery__label">
-                  Способ доставки
-                </div>
-                <Select
-                  defaultValue={deliveryMethod}
-                  value={deliveryMethod}
-                  style={{ width: 240 }}
-                  onChange={handleSelectChange}
-                  options={memoizedDeliveryMethods}
-                  disabled={pickupFromOffice}
-                />
-              </div>
-              <div className="delivery__line">
-                <div className="delivery__label">
-                  Адрес доставки
-                </div>
-                <Input
-                  placeholder="Адрес доставки"
-                  style={{ width: 240 }}
-                  value={deliveryAddress}
-                  onChange={onInputChange}
-                  disabled={pickupFromOffice}
-                />
-              </div>
-              <Checkbox checked={pickupFromOffice} onChange={onChangeCheckbox}>
-                  Буду забирать в офисе
-              </Checkbox>
-            </div>
-            <div className="delivery__hidden">
-              {!isHiddenButtons && 
-                <div className="delivery__buttons">
-                  <Button 
-                    type="primary"
-                    size="middle"
-                    onClick={onSave}
-                  >
-                    Сохранить
-                  </Button>
-                  <Button
-                    size="middle"
-                    onClick={onCancel}  
-                  >
-                    Отменить  
-                  </Button>
-                </div>
-              }
-            </div>
+    dispatch(resetUser());
+  };
+
+  return (
+    <div className="delivery">
+      <div className="delivery__wrapper">
+        <div className="delivery__inner">
+          <div className="delivery__info">
+            *Доставка доступна только для сотрудников, проживающих за пределами г. Воронеж
           </div>
+          <div className="delivery__text">Укажите предпочитаемый Вами способ доставки:</div>
+          <div className="delivery__line">
+            <div className="delivery__label">Способ доставки</div>
+            <Select
+              defaultValue={user.userDeliveries[0].name}
+              value={user.userDeliveries[0].name}
+              style={{ width: 240 }}
+              onChange={handleSelectChange}
+              options={deliveryMethods}
+              disabled={user.fromOffice}
+            />
+          </div>
+          <div className="delivery__line">
+            <div className="delivery__label">Адрес доставки</div>
+            <Input
+              placeholder="Адрес доставки"
+              style={{ width: 240 }}
+              value={user.userDeliveries[0].address}
+              onChange={onInputChange}
+              disabled={user.fromOffice}
+            />
+          </div>
+          <Checkbox checked={user.fromOffice} onChange={onChangeCheckbox}>
+            Буду забирать в офисе
+          </Checkbox>
         </div>
-    );
+        <div className="delivery__hidden">
+          {!isHiddenButtons && (
+            <div className="delivery__buttons">
+              <Button type="primary" size="middle" onClick={onSave}>
+                Сохранить
+              </Button>
+              <Button size="middle" onClick={onCancel}>
+                Отменить
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };

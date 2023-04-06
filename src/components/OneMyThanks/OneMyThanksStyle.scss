@@ -1,14 +1,20 @@
 .congratsElem {
     display:flex;
     width: 400px;
+    margin-bottom: 10px;
     gap:10px;
     
     .getCurrency {
-        color: #00aa2b
+        color: #00aa2b;
+        min-width: 35px;
+        text-align: end;
+
     }
 
     .lostCurrency {
-        color: #aa0000
+        color: #aa0000;
+        width: 50px;        
+        text-align: end;
     }
 
     .infoBlock {

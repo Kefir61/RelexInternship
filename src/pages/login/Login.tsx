@@ -38,9 +38,7 @@ export const Login = () => {
       localStorage.setItem("access_token", response.access_token);
       localStorage.setItem("refresh_token", response.refresh_token);
       navigate("/");
-    } catch (e) {
-      console.log(e.response?.data?.message);
-    }
+    } catch (e) {}
   };
 
   const disabled = loginValue === "" || passValue === "";

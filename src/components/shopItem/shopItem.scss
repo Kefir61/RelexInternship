@@ -1,14 +1,14 @@
-.product {
+.shop--item {
   padding: 10px;
   width: 200px;
   display: flex;
   flex-direction: column;
-  &--img {
+  &__img {
     background-color: #808080;
     height: 100px;
     margin-bottom: 10px;
   }
-  &--favotites {
+  &__favotites {
     text-align: end;
     margin-bottom: 10px;
     & svg {
@@ -19,24 +19,24 @@
       }
     }
   }
-  &--informations {
+  &__informations {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    &__price {
+    .item--information__price {
       font-weight: 600;
       font-size: 18px;
     }
-    &__stock {
+    .item--information__stock {
       margin-left: 5px;
       font-size: 14px;
     }
   }
-  &--title {
+  &__title {
     font-size: 20px;
     margin-bottom: 10px;
   }
-  &--buy {
+  &__buy {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
@@ -53,7 +53,7 @@
       }
     }
   }
-  &--more {
+  &__more {
     background-color: #ffffff;
     border-radius: 6px;
     border: 1px solid #000000;
@@ -65,12 +65,12 @@
       border: 1px solid #ffffff;
     }
   }
-  &--colors {
+  &__colors {
     height: 20px;
     display: flex;
     align-items: center;
     margin-bottom: 5px;
-    &__item {
+    & > * {
       width: 15px;
       height: 15px;
       margin: 0 5px;
@@ -78,12 +78,12 @@
       background-color: #000000;
     }
   }
-  &--sizes {
+  &__sizes {
     height: 20px;
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    &__item {
+    & > * {
       margin: 0 5px;
       cursor: pointer;
     }

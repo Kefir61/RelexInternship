@@ -1,0 +1,43 @@
+.product {
+  padding: 32px 32px;
+  display: flex;
+  justify-content: space-between;
+  &--info {
+    &__images {
+      margin-bottom: 20px;
+      height: 300px;
+      display: flex;
+    }
+    &__counts {
+      margin-bottom: 40px;
+    }
+    &__colors {
+      margin-bottom: 10px;
+    }
+    &__sizes {
+      margin-bottom: 10px;
+    }
+    &__description {
+      margin-bottom: 10px;
+    }
+  }
+  &--panel {
+    &__name {
+      margin-bottom: 20px;
+      font-size: 34px;
+    }
+    &__price {
+      margin-bottom: 20px;
+    }
+    &__selects {
+      margin-bottom: 10px;
+      display: flex;
+    }
+    &__counts {
+      margin-bottom: 10px;
+    }
+    &__buy {
+      display: flex;
+    }
+  }
+}

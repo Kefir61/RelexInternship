@@ -2,6 +2,7 @@ import { IComment } from "./IComment";
 import { IUser } from "./IUser";
   
 export enum EOperaionType {TO = 'TO', FROM = 'FROM'}
+export enum EReactionType {LIKE = 'like', DISLIKE = 'dislike', NONE = null}
 
 export interface IOneMyThanks {
     operationType: EOperaionType,
@@ -10,9 +11,10 @@ export interface IOneMyThanks {
     votesUp: number,
     votesDown: number,
     id: number,
+    userReaction:EReactionType,
     commentsCount:number,
     comments:IComment[]
-    thanksAmount: number,
+    thankAmount: number,
     createdAt: string,
   }
 

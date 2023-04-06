@@ -1,22 +1,51 @@
-import axios from "axios";
-import axiosGlobal from 'axios';
-import { BASE_URL } from '@utils';
+import axiosGlobal from "axios";
+import { BASE_URL, updateAccessToken } from "@utils";
 
 export const axiosOur = axiosGlobal.create({
   baseURL: BASE_URL,
-  responseType: 'json',
+  responseType: "json",
   headers: {
-    'Content-Type': 'application/json',
-    Accept: '*/*',
+    "Content-Type": "application/json",
+    Accept: "*/*",
+  },
+});
+export const axiosAuth = axiosGlobal.create({
+  baseURL: process.env.AUTH_URL,
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Accept: "*/*",
   },
 });
 
-axios.interceptors.request.use((config) => {
-  config.headers.Authorization = `eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYVkdwTUp1MzR0UEFJUXd0a3NsTWxRekM3UmJ0blJnWnhvX1AxaUl2X19BIn0.eyJleHAiOjE2ODEwMzA4MjIsImlhdCI6MTY4MDc3MTYyMiwianRpIjoiMmI0MzQ1NTQtZmMzNS00Y2FiLTgyNjYtMzJmZDk2MzVjMjc1IiwiaXNzIjoiaHR0cDovL3JlbGV4LWNvaW4ucmVsZXgucnU6ODA4NS9yZWFsbXMvY29pbiIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyNGQ1ODE3Ny1jNWM2LTQwMzQtYThmOS04OTE2ZWQ2NWYwOWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJmcm9udGVuZCIsInNlc3Npb25fc3RhdGUiOiJmMmUxNmRiMC0yMGYxLTRmOTgtOTM3YS01ODhjNDkyZTk0ODYiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImVtcGxveWVlIiwic3lzdGVtX2FkbWluaXN0cmF0b3IiLCJkZWZhdWx0LXJvbGVzLWNvaW4iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJmMmUxNmRiMC0yMGYxLTRmOTgtOTM3YS01ODhjNDkyZTk0ODYiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6ItCf0YPQv9C60LjQvSDQktCw0YHQuNC70LjQuSDQn9C10YLRgNC-0LLQuNGHINCf0YPQv9C60LjQvSIsInByZWZlcnJlZF91c2VybmFtZSI6InZfaXZhbm92IiwiZ2l2ZW5fbmFtZSI6ItCf0YPQv9C60LjQvSDQktCw0YHQuNC70LjQuSDQn9C10YLRgNC-0LLQuNGHIiwiZmFtaWx5X25hbWUiOiLQn9GD0L_QutC40L0iLCJlbWFpbCI6InZfaXZhbm92QHJlbGV4LnJ1In0.Sigc6nmIMjKMTNWmZcIM8va6MROPZQ23y0WjGcRjRK1-YNP6TEYRFGlt8HuSvyt6-MZ-HWwew-S-3FuWznKY2UQcBCK-Apxbr1cgVwtRXqOvQeBHyaAScmjOiF7YXI0FDwQ2NVYX_5bssuY1xmkbpmex1ByIsBSOzAqoSbftZL3SZCO_bngdE5PAP0GL4KqwkQklOToqm7zvIyTTVZbn2YZ8yWGXhem0grkKDtGQWCkz74QdfxJCPFHWV9-CTjBH8lVJ6uHgNmGiDskVysFO66EQUyW8taE8zWSgdTHkdAs4hcSWo15h8NGJopB7kCTfJyRHkJl-fkSytlYuoFRm5Q`;
+axiosOur.interceptors.request.use((config) => {
+  config.headers.Authorization = `${localStorage.getItem("access_token")}`;
   return config;
 });
 
-axiosOur.interceptors.request.use((config) => {
-  config.headers.Authorization = `eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYVkdwTUp1MzR0UEFJUXd0a3NsTWxRekM3UmJ0blJnWnhvX1AxaUl2X19BIn0.eyJleHAiOjE2ODEwMzA4MjIsImlhdCI6MTY4MDc3MTYyMiwianRpIjoiMmI0MzQ1NTQtZmMzNS00Y2FiLTgyNjYtMzJmZDk2MzVjMjc1IiwiaXNzIjoiaHR0cDovL3JlbGV4LWNvaW4ucmVsZXgucnU6ODA4NS9yZWFsbXMvY29pbiIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyNGQ1ODE3Ny1jNWM2LTQwMzQtYThmOS04OTE2ZWQ2NWYwOWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJmcm9udGVuZCIsInNlc3Npb25fc3RhdGUiOiJmMmUxNmRiMC0yMGYxLTRmOTgtOTM3YS01ODhjNDkyZTk0ODYiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImVtcGxveWVlIiwic3lzdGVtX2FkbWluaXN0cmF0b3IiLCJkZWZhdWx0LXJvbGVzLWNvaW4iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJmMmUxNmRiMC0yMGYxLTRmOTgtOTM3YS01ODhjNDkyZTk0ODYiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6ItCf0YPQv9C60LjQvSDQktCw0YHQuNC70LjQuSDQn9C10YLRgNC-0LLQuNGHINCf0YPQv9C60LjQvSIsInByZWZlcnJlZF91c2VybmFtZSI6InZfaXZhbm92IiwiZ2l2ZW5fbmFtZSI6ItCf0YPQv9C60LjQvSDQktCw0YHQuNC70LjQuSDQn9C10YLRgNC-0LLQuNGHIiwiZmFtaWx5X25hbWUiOiLQn9GD0L_QutC40L0iLCJlbWFpbCI6InZfaXZhbm92QHJlbGV4LnJ1In0.Sigc6nmIMjKMTNWmZcIM8va6MROPZQ23y0WjGcRjRK1-YNP6TEYRFGlt8HuSvyt6-MZ-HWwew-S-3FuWznKY2UQcBCK-Apxbr1cgVwtRXqOvQeBHyaAScmjOiF7YXI0FDwQ2NVYX_5bssuY1xmkbpmex1ByIsBSOzAqoSbftZL3SZCO_bngdE5PAP0GL4KqwkQklOToqm7zvIyTTVZbn2YZ8yWGXhem0grkKDtGQWCkz74QdfxJCPFHWV9-CTjBH8lVJ6uHgNmGiDskVysFO66EQUyW8taE8zWSgdTHkdAs4hcSWo15h8NGJopB7kCTfJyRHkJl-fkSytlYuoFRm5Q`;
-  return config;
-});
+axiosOur.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response.status == 403 &&
+      error.config &&
+      !error.config._isRetry
+    ) {
+      originalRequest._isRetry = true;
+      try {
+        const refresh_token = localStorage.getItem("refresh_token");
+        const response = await updateAccessToken(refresh_token);
+        localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("refresh_token", response.data.refresh_token);
+        return axiosAuth.request(originalRequest);
+      } catch (e) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+      }
+    }
+    throw error;
+  }
+);

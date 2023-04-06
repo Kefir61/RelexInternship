@@ -3,9 +3,9 @@ import React, { FC, ReactNode, useMemo, useState } from "react";
 
 interface ListProps {
   totalPages: number;
-  renderElement: (elem: object) => ReactNode;
+  renderElement: (elem: unknown) => ReactNode;
   onChangePage: (pageNum: number) => void;
-  content: object[];
+  content: unknown[];
 }
 
 export const ListWithPagination: FC<ListProps> = ({
@@ -23,6 +23,7 @@ export const ListWithPagination: FC<ListProps> = ({
         defaultCurrent={1}
         total={totalPages * content.length}
         onChange={onChangePage}
+        showSizeChanger={false}
       />
     </div>
   );

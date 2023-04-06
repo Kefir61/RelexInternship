@@ -1,14 +1,12 @@
 .header{
     padding: 1rem 2rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
     .menu{
         display: flex;
         align-items: center;
-        flex-direction: row;
 
         &__link{
             margin-right: 2rem;
@@ -128,7 +126,6 @@
         
         .shopping-cart{
             display: flex;
-            flex-direction: row;
             align-items: center;
             position: relative;
 
@@ -165,7 +162,6 @@
                 top: -1rem;
                 right: 0rem;
                 display: flex;
-                flex-direction: row;
                 align-items: center;
 
                 @media screen and (max-width: 1085px) {

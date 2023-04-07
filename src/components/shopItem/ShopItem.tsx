@@ -9,7 +9,7 @@ import { ShopProductItem } from "src/store/slices/shopSlice";
 export const ShopItem: React.FC<ShopProductItem> = ({
   imgUrl,
   price,
-  amout,
+  amount,
   title,
   colors,
   sizes,
@@ -26,7 +26,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       <div className="product--informations">
         <div className="product--informations__price">{price}</div>
         <div className="product--informations__stock">
-          В наличии: {amout} шт
+          В наличии: {amount} шт
         </div>
       </div>
       <div className="product--title">{title}</div>

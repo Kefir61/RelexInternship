@@ -44,6 +44,23 @@ export const Thanks: FC = () => {
     }
   }, [errorCode]);
 
+  const send = () => {
+    const data = JSON.stringify({
+      toUserId: '680e57c8-7c0c-4053-b069-819a2bbbe34c',
+      amount: sumValue,  
+      comment: thanksValue
+    })
+        
+    dispatch(sendThanks(data));
+    clearFields();
+  }
+
+  const clearFields = () => {
+    setSumValue(0); 
+    setThanksValue(''); 
+    setResponse(false);
+  }
+  
   const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setThanksValue(e.target.value);
   };
@@ -52,30 +69,12 @@ export const Thanks: FC = () => {
     setSumValue(sum);
   };
 
-  const send = () => {
-    const data = JSON.stringify({
-      fromUserId: "2",
-      toUserId: "10",
-      amount: sumValue,
-      comment: thanksValue,
-    });
-
-    dispatch(sendThanks(data));
-    clearFields();
-  };
-
-  const clearFields = () => {
-    setSumValue(0);
-    setThanksValue("");
-    setResponse(false);
-  };
-
   return (
     <section className="thanks">
       <form className="thanks__form form">
         <div className="form__item">
           <label htmlFor="employee" className="form__label">
-            Сотрудник:{" "}
+            Сотрудник:
           </label>
           <div className="form__input-wrapper">
             <AutoComplete />
@@ -84,7 +83,7 @@ export const Thanks: FC = () => {
 
         <div className="form__item">
           <label htmlFor="sum" className="form__label">
-            Сумма:{" "}
+            Сумма:
           </label>
           <div className="form__input-wrapper">
             <InputNumber

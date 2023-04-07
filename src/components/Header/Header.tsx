@@ -6,18 +6,26 @@ import {
 } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import "./Header.scss";
-import { PageRoutes } from "@utils";
+import { IUserInfo, PageRoutes } from "@utils";
 import { Link, useLocation } from "react-router-dom";
 import { ProfileItems, MenuItems, PageHeader } from "@components";
+import { AppDispatch, RootState } from "src/store/store";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { fetchBalance, selectBalance } from '../../store/slices/balanceSlice';
 
 export const Header: FC = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
+  const user = AppSelector<IUserInfo>(state => state.UserInfo.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const {balance} = useSelector(selectBalance);
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    dispatch(fetchBalance({}));
   }, [location]);
-
+  
   return (
     <>
       <header className="header">
@@ -95,7 +103,7 @@ export const Header: FC = () => {
 
         <div className="header__profile-info profile-info">
           <div className="profile-info__balance">
-            <p className="profile-info__title">Баланс: 123.00</p>
+            <p className="profile-info__title">Баланс: {balance}</p>
           </div>
 
           <div className="profile-info__shopping-cart shopping-cart">
@@ -109,9 +117,6 @@ export const Header: FC = () => {
               <p className="shopping-cart__quantity">
                 30
               </p>
-              <p className="shopping-cart__price">
-                117.00
-              </p>
             </div>
           </div>
 
@@ -122,7 +127,7 @@ export const Header: FC = () => {
                   <UserOutlined />
                 </div>
                 <span className="user__p dropdown__p">
-                  А.В. Петроветров
+                  {user.lastName}
                 </span>
                 <DownOutlined />
               </div>

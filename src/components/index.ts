@@ -13,5 +13,7 @@ export * from './ListWithPagination';
 export * from "./shopItem";
 export * from "./sort";
 export * from "./filter";
+export * from "./cartItem";
+export * from './cartOrderInfo';
 export * from "./pageHeader";
 export * from "./loader";

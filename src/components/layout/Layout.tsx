@@ -1,26 +1,16 @@
 import React, { FC, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Outlet } from "react-router";
-import { Header } from '@components'
-import { getUser } from '../../store/slices/userSlice';
-import { AppDispatch } from "src/store/store";
-import { useDispatch } from "react-redux";
+import { Header, Footer } from "@components";
 
 export const Layout: FC = () => {
   const navigate = useNavigate();
-  const isAuthorized = !!localStorage.getItem('token');
-  const dispatch = useDispatch<AppDispatch>();
-
+  const isAuthorized = !!localStorage.getItem("access_token");
   useEffect(() => {
     if (!isAuthorized) {
       navigate("/login");
     }
   }, []);
-  
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
-  
   return (
     <>
       <Header />

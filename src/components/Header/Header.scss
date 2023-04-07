@@ -135,23 +135,25 @@
 
             &__icon{
                 font-size: 1.5rem;
-                padding-right: 2rem;
+                padding-right: 5rem;
 
                 @media screen and (max-width: 1085px) {
                     font-size: 1rem; 
+                    padding-right: 4.5rem;
                 }
 
                 @media screen and (max-width: 940px) {
-                    padding-right: 1.5rem;
+                    padding-right: 4rem;
                 }
 
                 @media screen and (max-width: 785px) {
                     font-size: 1.5rem;
-                    padding-right: 2rem;
+                    padding-right: 5rem;
                 }
 
                 @media screen and (max-width: 540px) {
                     font-size: 1rem; 
+                    padding-right: 4.5rem;
                 }
             }
         
@@ -207,6 +209,10 @@
                     border: 1px solid red;
                 }
            }
+        
+            &__price{
+                color: #ff0000;
+            }
         }
     
         .user{

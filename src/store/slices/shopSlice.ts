@@ -9,7 +9,7 @@ export type ShopProductItem = {
   id: number;
   imgUrl: string;
   price: number;
-  amount: number;
+  amout: number;
   title: string;
   colors: string[];
   sizes: string[];
@@ -43,7 +43,7 @@ const initialState: ShopSliceState = {
       id: 1,
       imgUrl: "",
       price: 20.0,
-      amount: 5,
+      amout: 5,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: ["XS", "S", "L", "XL"],
@@ -52,7 +52,7 @@ const initialState: ShopSliceState = {
       id: 2,
       imgUrl: "",
       price: 20.0,
-      amount: 15,
+      amout: 15,
       title: "Название товара",
       colors: [],
       sizes: [],
@@ -61,7 +61,7 @@ const initialState: ShopSliceState = {
       id: 3,
       imgUrl: "",
       price: 15.0,
-      amount: 25,
+      amout: 25,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: [],
@@ -70,7 +70,7 @@ const initialState: ShopSliceState = {
       id: 4,
       imgUrl: "",
       price: 12.0,
-      amount: 5,
+      amout: 5,
       title: "Название товара",
       colors: [],
       sizes: ["XS", "S", "L", "XL"],
@@ -79,7 +79,7 @@ const initialState: ShopSliceState = {
       id: 5,
       imgUrl: "",
       price: 8.0,
-      amount: 11,
+      amout: 11,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: ["XS", "S", "L", "XL"],
@@ -88,7 +88,7 @@ const initialState: ShopSliceState = {
       id: 6,
       imgUrl: "",
       price: 5.0,
-      amount: 9,
+      amout: 9,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: [],
@@ -97,7 +97,7 @@ const initialState: ShopSliceState = {
       id: 7,
       imgUrl: "",
       price: 5.0,
-      amount: 1,
+      amout: 1,
       title: "Название товара",
       colors: ["red", "blue", "orange"],
       sizes: ["XS", "S", "L", "XL"],
@@ -106,7 +106,7 @@ const initialState: ShopSliceState = {
       id: 8,
       imgUrl: "",
       price: 4.0,
-      amount: 17,
+      amout: 17,
       title: "Название товара",
       colors: [],
       sizes: [],

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "./shopItem.scss";
 import { StarOutlined } from "@ant-design/icons";
 import { ShopProductItem } from "src/store/slices/shopSlice";
-
+import { ProductBuy } from "../productBuy";
+import { Button, Space } from "antd";
 /*
  * Component shop item
  */
@@ -20,7 +21,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       <img src={imgUrl} alt="img" className="shop--item__img" />
       <StarOutlined
         style={favotites ? { color: "gold" } : {}}
-        className="product--favotites"
+        className="shop--item__favotites"
         onClick={() => setFavorites(!favotites)}
       />
       <div className="shop--item__informations">
@@ -56,11 +57,8 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <div className="shop--item__buy">
-        <button className="item--buy__pay">Купить</button>
-        <button className="item--buy__cart">В корзину</button>
-      </div>
-      <button className="shop--item__more">Подробнее</button>
+      <ProductBuy/>
+      <Button>Подробнее</Button>
     </div>
   );
 };

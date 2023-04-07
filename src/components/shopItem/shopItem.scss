@@ -23,11 +23,11 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    .item--information__price {
+    .item--informations__price {
       font-weight: 600;
       font-size: 18px;
     }
-    .item--information__stock {
+    .item--informations__stock {
       margin-left: 5px;
       font-size: 14px;
     }
@@ -35,35 +35,6 @@
   &__title {
     font-size: 20px;
     margin-bottom: 10px;
-  }
-  &__buy {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    & > * {
-      background-color: #ffffff;
-      border-radius: 6px;
-      border: 1px solid #000000;
-      padding: 5px 15px;
-      cursor: pointer;
-      transition: all 0.2s ease-in;
-      &:hover {
-        background-color: #1677ff;
-        border: 1px solid #ffffff;
-      }
-    }
-  }
-  &__more {
-    background-color: #ffffff;
-    border-radius: 6px;
-    border: 1px solid #000000;
-    padding: 5px 15px;
-    cursor: pointer;
-    transition: all 0.2s ease-in;
-    &:hover {
-      background-color: #1677ff;
-      border: 1px solid #ffffff;
-    }
   }
   &__colors {
     height: 20px;

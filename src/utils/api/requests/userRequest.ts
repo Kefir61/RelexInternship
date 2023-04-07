@@ -1,18 +1,18 @@
 import { AxiosResponse } from 'axios';
-import { axiosOur, IUserInfo, IDelivery, IUpdateInfoParams } from '@utils';
+import { axiosOur, IUserInfo, IUpdateAxiosDeilivery, IUpdateInfoParams } from '@utils';
 
-export const getUserInfo = (id: number): Promise<AxiosResponse<IUserInfo>> => {
-    return axiosOur.get(`/users/${id}`);
+export const getUserInfo = (): Promise<AxiosResponse<IUserInfo>> => {
+    return axiosOur.get(`/users`);
 };
 
-export const updateUserInfo = (id: number, params: IUpdateInfoParams): Promise<AxiosResponse<IUserInfo>> => {
-    return axiosOur.put(`/users/${id}`, params);
+export const updateUserInfo = (params: IUpdateInfoParams): Promise<AxiosResponse<IUserInfo>> => {
+    return axiosOur.put(`/users`, params);
 };
 
-export const getUserImage = (id: number): Promise<AxiosResponse<string>> => {
+export const updateUserDelivery = (params: IUpdateAxiosDeilivery): Promise<AxiosResponse> => {
+    return axiosOur.post(`/users/delivery`, params);
+}
+
+export const getUserImage = (id: string): Promise<AxiosResponse<string>> => {
     return axiosOur.get(`/images/${id}`);
 };
-
-export const updateUserDelivery = (id: number, params: IDelivery): Promise<AxiosResponse> => {
-    return axiosOur.put(`/users/${id}/delivery`, params);
-}

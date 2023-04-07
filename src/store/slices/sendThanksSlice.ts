@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import { API_URLS, BASE_URL } from '@utils';
+import { API_URLS, BASE_URL, axiosOur } from '@utils';
 import axios from 'axios';
 import { RootState } from "../store";
 
@@ -7,15 +7,8 @@ export const sendThanks = createAsyncThunk<number, string, {rejectValue: string}
     'thanks/sendThanks',
     async (data: string, {rejectWithValue}) => {
         try{
-            const response = await axios.post(`${BASE_URL + API_URLS.THANKS}`,
-            data,
-            {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    Accept: '*/*',
-               }
-            }
+            const response = await axiosOur.post(`${API_URLS.THANKS}`,
+            data
         )
         return response.status;
         }catch(error){

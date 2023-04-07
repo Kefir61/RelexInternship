@@ -1,37 +1,69 @@
-import { EOperaionType, IOneMyThanks, generateFio } from "@utils";
+import { EOperaionType, EReactionType, IOneMyThanks, briefLongNum, generateFio } from "@utils";
 import React, { useMemo, useState } from "react";
 import { FC } from "react";
 import "./OneMyThanksStyle.scss";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { CommentsSection } from "@components";
+import { format, utcToZonedTime } from "date-fns-tz";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "src/store/store";
+import { fetchReactToThank } from "../../store/slices/myThanksSlice";
 
 interface OneMyThanksProps {
   thanks: IOneMyThanks;
 }
-
 export const OneMyThanks: FC<OneMyThanksProps> = ({ thanks }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const fio: string = useMemo(() => generateFio(thanks.user), []);
+  const farmatedDate = useMemo(() => {
+    const date = new Date(thanks.createdAt);
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const zonedDate = utcToZonedTime(date, timeZone);
+    const pattern = "dd.MM.yyyy HH:mm";
+    return format(zonedDate, pattern, { timeZone });
+  }, []);
+
+  const formatedValue = useMemo(() => {
+    return briefLongNum(thanks.thankAmount);
+  }, []);
+
+  const onReactToThank = (type: EReactionType) => {
+    if (thanks.userReaction != type) {
+      dispatch(fetchReactToThank({ id: thanks.id, reaction: type }));
+    } else {
+      dispatch(fetchReactToThank({ id: thanks.id, reaction: EReactionType.NONE }));
+    }
+  };
+
   return (
     <div className="congratsElem">
-      <div className={thanks.thanksAmount > 0 ? "getCurrency" : "lostCurrency"}>
-        {thanks.thanksAmount}
-      </div>
+      <div className={thanks.thankAmount > 0 ? "getCurrency" : "lostCurrency"}>{formatedValue}</div>
       <div className="infoBlock">
         <div className="dateAndCreator">
           <div>
             Благодарность {thanks.operationType === EOperaionType.TO ? "для" : "от"} {fio}
           </div>
-          <div>{thanks.createdAt.replace("T", " ")}</div>
+          <div>{farmatedDate}</div>
         </div>
         <div>{thanks.comment}</div>
         <div className="commentAndLikeSection">
-          <CommentsSection comments={thanks.comments} />
+          {/* TODO <CommentsSection/> */}
+          <small>Комментарии {">"}</small>
           <div className="likeSection">
-            <div className={thanks.votesUp !== 0 ? "notZeroLikes" : "zeroLikesOrDis"}>
+            <div
+              className={
+                thanks.userReaction === EReactionType.LIKE ? "notZeroLikes" : "zeroLikesOrDis"
+              }
+              onClick={() => onReactToThank(EReactionType.LIKE)}
+            >
               <LikeOutlined />
               {thanks.votesUp}
             </div>
-            <div className={thanks.votesDown !== 0 ? "notZeroDisLikes" : "zeroLikesOrDis"}>
+            <div
+              className={
+                thanks.userReaction === EReactionType.DISLIKE ? "notZeroDisLikes" : "zeroLikesOrDis"
+              }
+              onClick={() => onReactToThank(EReactionType.DISLIKE)}
+            >
               <DislikeOutlined />
               {thanks.votesDown}
             </div>

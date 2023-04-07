@@ -1,17 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { IUserInfo, getUserInfo, getUserImage, IDelivery, IUpdateInfoParams, updateUserInfo, imageUrl } from '@utils';
+import { IUserInfo, getUserInfo, updateUserDelivery, IUserState, IDelivery, IUpdateInfoParams, updateUserInfo, imageUrl } from '@utils';
 import type { RootState, AppDispatch } from '../store';
 
-interface IUserState {
-    user: IUserInfo,
-    userLastState: IUserInfo,
-    userImage: string,
-    error: string | null,
-    loading: boolean
-}
-
 const defaultUser: IUserInfo = {
-    id: 0,
+    id: '',
     username: '',
     email: '',
     lastName: '',
@@ -27,11 +19,11 @@ const defaultUser: IUserInfo = {
     statusMessage: '',
     fromOffice: true,
     showBirthday: false,
-    userDeliveries: {
+    userDeliveries: [{
         name: '',
         displayName: '',
         address: ''
-    }
+    }]
 }
 
 const initialState: IUserState =  {
@@ -42,14 +34,39 @@ const initialState: IUserState =  {
     loading: true,
 }
 
-export const fetchUser = createAsyncThunk<IUserInfo, number, {rejectValue: string, dispatch: AppDispatch}>(
+export const getUser = createAsyncThunk<IUserInfo, undefined, {rejectValue: string, dispatch: AppDispatch}>(
     'user/fetchUser',
-    async function(id, {rejectWithValue, dispatch}) {
+    async function(_, {rejectWithValue, dispatch}) {
         try {
-            const response = await getUserInfo(id);
+            const response = await getUserInfo();
             if (!!response.data.mainImageId) {
                 dispatch(updateUserImage(`${imageUrl}${response.data.mainImageId}`));
             }
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const updateDelivery = createAsyncThunk<
+    void,
+    undefined,
+    {
+        dispatch: AppDispatch;
+        state: RootState;
+        rejectValue: string;
+    }
+>(
+    'user/updateDelivery',
+    async function(_, {rejectWithValue, dispatch, getState}) {
+        try {
+            const response = await updateUserDelivery({
+                name: getState().UserInfo.user.userDeliveries[0].name,
+                address: getState().UserInfo.user.userDeliveries[0].address,
+                fromOffice: getState().UserInfo.user.fromOffice
+            });
+            dispatch(editUserLastState())
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -69,8 +86,7 @@ export const updateUser = createAsyncThunk<
     'user/updateUser',
     async function(updateParams, {rejectWithValue, dispatch, getState}) {
         try {
-            const userID: number = getState().UserInfo.user.id;
-            const response = await updateUserInfo(userID, updateParams);
+            const response = await updateUserInfo(updateParams);
             dispatch(editUser(updateParams));
             return response.data;
         } catch (error) {
@@ -83,9 +99,23 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        editUser(state, action: PayloadAction<IUpdateInfoParams | IDelivery>) {
+        editUserLastState (state) {
+            state.userLastState = state.user;
+        },
+        editUser(state, action: PayloadAction<IUpdateInfoParams>) {
             state.user = {...state.user, ...action.payload};
             state.userLastState = state.user;
+        },
+        resetUser(state) {
+            state.user = state.userLastState;
+        },
+        updateOrderDelivery(state, action: PayloadAction<string>) {
+            const currentDelivery = state.user.userDeliveries.find((delivery: IDelivery) => delivery.name === action.payload);
+            state.user.userDeliveries = state.user.userDeliveries.filter((delivery: IDelivery) => delivery.name !== currentDelivery.name);
+            state.user.userDeliveries.unshift(currentDelivery);
+        },
+        updateDeliveryAddress(state, action: PayloadAction<string>) {
+            state.user.userDeliveries[0].address = action.payload;
         },
         updateStatus(state, action: PayloadAction<string>) {
             state.user.statusMessage =  action.payload;
@@ -93,24 +123,33 @@ const userSlice = createSlice({
         updateShowBirthday(state, action: PayloadAction<boolean>) {
             state.user.showBirthday =  action.payload;
         },
+        updateFromOffice(state) {
+            state.user.fromOffice = !state.user.fromOffice;
+        },
         updateUserImage(state, action: PayloadAction<string>) {
             state.userImage = action.payload;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchUser.pending, (state, action) => {
+        builder.addCase(getUser.pending, (state, action) => {
             state.loading = true;
         }),
-        builder.addCase(fetchUser.fulfilled, (state, action) => {
+        builder.addCase(getUser.fulfilled, (state, action) => {
             state.user = action.payload;
             state.loading = false;
             state.userLastState = action.payload;
         }),
-        builder.addCase(fetchUser.rejected, (state, action) => {
+        builder.addCase(getUser.rejected, (state, action) => {
+            state.error = action.payload;
+        }),
+        builder.addCase(updateDelivery.rejected, (state, action) => {
             state.error = action.payload;
         })
     },
 });
 
-export const {editUser, updateStatus, updateUserImage, updateShowBirthday} = userSlice.actions;
+export const {editUser, updateStatus, updateUserImage, 
+    updateOrderDelivery, editUserLastState, updateDeliveryAddress, 
+    updateFromOffice, updateShowBirthday, resetUser} = userSlice.actions;
+    
 export default userSlice.reducer;

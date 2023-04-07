@@ -1,4 +1,11 @@
-import { applyValidators, maxLength, minLength, login as postLogin, required } from "@utils";
+import {
+  applyValidators,
+  login,
+  maxLength,
+  minLength,
+  login as postLogin,
+  required,
+} from "@utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
@@ -8,27 +15,33 @@ import "./index.scss";
 export const Login = () => {
   const navigate = useNavigate();
   const [loginValue, setLoginValue] = useState("");
-  const [pass, setPass] = useState("");
+  const [passValue, setPassValue] = useState("");
   const [isDirtyLogin, setDirtyLogin] = useState(false);
   const [isDirtyPass, setDirtyPass] = useState(false);
-
-  const errorsLogin = applyValidators(loginValue, [maxLength(56), required(), minLength(6)]);
-  const errorsPass = applyValidators(pass, [maxLength(56), required(), minLength(6)]);
+  const errorsLogin = applyValidators(loginValue, [
+    maxLength(56),
+    required(),
+    minLength(6),
+  ]);
+  const errorsPass = applyValidators(passValue, [
+    maxLength(56),
+    required(),
+    minLength(6),
+  ]);
 
   const handleLogin = async () => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
       return;
     }
-    if (loginValue != "relexCoin" || pass != "123456") {
-      return alert("Ошибка при вводе логина или пароля, проверьте данные");
-    }
     try {
-      const response = await postLogin(loginValue, pass);
-      localStorage.setItem("token", response.accessToken);
+      const response = await login(loginValue, passValue);
+      localStorage.setItem("access_token", response.access_token);
+      localStorage.setItem("refresh_token", response.refresh_token);
       navigate("/");
     } catch (e) {}
   };
-  const disabled = loginValue === "" || pass === "";
+
+  const disabled = loginValue === "" || passValue === "";
   return (
     <div className="wrapper">
       <form className="login">
@@ -53,8 +66,8 @@ export const Login = () => {
         </div>
         <div className="login__input">
           <Password
-            value={pass}
-            onChange={setPass}
+            value={passValue}
+            onChange={setPassValue}
             placeholder="Введите пароль..."
             onBlur={setDirtyPass}
           />

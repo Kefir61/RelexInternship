@@ -4,6 +4,9 @@ import shopReducer from "./slices/shopSlice";
 import sendThanksReducer from "./slices/sendThanksSlice";
 import userInfoReducer from "./slices/userSlice";
 import shopFilterReducer from "./slices/shopFilterSlice";
+import balanceReducer from "./slices/balanceSlice";
+import cartReducer from "./slices/cartSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +15,8 @@ export const store = configureStore({
     UserInfo: userInfoReducer,
     shop: shopReducer,
     sendThanks: sendThanksReducer,
+    balance: balanceReducer,
+    cart: cartReducer
   },
 });
 

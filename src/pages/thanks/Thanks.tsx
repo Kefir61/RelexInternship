@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { AutoComplete, Loader } from "@components";
+import { AutoComplete, Loader, MyThanks } from "@components";
 import { Button, Input, InputNumber } from "antd";
 import "./Thanks.scss";
 import { AppDispatch } from "../../store/store";
@@ -95,13 +95,14 @@ export const Thanks: FC = () => {
               onChange={onChangeSumField}
               type="number"
               min={0}
+              max={999999}
             />
           </div>
         </div>
 
         <div className="form__item">
           <label htmlFor="thanks" className="form__label">
-            Благодарность:{" "}
+            Благодарность:
           </label>
           <div className="form__input-wrapper form__textarea">
             <TextArea
@@ -142,6 +143,10 @@ export const Thanks: FC = () => {
           Отменить
         </Button>
       </form>
+
+      <div className="thanks__my-thanks">
+        <MyThanks />
+      </div>
     </section>
   );
 };

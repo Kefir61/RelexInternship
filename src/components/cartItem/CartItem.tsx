@@ -53,10 +53,11 @@ export const CartItem: FC<CartItemProps> = ({
     return (
         <section className='cart-item'>
             
-            <div className='cart-item__left'>
-                <div className='cart-item__image'>
-                    <img src={imgUrl} alt=''/>
-                </div>            
+            <div className='cart-item__image'>
+                <img src={imgUrl} alt=''/>
+            </div>  
+                
+            <div className='cart-item__right'>                           
 
                 <div className='cart-item__info info'>
 
@@ -92,21 +93,20 @@ export const CartItem: FC<CartItemProps> = ({
                         <p  className='quantity__in-stock'>В наличии {amount} шт.</p>
                     </div>
                 </div>
-            </div>
 
-            <div className='cart-item__price price'>
-                <p className='price__total-price'>{totalPrice}</p>
+                <div className='cart-item__price price'>
+                    <p className='price__total-price'>{totalPrice}</p>
 
-                <div className='price__item-price item-price'>
-                    <p className='item-price__title'>Цена за единицу: </p>
-                    <p className='item-price__price'>{price}</p>
-                </div>
+                    <div className='price__item-price item-price'>
+                        <p className='item-price__title'>Цена за единицу: </p>
+                        <p className='item-price__price'>{price}</p>
+                    </div>
                 
-                <div className='cart-item__bin'>
-                    <DeleteOutlined onClick={() => removeCartItem(id)}/>
+                    <div className='cart-item__bin'>
+                        <DeleteOutlined onClick={() => removeCartItem(id)}/>
+                    </div>
                 </div>
             </div>
-
         </section>
     )
 }

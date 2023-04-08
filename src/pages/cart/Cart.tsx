@@ -13,7 +13,7 @@ export const Cart: FC = () => {
     const {loading, error} = useSelector(selectCart);
 
     useEffect(()=>{
-        dispatch(fetchCart({}))
+        //dispatch(fetchCart({}))
     }, [])
     
     const removeCartItem = (id: number) => {

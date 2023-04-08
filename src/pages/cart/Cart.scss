@@ -7,6 +7,10 @@
     &__items{
         width: 70%;
         padding-right: 1.5rem;
+
+        @media screen and (max-width: 67.8125em){
+            width: 100%;
+        }
     }
 
     &__loader, &__empty{
@@ -21,6 +25,15 @@
     &__oreder-info{
         width: 30%;
         padding: 0.5rem;
+        
+        @media screen and (max-width: 67.8125em){
+            width: 26rem;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 33.75em){
+            width: 100%;
+        }
     }
 
     &__button{
@@ -31,5 +44,14 @@
         border: none;
         padding: 0.5rem;
         border-radius: 5px;
+    }
+
+    @media screen and (max-width: 67.8125em){
+        font-size: 0.8rem; 
+    }
+
+    @media screen and (max-width: 58.75em){
+        flex-direction: column-reverse;
+        font-size: 1rem;
     }
 }

@@ -1,12 +1,13 @@
 .thanks{
-    padding: 0 2rem;
+    padding: 2rem;
+    padding-top: 0;
     display: flex;
     justify-content: space-between;
 
     .form{
         width: 50%;
 
-       &__item{
+        &__item{
             display: flex;
             align-items: flex-start;
             margin-bottom: 1rem;
@@ -17,8 +18,14 @@
         }
 
         &__label, &__input-wrapper{
-            width: 30%;
+            width: 30%;    
         }
+        
+        &__input-wrapper{
+            @media screen and (max-width: 33.75em){
+                width: 50%;
+            }            
+        }      
 
         &__input{
             width: 100%;
@@ -26,6 +33,10 @@
                 
         &__textarea{
             width: 50%;
+            
+            @media screen and (max-width: 33.75em){
+                width: 70%;
+            }
         }
         
         &__button{
@@ -44,6 +55,10 @@
             box-sizing: border-box;
             text-align: center;
             margin-bottom: 0.5rem;
+
+            @media screen and (max-width: 33.75em){
+                width: 100%;
+            }
         }
 
         .success{
@@ -51,10 +66,34 @@
         }
 
         &__loader{
-            width: 45%;
+            width: 80%;
             text-align: center;
             margin-bottom: 1rem;
+            
+            @media screen and (max-width: 33.75em){
+                width: 100%;
+            }
         }
-    }  
+
+        @media screen and (max-width: 49.0625em) {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }    
+    } 
+    
+    &__my-thanks{
+        @media screen and (max-width: 49.0625em) {
+            margin: 0 auto;
+        }
+    }
+
+    @media screen and (max-width: 67.8125em){
+        font-size: 0.8rem; 
+    }
+
+    @media screen and (max-width: 49.0625em) {
+        flex-direction: column;
+        font-size: 1rem;     
+    }
 }
 

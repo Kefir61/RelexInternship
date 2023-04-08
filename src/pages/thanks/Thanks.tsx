@@ -10,7 +10,8 @@ export const Thanks: FC = () => {
   const { TextArea } = Input;
   const [thanksValue, setThanksValue] = useState("");
   const [sumValue, setSumValue] = useState(0);
-  const [disabledButtons, setDisabledButtons] = useState(true);
+  const [disableSendButton, setDisableSendButton] = useState(true);
+  const [disableCancelButton, setDisableCancelButton] = useState(false);
   const [response, setResponse] = useState(false);
   const [success, setSuccess] = useState(true);
   const [responseMessage, setResponseMessage] = useState("");
@@ -19,8 +20,8 @@ export const Thanks: FC = () => {
 
   useEffect(() => {
     thanksValue.trim().length && sumValue > 0
-      ? setDisabledButtons(false)
-      : setDisabledButtons(true);
+      ? setDisableSendButton(false)
+      : setDisableSendButton(true);
   }, [thanksValue, sumValue]);
 
   useEffect(() => {
@@ -43,6 +44,12 @@ export const Thanks: FC = () => {
       setSuccess(false);
     }
   }, [errorCode]);
+
+  useEffect(()=>{
+    loading
+    ? setDisableCancelButton(true)
+    : setDisableCancelButton(false);
+  }, [loading])
 
   const send = () => {
     const data = JSON.stringify({
@@ -132,14 +139,20 @@ export const Thanks: FC = () => {
         <Button
           type="primary"
           size="middle"
-          disabled={disabledButtons}
+          disabled={disableSendButton}
           onClick={send}
           className="form__button"
         >
           Отправить
         </Button>
 
-        <Button type="primary" size="middle" onClick={clearFields} className="form__button">
+        <Button 
+          type="primary"
+          size="middle"
+          onClick={clearFields} 
+          className="form__button"
+          disabled={disableCancelButton}
+        >
           Отменить
         </Button>
       </form>

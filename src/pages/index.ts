@@ -6,3 +6,4 @@ export * from "./notFound";
 export * from "./login";
 export * from "./shop";
 export * from "./cart";
+export * from "./productCard";

@@ -17,3 +17,4 @@ export * from "./cartItem";
 export * from './cartOrderInfo';
 export * from "./pageHeader";
 export * from "./loader";
+export * from "./productBuy";

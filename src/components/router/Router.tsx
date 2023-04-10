@@ -2,7 +2,17 @@ import React, { FC, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { PageRoutes } from "@utils";
 import { PrivateWrapper, Layout } from "@components";
-import { NotFound, Login, ProfilePage, SharedFeed, PersonalNewsFeed, Shop, Thanks, Cart} from "@pages";
+import {
+  NotFound,
+  Login,
+  ProfilePage,
+  SharedFeed,
+  PersonalNewsFeed,
+  Shop,
+  Thanks,
+  Product,
+  Cart
+} from "@pages";
 
 export const Router: FC = () => {
   const isAuthorized = true;
@@ -20,10 +30,7 @@ export const Router: FC = () => {
 
             <Route path={PageRoutes.SHOP} element={<Shop />} />
             <Route path={PageRoutes.PROFILE} element={<ProfilePage />} />
-            <Route
-              path={PageRoutes.SHOP_PRODUCT}
-              element={<p> Страница товара по id, передаем в запросе </p>}
-            />
+            <Route path={PageRoutes.SHOP_PRODUCT} element={<Product />} />
             <Route path={PageRoutes.FAVOURITES} element={<p> Избранное </p>} />
             <Route path={PageRoutes.SHOPPING_CART} element={<Cart/>} />
             <Route path={PageRoutes.THANKS} element={<Thanks />} />

@@ -6,7 +6,7 @@ import {
   login as postLogin,
   required,
 } from "@utils";
-import React, { useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import Password from "../../components/passwordForm/Password";
@@ -18,36 +18,46 @@ export const Login = () => {
   const [passValue, setPassValue] = useState("");
   const [isDirtyLogin, setDirtyLogin] = useState(false);
   const [isDirtyPass, setDirtyPass] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const errorsLogin = applyValidators(loginValue, [
     maxLength(56),
     required(),
     minLength(6),
   ]);
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
   const errorsPass = applyValidators(passValue, [
     maxLength(56),
     required(),
     minLength(6),
   ]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     if (errorsPass.length != 0 || errorsLogin.length != 0) {
       return;
     }
     try {
+      e.preventDefault();
       const response = await login(loginValue, passValue);
       localStorage.setItem("access_token", response.access_token);
       localStorage.setItem("refresh_token", response.refresh_token);
       navigate("/");
-    } catch (e) {}
+    } catch (e) {
+      alert("Ошибка при вводе логина или пароля");
+    }
   };
 
   const disabled = loginValue === "" || passValue === "";
   return (
     <div className="wrapper">
-      <form className="login">
+      <form className="login" onSubmit={handleLogin}>
         <h1 className="login__title">Релекс Благодарности</h1>
         <div className="login__input">
           <Input
+            inputRef={inputRef}
             placeholder="Введите логин..."
             name="login"
             type="text"
@@ -81,10 +91,9 @@ export const Login = () => {
         </div>
         <input
           value="Отправить"
-          type="button"
+          type="submit"
           disabled={disabled}
           className="login__button"
-          onClick={handleLogin}
         />
       </form>
     </div>

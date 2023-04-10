@@ -40,7 +40,7 @@ axiosOur.interceptors.response.use(
         const response = await updateAccessToken(refresh_token);
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
-        return axiosAuth.request(originalRequest);
+        return axiosOur.request(originalRequest);
       } catch (e) {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

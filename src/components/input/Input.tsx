@@ -1,4 +1,4 @@
-import React from "react";
+import React, { LegacyRef } from "react";
 import "./index.scss";
 
 type InputProps = {
@@ -9,6 +9,7 @@ type InputProps = {
   value: string;
   onChange: (value: string) => void;
   onBlur: (value: boolean) => void;
+  inputRef?: LegacyRef<HTMLInputElement>;
 };
 
 /*
@@ -16,6 +17,7 @@ type InputProps = {
  */
 const Input: React.FC<InputProps> = ({
   placeholder,
+  inputRef,
   name,
   type,
   isRequired,
@@ -26,6 +28,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <input
       className="input"
+      ref={inputRef}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}

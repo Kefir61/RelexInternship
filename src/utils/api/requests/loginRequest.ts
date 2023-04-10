@@ -2,7 +2,7 @@ import { axiosAuth } from "../apiService";
 
 export const login = async (username: string, password: string) => {
   return axiosAuth
-    .post("", {
+    .post("/token", {
       username,
       password,
       client_id: process.env.CLIENT_ID,
@@ -13,9 +13,15 @@ export const login = async (username: string, password: string) => {
 };
 
 export const updateAccessToken = async (refresh_token:string) => {
-  return axiosAuth.post(``, {
+  return axiosAuth.post(`/token`, {
     client_id: process.env.CLIENT_ID,
-    grant_type: process.env.GRAND_TYPE,
+    grant_type: process.env.GRAND_TYPE_REFRESH,
+    refresh_token,
+  });
+};
+export const logout = async (refresh_token:string) => {
+  return axiosAuth.post(`/logout`, {
+    client_id: process.env.CLIENT_ID,
     refresh_token,
   });
 };

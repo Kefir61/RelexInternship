@@ -6,7 +6,7 @@ interface IMyThanksState {
   list:IOneMyThanks[],
   totalPages:number,
   loading:boolean,
-  error:string | null,
+  error:string,
 }
 
 interface getListParams {
@@ -28,12 +28,11 @@ export const fetchMyThanks = createAsyncThunk<getJsonType, getListParams, {rejec
       currentPage:`${requestParams.currentPage}`,
       pageSize: `${requestParams.pageSize}`,
     });
-  const data = await axiosOur.get<getJsonType>(`/thanks/history/user`, {params})
-  .then((response)=>{            
-    return response.data})
-  .catch((error)=>rejectWithValue(error))
-  return data;
-}
+    const data = await axiosOur.get<getJsonType>(`/thanks/history/user`, {params})
+    .then((response)=>response.data)
+    .catch((error)=>rejectWithValue(error))
+    return data;
+  }
 )
 
 interface reactParams {
@@ -44,13 +43,13 @@ interface reactParams {
 export const fetchReactToThank = createAsyncThunk<string, reactParams, {rejectValue: string, dispatch: AppDispatch}>(
   'thanks/fetchReactToThank',
   async (requestParams, { rejectWithValue, dispatch }) => {
-  const body = {userReaction: requestParams.reaction}
-  await axiosOur.post(`/thanks/${requestParams.id}/vote/user`, body)
-  .then((response)=>{ 
-    dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))           
-    })
-  .catch((error)=>rejectWithValue(error))
-  return 'ok';
+    const body = {userReaction: requestParams.reaction}
+    await axiosOur.post(`/thanks/${requestParams.id}/vote/user`, body)
+    .then((response)=>{ 
+      dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))           
+      })
+    .catch((error)=>rejectWithValue(error))
+    return 'ok';
 }
 )
 
@@ -58,7 +57,7 @@ const initialState: IMyThanksState = {
   list:[],   
   totalPages: 0,
   loading:false,
-  error:null
+  error:''
 };
 
 interface IReactToThankPayload {
@@ -97,7 +96,7 @@ const myThanksSlice = createSlice({
     builder
     .addCase(fetchMyThanks.pending, (state)=>{
       state.loading = true
-      state.error = null
+      state.error = ''
     })
     .addCase(fetchMyThanks.fulfilled, (state, action)=>{
       state.list = action.payload.history;

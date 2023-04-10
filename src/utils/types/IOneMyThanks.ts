@@ -1,7 +1,7 @@
 import { IComment } from "./IComment";
 import { IUser } from "./IUser";
   
-export enum EOperaionType {TO = 'TO', FROM = 'FROM'}
+export enum EOperaionType {TO = 'to', FROM = 'from'}
 export enum EReactionType {LIKE = 'like', DISLIKE = 'dislike', NONE = null}
 
 export interface IOneMyThanks {

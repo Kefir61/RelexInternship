@@ -10,9 +10,8 @@ import { Loader } from "../loader";
 
 export const MyThanks: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const MyThanksList = appSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
-    const MyThanksPageCount = appSelector<number>((state) => state.MyThanks.totalPages);
-    const MyThanksLoading = appSelector<number>((state) => state.MyThanks.totalPages);
+    const myThanksList = appSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
+    const myThanksPageCount = appSelector<number>((state) => state.MyThanks.totalPages);
     
     useEffect(() => {
         dispatch(fetchMyThanks({ currentPage: 0, pageSize: 3 }));
@@ -30,14 +29,14 @@ export const MyThanks: FC = () => {
     <>
         <h3>Мои благодарности:</h3>
         
-        {MyThanksLoading ? (
+        {!!myThanksPageCount ? (
             <ListWithPagination
-              content={MyThanksList}
+              content={myThanksList}
               onChangePage={onChangeThanksPage}
               renderElement={(OneThank: IOneMyThanks) => (
                 <OneMyThanks key={`${OneThank.user.id} ${OneThank.createdAt}`} thanks={OneThank} />
               )}
-              totalPages={MyThanksPageCount}
+              totalPages={myThanksPageCount}
             />
         ) : (
             <Loader />

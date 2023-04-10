@@ -19,9 +19,7 @@ export const Thanks: FC = () => {
   const { loading, responseStatus, errorCode } = useSelector(selectSendThanks);
 
   useEffect(() => {
-    thanksValue.trim().length && sumValue > 0
-      ? setDisableSendButton(false)
-      : setDisableSendButton(true);
+    setDisableSendButton(!(thanksValue.trim().length && sumValue > 0));
   }, [thanksValue, sumValue]);
 
   useEffect(() => {
@@ -46,9 +44,7 @@ export const Thanks: FC = () => {
   }, [errorCode]);
 
   useEffect(()=>{
-    loading
-    ? setDisableCancelButton(true)
-    : setDisableCancelButton(false);
+    setDisableCancelButton(loading);
   }, [loading])
 
   const send = () => {

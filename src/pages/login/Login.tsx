@@ -94,7 +94,6 @@ export const Login = () => {
           type="submit"
           disabled={disabled}
           className="login__button"
-          //onClick={handleLogin}
         />
       </form>
     </div>

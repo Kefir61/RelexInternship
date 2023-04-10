@@ -1,22 +1,22 @@
 import TextArea from "antd/es/input/TextArea";
 import React, { FC, useEffect } from "react";
-import './CartOrderInfo.scss'
-import { ShopProductItem } from '../../store/slices/shopSlice';
-import { countTotalPrice, selectCart } from '../../store/slices/cartSlice';
+import './CartOrderInfo.scss';
+import { countTotalPrice, selectCart, setComment } from '../../store/slices/cartSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from '../../store/store';
 
-interface CartOrderInfoProps{
-    cartList: ShopProductItem[]
-}
-
-export const CartOrderInfo: FC<CartOrderInfoProps> = ({cartList}) => {
+export const CartOrderInfo: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {totalPrice} = useSelector(selectCart);
+    const {totalPrice, cartList, deliveryMethod} = useSelector(selectCart);
 
     useEffect(()=>{
-        dispatch(countTotalPrice({}))
-    }, [])
+        dispatch(countTotalPrice({cartList}))
+    }, [cartList])
+
+    const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const comment = e.target.value;
+        dispatch(setComment({comment}));
+    };
 
     return(
         <section className='cart-order-info'>
@@ -28,12 +28,12 @@ export const CartOrderInfo: FC<CartOrderInfoProps> = ({cartList}) => {
 
             <div className='cart-order-info__item'>
                 <p className='cart-order-info__title'>Товаров:</p>
-                <p className='cart-order-info__title'>{cartList.length} шт.</p>
+                <p className='cart-order-info__title'>{cartList.length && `${cartList.length} шт.`}</p>
             </div>
 
             <div className='cart-order-info__item'>
                 <p className='cart-order-info__title'>Способ получения:</p>
-                <p className='cart-order-info__title'>Забрать в офисе</p>
+                <p className='cart-order-info__title'>{deliveryMethod}</p>
             </div>
 
             <div className='cart-order-info__comment'>
@@ -41,13 +41,14 @@ export const CartOrderInfo: FC<CartOrderInfoProps> = ({cartList}) => {
                 <TextArea
                     placeholder="Хочу получить заказ во второй половине дня"
                     autoSize={{ minRows: 5, maxRows: 6 }}
-                    // value={thanksValue}
-                    //onChange={onChangeTextfield}
+                    onChange={onChangeTextfield}
                     className='cart-order-info__textarea'
                     id="thanks" 
                     name="thanks"
                 />
             </div>
+
+            <button className='cart-order-info__button'>Оформить заказ</button>
 
         </section>
     )

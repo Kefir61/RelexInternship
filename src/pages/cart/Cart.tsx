@@ -4,20 +4,18 @@ import './Cart.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { ShopProductItem, selectShop } from "../../store/slices/shopSlice";
 import { AppDispatch } from '../../store/store';
-import { fetchCart, selectCart } from "../../store/slices/cartSlice";
+import { cartItemProps, cartProductProps, fetchCart, selectCart } from "../../store/slices/cartSlice";
 
 export const Cart: FC = () => {
-    const { list } = useSelector(selectShop);
-    const [cartList, setCartList] = useState(list);
     const dispatch = useDispatch<AppDispatch>();
-    const {loading, error} = useSelector(selectCart);
+    const {loading, error, cartList} = useSelector(selectCart);
 
     useEffect(()=>{
-        //dispatch(fetchCart({}))
+        dispatch(fetchCart({}))
     }, [])
     
     const removeCartItem = (id: number) => {
-        setCartList(cartList.filter(i => i.id !== id))        
+       // setCartList(cartList.filter(i => i.id !== id))        
     }
 
     return (
@@ -27,16 +25,15 @@ export const Cart: FC = () => {
 
                 {error ? <div className='cart__error'>Что-то пошло не так. Попробуйте еще раз</div>
                 : cartList.length ? 
-                    cartList.map((item: ShopProductItem) => (
-                        <CartItem key={item.id} {...item} removeCartItem={removeCartItem}  />
+                    cartList.map((item: cartItemProps) => (
+                        <CartItem key={item.productVariety.id} {...item}   />
                     ))
                 : <p className='cart__empty'>Корзина пуста</p>}
 
             </div>
-            
+        
             <div className='cart__oreder-info'>
-                <CartOrderInfo cartList={cartList}  />
-                <button className='cart__button'>Оформить заказ</button>
+                <CartOrderInfo />
             </div>
         </section>
     )

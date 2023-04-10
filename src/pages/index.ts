@@ -7,3 +7,4 @@ export * from "./login";
 export * from "./shop";
 export * from "./cart";
 export * from "./productCard";
+export * from "./validateOrder";

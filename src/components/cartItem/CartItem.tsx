@@ -5,71 +5,55 @@ import './CartItem.scss';
 import { Colors, Sizes } from '@components';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { countTotalPrice } from '../../store/slices/cartSlice';
+import { cartItemProps, cartProductProps, countTotalPrice } from '../../store/slices/cartSlice';
 
-interface CartItemProps{
-    removeCartItem: (item: any) => void;
-    id: number;
-    imgUrl: string;
-    price: number;
-    amount: number;
-    title: string;
-    colors: string[];
-    sizes: string[];
-}
-
-export const CartItem: FC<CartItemProps> = ({
-    id,
-    imgUrl,
-    price,
-    amount,
-    title,
-    colors,
-    sizes,
-    removeCartItem
-}) => {
+export const CartItem: FC<cartItemProps> = (props) => {
     const [quantityValue, setQuantityValue] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(price);
+    const [totalPrice, setTotalPrice] = useState(props.productVariety.price);
     const [error, setError] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
 
     const onChangeQuantityField = (quantity: number) => {
-        if(quantity > amount){
+        if(quantity > props.productVariety.quantity){
             setError(true); 
             setTimeout(() => setError(false), 3000)  
         } else {
             setQuantityValue(quantity);
-            setTotalPrice(quantity*price);
+            setTotalPrice(quantity*props.productVariety.price);
             setError(false);
-            
+
+            const id = props.productVariety.id;            
             dispatch(countTotalPrice({id, quantity}))
         }
 
-        if(quantity === 0 || quantity === null){
-            removeCartItem(id);
-        }
+        // if(quantity === 0 || quantity === null){
+        //     removeCartItem(id);
+        // }
     }
     
     return (
         <section className='cart-item'>
             
             <div className='cart-item__image'>
-                <img src={imgUrl} alt=''/>
+                <img src='' alt=''/>
             </div>  
                 
             <div className='cart-item__right'>                           
 
                 <div className='cart-item__info info'>
 
-                    <h2 className='info__title'>{title}</h2>
+                    <h2 className='info__title'>{props.productVariety.nameProduct}</h2>
 
                     <div className='info__size'>
-                        <Sizes sizes={sizes} sizeName='S'/>
+                        {props.productVariety.size && <p className='info__size'>Размер: {props.productVariety.size}</p>} 
+                        {/* <Sizes sizes={sizes} sizeName='S'/> */}
                     </div>
 
                     <div className='info__color color'>
                         <p className='color__title'>Цвет: </p>
-                        <Colors colors={colors} colorName='blue'/>
+                        <div className='color__item' 
+                            style={{ backgroundColor: `${props.productVariety.color}` }}></div> 
+                        {/* <Colors colors={colors} colorName='blue'/> */}
                     </div>
 
                     {error && 
@@ -85,12 +69,12 @@ export const CartItem: FC<CartItemProps> = ({
                                 onChange={onChangeQuantityField}
                                 type='number'
                                 min={0}
-                                max={amount}
+                                max={props.productVariety.quantity}
                             />
                         </div>
                         <p  className='quantity__text'>шт.</p>
 
-                        <p  className='quantity__in-stock'>В наличии {amount} шт.</p>
+                        <p  className='quantity__in-stock'>В наличии {props.productVariety.quantity} шт.</p>
                     </div>
                 </div>
 
@@ -99,12 +83,13 @@ export const CartItem: FC<CartItemProps> = ({
 
                     <div className='price__item-price item-price'>
                         <p className='item-price__title'>Цена за единицу: </p>
-                        <p className='item-price__price'>{price}</p>
+                        <p className='item-price__price'>{props.productVariety.price}</p>
                     </div>
                 
                     <div className='cart-item__bin'>
-                        <DeleteOutlined onClick={() => removeCartItem(id)}/>
+                        <DeleteOutlined /> {/*  onClick={() => removeCartItem(id)}*/}
                     </div>
+                    
                 </div>
             </div>
         </section>

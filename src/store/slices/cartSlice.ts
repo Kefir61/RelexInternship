@@ -15,49 +15,39 @@ export const fetchCart = createAsyncThunk<any, any, {rejectValue: string}>(
     }
 );
 
-interface cartItemProps{
-    product: ShopProductItem,
+export interface cartProductProps{
+    color: string, 
+    id: number, 
+    mainImageId: number,
+    nameProduct: string,
+    price: number,
+    quantity: number,
+    size: string | null
+}
+
+export interface cartItemProps{
+    productVariety: cartProductProps,
     quantity: number
 } 
 
 interface CartSliseState {
     cartList: cartItemProps[];
+    deliveryMethod: string,
     loading: boolean;
     status: string | null;
     error: boolean;
     totalPrice: number;
+    comment: string;
 }
 
 const initialState: CartSliseState = {
-    cartList: [
-      {
-        product:  {
-            id: 1,
-            imgUrl: "",
-            price: 20.0,
-            amount: 5,
-            title: "Название товара",
-            colors: ["red", "blue", "orange"],
-            sizes: ["XS", "S", "L", "XL"]
-        },
-        quantity: 1,
-      },
-      {
-        product:  { 
-            id: 2,
-            imgUrl: "",
-            price: 20.0,
-            amount: 15,
-            title: "Название товара",
-            colors: [],
-            sizes: []
-        },
-        quantity: 1,
-      },],
+    cartList: [],
     loading: false,
     status: null,
     error: false,
     totalPrice: 0,
+    deliveryMethod: '',
+    comment: ''
 };  
 
 const cartSlice = createSlice({
@@ -65,13 +55,17 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         countTotalPrice(state, action) {
-            state.totalPrice = 0
+            state.totalPrice = 0;
             state.cartList.map((item) => {
-                if(item.product.id === action.payload.id){
+                
+                if(item.productVariety.id === action.payload.id){
                     item.quantity = action.payload.quantity
                 }
-                state.totalPrice += item.quantity*item.product.price
+                state.totalPrice += item.quantity*item.productVariety.price
             })
+        },
+        setComment(state, action){
+            state.comment = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -81,7 +75,8 @@ const cartSlice = createSlice({
         })
         .addCase (fetchCart.fulfilled, (state, action) => {
             state.loading = false;
-            state.cartList = action.payload;
+            state.cartList = action.payload.cartItems;
+            state.deliveryMethod = action.payload.deliveryMethod;
         })
         .addCase (fetchCart.rejected, (state, action) => {
             state.loading = false;
@@ -91,7 +86,7 @@ const cartSlice = createSlice({
 })
 
 export const selectCart = (state: RootState) => state.cart;
-export const {countTotalPrice} = cartSlice.actions;
+export const {countTotalPrice, setComment} = cartSlice.actions;
 export const {} = cartSlice.actions;
 
 export default cartSlice.reducer;

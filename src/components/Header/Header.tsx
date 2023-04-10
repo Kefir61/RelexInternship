@@ -12,6 +12,7 @@ import { ProfileItems, MenuItems, PageHeader } from "@components";
 import { AppDispatch, RootState } from "src/store/store";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { fetchBalance, selectBalance } from '../../store/slices/balanceSlice';
+import { fetchCart, selectCart } from '../../store/slices/cartSlice';
 
 export const Header: FC = () => {
   const location = useLocation();
@@ -20,10 +21,13 @@ export const Header: FC = () => {
   const user = AppSelector<IUserInfo>(state => state.UserInfo.user);
   const dispatch = useDispatch<AppDispatch>();
   const {balance} = useSelector(selectBalance);
+  const {cartList} = useSelector(selectCart);
+
 
   useEffect(() => {
     setMobileMenuOpen(false);
     dispatch(fetchBalance({}));
+    dispatch(fetchCart({}));
   }, [location]);
   
   return (
@@ -115,7 +119,7 @@ export const Header: FC = () => {
             </Link>
             <div className="shopping-cart__section">
               <p className="shopping-cart__quantity">
-                30
+                {cartList.length}
               </p>
             </div>
           </div>

@@ -21,4 +21,14 @@
     &__textarea{
         margin-top: 0.5rem;
     }
+
+    &__button{
+        width: 100%;
+        margin-top: 0.5rem;
+        color: #ffffff;
+        background-color: #ff0000;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
 }

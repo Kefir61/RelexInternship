@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { IUserInfo, getUserInfo, updateUserDelivery, IUserState, IDelivery, IUpdateInfoParams, updateUserInfo, imageUrl } from '@utils';
+import { IUserInfo, getUserInfo, updateUserDelivery, mockNotificationInnersDefault, IUserState, IDelivery, INotification, INotificationUpdate, INotificationParam, updateUserNotifications, IUpdateInfoParams, updateUserInfo, imageUrl } from '@utils';
 import type { RootState, AppDispatch } from '../store';
 
 const defaultUser: IUserInfo = {
@@ -23,7 +23,8 @@ const defaultUser: IUserInfo = {
         name: '',
         displayName: '',
         address: ''
-    }]
+    }],
+    userNotifications: mockNotificationInnersDefault
 }
 
 const initialState: IUserState =  {
@@ -74,6 +75,29 @@ export const updateDelivery = createAsyncThunk<
     }
 );
 
+export const updateNotifications = createAsyncThunk<
+    void,
+    undefined,
+    {
+        dispatch: AppDispatch;
+        state: RootState;
+        rejectValue: string;
+    }
+>(
+    'user/updateNotifications',
+    async function(_, {rejectWithValue, dispatch, getState}) {
+        try {
+            const newNotification: INotification = {
+                userNotifications: getState().UserInfo.user.userNotifications
+            };
+            const response = await updateUserNotifications(newNotification);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 export const updateUser = createAsyncThunk<
     IUserInfo,
     IUpdateInfoParams,
@@ -108,6 +132,12 @@ const userSlice = createSlice({
         },
         resetUser(state) {
             state.user = state.userLastState;
+        },
+        updateStateNotifications(state, action: PayloadAction<INotificationUpdate>) {
+            state.user.userNotifications[action.payload.label as keyof typeof state.user.userNotifications][action.payload.index] = {
+                target: action.payload.target, 
+                status: !action.payload.status
+            };
         },
         updateOrderDelivery(state, action: PayloadAction<string>) {
             const currentDelivery = state.user.userDeliveries.find((delivery: IDelivery) => delivery.name === action.payload);
@@ -144,12 +174,15 @@ const userSlice = createSlice({
         }),
         builder.addCase(updateDelivery.rejected, (state, action) => {
             state.error = action.payload;
+        }),
+        builder.addCase(updateDelivery.fulfilled, (state, action) => {
+            state.userLastState = state.user;
         })
     },
 });
 
 export const {editUser, updateStatus, updateUserImage, 
     updateOrderDelivery, editUserLastState, updateDeliveryAddress, 
-    updateFromOffice, updateShowBirthday, resetUser} = userSlice.actions;
+    updateFromOffice, updateShowBirthday, resetUser, updateStateNotifications} = userSlice.actions;
     
 export default userSlice.reducer;

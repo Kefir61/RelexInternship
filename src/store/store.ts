@@ -20,6 +20,12 @@ export const store = configureStore({
     balance: balanceReducer,
     cart: cartReducer
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['user/updateStateNotifications'],
+      },
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

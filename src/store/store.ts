@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import myThanksReducer from "./slices/myThanksSlice";
+import usersReducer from "./slices/autoCompleteUsersSlice";
 import shopReducer from "./slices/shopSlice";
 import sendThanksReducer from "./slices/sendThanksSlice";
 import userInfoReducer from "./slices/userSlice";
@@ -14,6 +15,7 @@ export const store = configureStore({
     MyThanks: myThanksReducer,
     UserInfo: userInfoReducer,
     shop: shopReducer,
+    users: usersReducer,
     sendThanks: sendThanksReducer,
     balance: balanceReducer,
     cart: cartReducer

@@ -1,42 +1,63 @@
+import { IContentToAutoComplete, IUser } from "@utils";
 import { AutoComplete as AutoCompleteAntd, Input } from "antd";
-import { AutoCompleteRow } from "./AutoCopmleteRow/AutoCopmleteRow";
-import React, { FC, useState } from "react";
+import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { TOptions } from "../../utils/types/TOptions";
 
-interface IUser {
-  id: number;
-  name: string;
-  surname: string;
+interface AutoCompleteProps {
+  onSelect: (choosenItem: unknown) => void;
+  renderElement: (elem: unknown) => ReactNode;
+  content: IContentToAutoComplete[];
+  width?: string;
 }
 
-export const AutoComplete: FC = () => {
-  const initialOptions = [
-    { id: 1, name: "oleg", surname: "sidorov" },
-    { id: 2, name: "plato", surname: "apple" },
-    { id: 3, name: "sergey", surname: "oliva" },
-    { id: 4, name: "func", surname: "arrow" },
-  ];
-  const [result, setResult] = useState<IUser[]>(initialOptions);
+export const AutoComplete: FC<AutoCompleteProps> = ({
+  onSelect,
+  renderElement,
+  content,
+  width,
+}) => {
+  const [searchOptions, setSearchOptions] = useState<IContentToAutoComplete[]>([]);
+  const [value, setValue] = useState("");
 
-  const options: TOptions[] = result.map((elem) => ({
-    value: `${elem.name} ${elem.surname}`,
-    label: <AutoCompleteRow user={elem} />,
-  }));
+  useEffect(() => {
+    handleSearch("");
+  }, [content]);
 
-  const handleSearch = (value: string) =>
-    setResult(
-      initialOptions.filter((elem) => elem.name.includes(value) || elem.surname.includes(value))
-    );
+  const options: TOptions[] = useMemo(
+    () =>
+      searchOptions.map((elem) => ({
+        value: JSON.stringify(elem.item),
+        label: renderElement(elem.item),
+      })),
+    [searchOptions]
+  );
+
+  const handleSelect = (value: string, option: TOptions) => {
+    const choosen = content.find((elem) => JSON.stringify(elem.item) === value);
+    onSelect(JSON.parse(value));
+    setValue(choosen.fieldFillText);
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchOptions(content.filter((elem) => elem.strToFindIn.includes(value)));
+  };
+
+  const handleChange = (value: string) => {
+    setValue(value);
+  };
 
   return (
     <AutoCompleteAntd
+      value={value}
       options={options}
       style={{
-        width: 180,
+        width,
       }}
+      onChange={handleChange}
       onSearch={handleSearch}
+      onSelect={handleSelect}
     >
-      <Input placeholder="input here" className="custom" />
+      <Input className="custom" />
     </AutoCompleteAntd>
   );
 };

@@ -1,10 +1,14 @@
-import React, { FC, useEffect, useState } from "react";
 import { AutoComplete, Loader } from "@components";
+import { appSelector } from "@store";
+import { IUser, generateFio } from "@utils";
 import { Button, Input, InputNumber } from "antd";
-import "./Thanks.scss";
-import { AppDispatch } from "../../store/store";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendThanks, selectSendThanks } from "../../store/slices/sendThanksSlice";
+import { AutoCompleteUserRow } from "../../components/AutoCopmleteUserRow/AutoCopmleteUserRow";
+import { selectSendThanks, sendThanks } from "../../store/slices/sendThanksSlice";
+import { AppDispatch } from "../../store/store";
+import "./Thanks.scss";
+import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
 
 export const Thanks: FC = () => {
   const { TextArea } = Input;
@@ -16,12 +20,35 @@ export const Thanks: FC = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { loading, responseStatus, errorCode } = useSelector(selectSendThanks);
+  const [userTo, setUserTo] = useState("");
+
+  const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
+  const currentUserId = appSelector<string>((state) => state.UserInfo.user.id);
+  const contentAutoComplete = useMemo(
+    () =>
+      allUsers
+        .filter((user) => user.id != currentUserId)
+        .map((user) => {
+          return {
+            fieldFillText: generateFio(user),
+            item: user,
+            strToFindIn: `${user.firstName} ${user.lastName} ${user.patronymic || ""}`,
+          };
+        }),
+    [allUsers]
+  );
 
   useEffect(() => {
-    thanksValue.trim().length && sumValue > 0
+    dispatch(fetchUsers());
+  }, []);
+
+  useEffect(() => {
+    thanksValue.trim().length &&
+    sumValue > 0 &&
+    allUsers.findIndex((user) => user.id === userTo) + 1
       ? setDisabledButtons(false)
       : setDisabledButtons(true);
-  }, [thanksValue, sumValue]);
+  }, [thanksValue, sumValue, userTo]);
 
   useEffect(() => {
     if (responseStatus === 200) {
@@ -46,28 +73,25 @@ export const Thanks: FC = () => {
 
   const send = () => {
     const data = JSON.stringify({
-      toUserId: '680e57c8-7c0c-4053-b069-819a2bbbe34c',
-      amount: sumValue,  
-      comment: thanksValue
-    })
-        
+      toUserId: userTo,
+      amount: sumValue,
+      comment: thanksValue,
+    });
+
     dispatch(sendThanks(data));
     clearFields();
-  }
+  };
 
   const clearFields = () => {
-    setSumValue(0); 
-    setThanksValue(''); 
+    setSumValue(0);
+    setThanksValue("");
     setResponse(false);
-  }
-  
-  const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setThanksValue(e.target.value);
   };
 
-  const onChangeSumField = (sum: number) => {
-    setSumValue(sum);
-  };
+  const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setThanksValue(e.target.value);
+
+  const onChangeSumField = (sum: number) => setSumValue(sum);
 
   return (
     <section className="thanks">
@@ -77,7 +101,13 @@ export const Thanks: FC = () => {
             Сотрудник:
           </label>
           <div className="form__input-wrapper">
-            <AutoComplete />
+            <AutoComplete
+              onSelect={(user: IUser) => {
+                setUserTo(user.id);
+              }}
+              content={contentAutoComplete}
+              renderElement={(user: IUser) => <AutoCompleteUserRow user={user} />}
+            />
           </div>
         </div>
 

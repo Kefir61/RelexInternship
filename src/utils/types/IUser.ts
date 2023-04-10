@@ -1,7 +1,7 @@
 export interface IUser {
-    id:number,
+    id:string,
     lastName: string,
     firstName: string,
-    patronymic: string,
-    mainImageId: number,
+    patronymic: string | null,
+    mainImageId?: string,
   }

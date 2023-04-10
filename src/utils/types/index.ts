@@ -6,4 +6,5 @@ export * from './IUser'
 export * from './IDelivery';
 export * from './IUpdateInfoParams';
 export * from './IUserInfo';
+export * from './INotifications';
 export * from './IContentToAutoComplete'

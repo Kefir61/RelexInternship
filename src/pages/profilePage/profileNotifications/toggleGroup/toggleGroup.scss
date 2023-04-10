@@ -1,0 +1,22 @@
+.toggleGroup {
+    width: 70%;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: flex-start;
+    &__label {
+        display: flex;
+        min-width: 300px;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    &__toggles {
+        display: grid;
+        grid-template-columns: 70px 70px 70px;
+    }
+    &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

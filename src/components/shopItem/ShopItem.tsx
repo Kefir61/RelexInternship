@@ -10,7 +10,7 @@ import { Button, Space } from "antd";
 export const ShopItem: React.FC<ShopProductItem> = ({
   imgUrl,
   price,
-  amout,
+  amount,
   title,
   colors,
   sizes,
@@ -27,7 +27,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
         <div className="item--informations__stock">
-          В наличии: {amout} шт
+          В наличии: {amount} шт
         </div>
       </div>
       <div className="shop--item__title">{title}</div>

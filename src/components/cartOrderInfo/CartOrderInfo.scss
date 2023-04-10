@@ -1,0 +1,16 @@
+.cart-order-info{
+    &__item{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+    }
+
+    &__price{
+        font-size: 2rem;
+    }
+
+    &__textarea{
+        margin-top: 0.5rem;
+    }
+}

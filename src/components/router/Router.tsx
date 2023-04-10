@@ -13,6 +13,7 @@ import {
   FavoriteGoods,
   Product,
   Cart,
+  ValidateOrder,
 } from "@pages";
 
 export const Router: FC = () => {
@@ -34,6 +35,7 @@ export const Router: FC = () => {
             <Route path={PageRoutes.SHOPPING_CART} element={<Cart />} />
             <Route path={PageRoutes.THANKS} element={<Thanks />} />
             <Route path={PageRoutes.EVENT} element={<p> Событие </p>} />
+            <Route path={PageRoutes.VALIDATE_ORDER} element={ <ValidateOrder /> } />
           </Route>
           <Route element={<PrivateWrapper roles={["admin_events"]} />}>
             <Route path={PageRoutes.CREATE_EVENT} element={<p> Создать событие </p>} />

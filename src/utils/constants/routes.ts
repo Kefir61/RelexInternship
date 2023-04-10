@@ -14,5 +14,6 @@ export enum PageRoutes {
     SUBMIT_EVENT = 'submit-event',
     PUBLISH_EVENT = 'publish-event',
     USERES_ORDERS = 'orders',
-    FINANCE_HISTORY = 'finance_history'
+    FINANCE_HISTORY = 'finance_history',
+    VALIDATE_ORDER = 'validate_order'
 };

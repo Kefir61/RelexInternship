@@ -4,6 +4,8 @@ import './CartOrderInfo.scss';
 import { countTotalPrice, selectCart, setComment } from '../../store/slices/cartSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from '../../store/store';
+import { Link } from "react-router-dom";
+import { PageRoutes } from "@utils";
 
 export const CartOrderInfo: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -48,8 +50,13 @@ export const CartOrderInfo: FC = () => {
                 />
             </div>
 
-            <button className='cart-order-info__button'>Оформить заказ</button>
-
+            <Link
+              className="cart-order-info__link"
+              to={PageRoutes.VALIDATE_ORDER}
+            >
+              Оформить заказ
+            </Link>
+            
         </section>
     )
 }

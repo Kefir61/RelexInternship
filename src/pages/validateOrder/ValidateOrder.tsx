@@ -1,9 +1,17 @@
-import React, { FC } from "react";
-import { selectCart } from '../../store/slices/cartSlice';
-import { useSelector } from "react-redux";
+import React, { FC, useEffect } from "react";
+import { countTotalPrice, selectCart } from '../../store/slices/cartSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import "./ValidateOrder.scss";
 
 export const ValidateOrder: FC = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const {totalPrice, cartList, deliveryMethod, comment} = useSelector(selectCart);
+
+    useEffect(()=>{
+        dispatch(countTotalPrice({cartList}))
+    }, [cartList])
+
     return(
         <section className='validate-order'>
             

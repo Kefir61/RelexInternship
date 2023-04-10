@@ -117,11 +117,15 @@ export const Header: FC = () => {
             >
               <ShoppingCartOutlined className="shopping-cart__icon" />
             </Link>
-            <div className="shopping-cart__section">
-              <p className="shopping-cart__quantity">
-                {cartList.length}
-              </p>
-            </div>
+            
+            {cartList.length && 
+              <div className="shopping-cart__section">
+                <p className="shopping-cart__quantity">
+                  {cartList.length}
+                </p>
+              </div>
+            }
+
           </div>
 
           <Dropdown menu={{ items: ProfileItems }}>

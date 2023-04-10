@@ -22,7 +22,7 @@
         margin-top: 0.5rem;
     }
 
-    &__button{
+    &__link{
         width: 100%;
         margin-top: 0.5rem;
         color: #ffffff;
@@ -30,5 +30,8 @@
         border: none;
         padding: 0.5rem;
         border-radius: 5px;
+        display: block;
+        text-align: center;
+        text-decoration: none;
     }
 }

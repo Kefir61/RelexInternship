@@ -4,11 +4,7 @@ import { useSelector } from "react-redux";
 import { fetchProducts, selectShop } from "../../store/slices/shopSlice";
 import "./Shop.scss";
 import { useDispatch } from "react-redux";
-import {
-  setFilterColor,
-  setFilterSize,
-  setPage,
-} from "../../store/slices/shopFilterSlice";
+import { setPage } from "../../store/slices/shopFilterSlice";
 import { ShopProductItem } from "src/store/slices/shopSlice";
 import { Spin } from "antd";
 
@@ -47,10 +43,7 @@ export const Shop = () => {
     <div className="shop">
       <div className="shop--panel">
         <div className="shop--panel__filters">
-          <Filter
-            handleFilterSize={handleFilterSize}
-            handleFilterColor={handleFilterColor}
-          />
+          <Filter />
         </div>
         <div className="shop--panel__sort">
           <Sort />

@@ -12,7 +12,11 @@ export type ShopProductItem = {
   productVarieties: object[];
   featured: boolean;
   price: number;
-  name: number;
+  name: string;
+  amount: number;
+  title: string;
+  colors: string[];
+  sizes: string[];
 };
 
 type ShopFetch = {

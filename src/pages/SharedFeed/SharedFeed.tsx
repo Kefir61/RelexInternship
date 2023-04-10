@@ -1,25 +1,30 @@
 import React, { FC, useEffect } from "react";
 import "./SharedFeedStyle.scss";
 import { Input } from "antd";
-import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchMyThanks } from "../../store/slices/myThanksSlice";
-import { AppDispatch, RootState } from "src/store/store";
-import { IOneMyThanks, PageRoutes } from "@utils";
-import { CommentsSection, ListWithPagination, OneMyThanks } from "@components";
+import { AppDispatch } from "src/store/store";
+import { IOneMyThanks } from "@utils";
+import { CommentsSection, ListWithPagination, Loader, OneMyThanks } from "@components";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { appSelector } from "../../store/hooks";
 
 export const SharedFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
-  const MyThanksList = AppSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
-  const MyThanksPageCount = AppSelector<number>((state) => state.MyThanks.totalPages);
+  const MyThanksList = appSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
+  const MyThanksPageCount = appSelector<number>((state) => state.MyThanks.totalPages);
+  const MyThanksLoading = appSelector<number>((state) => state.MyThanks.totalPages);
 
-  // useEffect(() => {
-  //   dispatch(fetchMyThanks({ id: 1, currentPage: 1, pageSize: 3 }));
-  // }, []);
-
+  useEffect(() => {
+    dispatch(fetchMyThanks({ currentPage: 0, pageSize: 3 }));
+  }, []);
   const onChangeThanksPage = (pageNum: number) => {
-    // dispatch(fetchMyThanks({ id: 1, currentPage: pageNum, pageSize: 3 }));
+    dispatch(
+      fetchMyThanks({
+        currentPage: pageNum - 1,
+        pageSize: 3,
+      })
+    );
   };
 
   return (
@@ -46,7 +51,7 @@ export const SharedFeed: FC = () => {
             </div>
             <h3>Вы зарегистрировались в качестве участника конкурса "Профессионал"</h3>
             <div className="commentAndLikeSection">
-              <CommentsSection comments={[]} />
+              <small>Комментарии {">"}</small>
               <div className="likeSection">
                 <div className="notZeroLikes">
                   <LikeOutlined /> 1
@@ -67,7 +72,7 @@ export const SharedFeed: FC = () => {
             </div>
             <h3>Спасибо за помощь в проекте</h3>
             <div className="commentAndLikeSection">
-              <CommentsSection comments={[]} />
+              <small>Комментарии {">"}</small>
               <div className="likeSection">
                 <div className="notZeroLikes">
                   <LikeOutlined /> 0
@@ -88,7 +93,7 @@ export const SharedFeed: FC = () => {
             </div>
             <h3>Конкурс "8 марта" Подведены итоги конкурса.</h3>
             <div className="commentAndLikeSection">
-              <CommentsSection comments={[]} />
+              <small>Комментарии {">"}</small>
               <div className="likeSection">
                 <div className="notZeroLikes">
                   <LikeOutlined /> 6
@@ -116,14 +121,18 @@ export const SharedFeed: FC = () => {
         </div>
         <div className="congratsBlock">
           <h3>Мои благодарности:</h3>
-          <ListWithPagination
-            content={MyThanksList}
-            onChangePage={onChangeThanksPage}
-            renderElement={(OneThank: IOneMyThanks) => (
-              <OneMyThanks key={OneThank.user.id + OneThank.createdAt} thanks={OneThank} />
-            )}
-            totalPages={MyThanksPageCount}
-          />
+          {MyThanksLoading ? (
+            <ListWithPagination
+              content={MyThanksList}
+              onChangePage={onChangeThanksPage}
+              renderElement={(OneThank: IOneMyThanks) => (
+                <OneMyThanks key={`${OneThank.user.id} ${OneThank.createdAt}`} thanks={OneThank} />
+              )}
+              totalPages={MyThanksPageCount}
+            />
+          ) : (
+            <Loader />
+          )}
         </div>
       </div>
     </div>

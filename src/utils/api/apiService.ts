@@ -1,22 +1,51 @@
-import axios from "axios";
-import axiosGlobal from 'axios';
-import { BASE_URL } from '@utils';
+import axiosGlobal from "axios";
+import { BASE_URL, updateAccessToken } from "@utils";
 
 export const axiosOur = axiosGlobal.create({
   baseURL: BASE_URL,
-  responseType: 'json',
+  responseType: "json",
   headers: {
-    'Content-Type': 'application/json',
-    Accept: '*/*',
+    "Content-Type": "application/json",
+    Accept: "*/*",
+  },
+});
+export const axiosAuth = axiosGlobal.create({
+  baseURL: process.env.AUTH_URL,
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Accept: "*/*",
   },
 });
 
-axios.interceptors.request.use((config) => {
-  config.headers.Authorization = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwibmFtZSI6ImpvaG5kb2UiLCJpYXQiOjk5OTk5OTk5OSwiYXV0aG9yaXRpZXMiOlsiZW1wbG95ZWUiLCJzeXN0ZW1fYWRtaW5pc3RyYXRvciIsInN0b3JlX2FkbWluaXN0cmF0b3IiLCJldmVudF9hZG1pbmlzdHJhdG9yIiwiYWNjcnVhbF9hZG1pbmlzdHJhdG9yIiwiYnVkZ2V0X293bmVyIiwiYXVkaXRvciIsImV2ZW50X29yZ2FuaXplciJdfQ.sqjyo3YQSc-kGLoyyDRIYiHeDQu8nWJyhoMxMnMDC14`;
+axiosOur.interceptors.request.use((config) => {
+  config.headers.Authorization = `${localStorage.getItem("access_token")}`;
   return config;
 });
 
-axiosOur.interceptors.request.use((config) => {
-  config.headers.Authorization = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwibmFtZSI6ImpvaG5kb2UiLCJpYXQiOjk5OTk5OTk5OSwiYXV0aG9yaXRpZXMiOlsiZW1wbG95ZWUiLCJzeXN0ZW1fYWRtaW5pc3RyYXRvciIsInN0b3JlX2FkbWluaXN0cmF0b3IiLCJldmVudF9hZG1pbmlzdHJhdG9yIiwiYWNjcnVhbF9hZG1pbmlzdHJhdG9yIiwiYnVkZ2V0X293bmVyIiwiYXVkaXRvciIsImV2ZW50X29yZ2FuaXplciJdfQ.sqjyo3YQSc-kGLoyyDRIYiHeDQu8nWJyhoMxMnMDC14`;
-  return config;
-});
+axiosOur.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response.status == 403 &&
+      error.config &&
+      !error.config._isRetry
+    ) {
+      originalRequest._isRetry = true;
+      try {
+        const refresh_token = localStorage.getItem("refresh_token");
+        const response = await updateAccessToken(refresh_token);
+        localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("refresh_token", response.data.refresh_token);
+        return axiosOur.request(originalRequest);
+      } catch (e) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+      }
+    }
+    throw error;
+  }
+);

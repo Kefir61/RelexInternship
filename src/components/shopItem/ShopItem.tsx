@@ -26,9 +26,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       />
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
-        <div className="item--informations__stock">
-          В наличии: {amount} шт
-        </div>
+        <div className="item--informations__stock">В наличии: {amount} шт</div>
       </div>
       <div className="shop--item__title">{title}</div>
       <div className="shop--item__colors">
@@ -57,7 +55,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <ProductBuy/>
+      <ProductBuy />
       <Button>Подробнее</Button>
     </div>
   );

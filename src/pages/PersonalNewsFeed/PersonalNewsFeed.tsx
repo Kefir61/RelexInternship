@@ -13,9 +13,9 @@ import "./PersonalNewsFeedStyle.scss";
 
 export const PersonalNewsFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const MyThanksLoading = appSelector<boolean>((state) => state.MyThanks.loading);
   const MyThanksList = appSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
   const MyThanksPageCount = appSelector<number>((state) => state.MyThanks.totalPages);
-  const MyThanksLoading = appSelector<number>((state) => state.MyThanks.totalPages);
 
   const currentUserId = appSelector<string>((state) => state.UserInfo.user.id);
   const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
@@ -160,7 +160,8 @@ export const PersonalNewsFeed: FC = () => {
         </div>
         <div className="congratsBlock">
           <h3>Мои благодарности:</h3>
-          {MyThanksLoading ? (
+          {MyThanksLoading && <Loader />}
+          {!!MyThanksList.length && !MyThanksLoading && (
             <ListWithPagination
               content={MyThanksList}
               onChangePage={onChangeThanksPage}
@@ -169,9 +170,8 @@ export const PersonalNewsFeed: FC = () => {
               )}
               totalPages={MyThanksPageCount}
             />
-          ) : (
-            <Loader />
           )}
+          {!MyThanksList.length && !MyThanksLoading && <div>История пуста</div>}
         </div>
       </div>
     </div>

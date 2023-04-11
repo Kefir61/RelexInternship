@@ -5,6 +5,15 @@ import { RootState } from "../store";
 type TSortDirection = "ASC" | "DESC";
 type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
 
+
+
+type FetchShopArgs = {
+  filterSize: string;
+  filterColor: string;
+  sort: TSortDirection;
+  currentPage: number;
+};
+
 export type ShopProductItem = {
   id: number;
   imgUrl: string;
@@ -13,13 +22,6 @@ export type ShopProductItem = {
   title: string;
   colors: string[];
   sizes: string[];
-};
-
-type FetchShopArgs = {
-  filterSize: string;
-  filterColor: string;
-  sort: TSortDirection;
-  currentPage: number;
 };
 
 interface ShopSliceState {
@@ -52,7 +54,7 @@ const initialState: ShopSliceState = {
       id: 2,
       imgUrl: "",
       price: 20.0,
-      amount: 15,
+      amount: 0,
       title: "Название товара",
       colors: [],
       sizes: [],

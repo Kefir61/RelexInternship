@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { CartItem, CartOrderInfo, Loader } from "@components";
-import './Cart.scss';
+import "./Cart.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { ShopProductItem, selectShop } from "../../store/slices/shopSlice";
 import { AppDispatch } from '../../store/store';
-import { cartItemProps, cartProductProps, fetchCart, selectCart } from "../../store/slices/cartSlice";
+import { cartItemProps, fetchCart, selectCart } from "../../store/slices/cartSlice";
 
 export const Cart: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -13,28 +12,33 @@ export const Cart: FC = () => {
     useEffect(()=>{
         dispatch(fetchCart({}))
     }, [])
-    
-    const removeCartItem = (id: number) => {
-       // setCartList(cartList.filter(i => i.id !== id))        
-    }
 
-    return (
-        <section className='cart'>
-            <div className='cart__items'>
-                {loading && <div className='cart__loader'><Loader /></div>}
+  return (
+    <section className="cart">
 
-                {error ? <div className='cart__error'>Что-то пошло не так. Попробуйте еще раз</div>
-                : cartList.length ? 
-                    cartList.map((item: cartItemProps) => (
-                        <CartItem key={item.productVariety.id} {...item}   />
-                    ))
-                : <p className='cart__empty'>Корзина пуста</p>}
-
-            </div>
+      <div className="cart__items">
         
-            <div className='cart__oreder-info'>
-                <CartOrderInfo />
-            </div>
-        </section>
-    )
-}
+        {loading && (
+          <div className="cart__loader">
+            <Loader />
+          </div>
+        )}
+
+        {error && <div className="cart__error">Что-то пошло не так. Попробуйте еще раз</div>}
+        
+        {!!cartList.length &&
+          !error &&
+          cartList.map((product: cartItemProps) => (
+            <CartItem key={product.productVariety.id} {...product} />
+          ))}
+        
+        {!cartList.length && !error && <p className="cart__empty">Корзина пуста</p>}
+      </div>
+
+      <div className="cart__oreder-info">
+        <CartOrderInfo />
+      </div>
+
+    </section>
+  );
+};

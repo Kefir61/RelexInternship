@@ -21,46 +21,46 @@ export const CartOrderInfo: FC = () => {
         dispatch(setComment({comment}));
     };
 
-    return(
-        <section className='cart-order-info'>
+  return (
+    <section className="cart-order-info">
+      
+      <div className="cart-order-info__item">
+        <p className="cart-order-info__title">Итого:</p>
+        <p className="cart-order-info__price">{totalPrice}</p>
+      </div>
+
+      <div className='cart-order-info__item'>
+        <p className='cart-order-info__title'>Товаров:</p>
+        <p className='cart-order-info__title'>{cartList.length && `${cartList.length} шт.`}</p>
+      </div>
+
+      <div className='cart-order-info__item'>
+        <p className='cart-order-info__title'>Способ получения:</p>
+        <p className='cart-order-info__title'>{deliveryMethod}</p>
+      </div>
+
+      <div className='cart-order-info__comment'>
+        <p className='cart-order-info__title'>Комментарий к заказу:</p>
+        <TextArea
+          placeholder="Хочу получить заказ во второй половине дня"
+          autoSize={{ minRows: 5, maxRows: 6 }}
+          onChange={onChangeTextfield}
+          className='cart-order-info__textarea'
+          id="thanks" 
+          name="thanks"
+        />
+      </div>
+
+      <button 
+        className={
+          !cartList.length
+            ? "cart-order-info__link disabled"
+            : "cart-order-info__link"
+        }
+        onClick={() => navigate(PageRoutes.CONFIRM_ORDER)}
+        disabled={!cartList.length}
+      >Оформить заказ</button>
             
-            <div className='cart-order-info__item'>
-                <p className='cart-order-info__title'>Итого:</p>
-                <p className='cart-order-info__price'>{totalPrice}</p>
-            </div>
-
-            <div className='cart-order-info__item'>
-                <p className='cart-order-info__title'>Товаров:</p>
-                <p className='cart-order-info__title'>{cartList.length && `${cartList.length} шт.`}</p>
-            </div>
-
-            <div className='cart-order-info__item'>
-                <p className='cart-order-info__title'>Способ получения:</p>
-                <p className='cart-order-info__title'>{deliveryMethod}</p>
-            </div>
-
-            <div className='cart-order-info__comment'>
-                <p className='cart-order-info__title'>Комментарий к заказу:</p>
-                <TextArea
-                    placeholder="Хочу получить заказ во второй половине дня"
-                    autoSize={{ minRows: 5, maxRows: 6 }}
-                    onChange={onChangeTextfield}
-                    className='cart-order-info__textarea'
-                    id="thanks" 
-                    name="thanks"
-                />
-            </div>
-
-            <button 
-            className={
-                !cartList.length
-                  ? "cart-order-info__link disabled"
-                  : "cart-order-info__link"
-                }
-                onClick={() => navigate(PageRoutes.CONFIRM_ORDER)}
-                disabled={!cartList.length}
-            >Оформить заказ</button>
-            
-        </section>
-    )
+    </section>
+  )
 }

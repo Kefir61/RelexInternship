@@ -3,7 +3,7 @@ import "./shopItem.scss";
 import { StarOutlined } from "@ant-design/icons";
 import { ShopProductItem } from "src/store/slices/shopSlice";
 import { ProductBuy } from "../productBuy";
-import { Button, Space } from "antd";
+import { Button } from "antd";
 /*
  * Component shop item
  */
@@ -11,13 +11,20 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   mainImageId,
   price,
   name,
+  productVarieties,
 }) => {
-  const colors = ['red', 'green', 'blue']
-  const sizes = ['XS', 'L', 'M']
+  const colors = [...new Set(productVarieties.map((item: any) => item.color))];
+  const sizes = [...new Set(productVarieties.map((item: any) => item.size))];
+
+  const imgUrl = mainImageId
+    ? `${process.env.IMAGE_URL}?id=${mainImageId}`
+    : `${process.env.IMAGE_URL}`;
   const [favotites, setFavorites] = useState(false);
   return (
     <div className="shop--items__item shop--item">
-      <img src={`${mainImageId}`} alt="img" className="shop--item__img" />
+      <div className="shop--item__img">
+        <img src={imgUrl} alt="img" />
+      </div>
       <StarOutlined
         style={favotites ? { color: "gold" } : {}}
         className="shop--item__favotites"
@@ -25,13 +32,11 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       />
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
-        <div className="item--informations__stock">
-          В наличии: {`0`} шт
-        </div>
+        <div className="item--informations__stock">В наличии: {`0`} шт</div>
       </div>
       <div className="shop--item__title">{name}</div>
       <div className="shop--item__colors">
-        {colors.length != 0 && (
+        {colors[0] != null && (
           <>
             Цвета:
             {colors.map((item, index) => (
@@ -45,7 +50,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
         )}
       </div>
       <div className="shop--item__sizes">
-        {sizes.length != 0 && (
+        {sizes[0] != null && (
           <>
             Размеры:
             {sizes.map((item, index) => (
@@ -56,7 +61,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <ProductBuy/>
+      <ProductBuy id={productVarieties[0].id} />
       <Button>Подробнее</Button>
     </div>
   );

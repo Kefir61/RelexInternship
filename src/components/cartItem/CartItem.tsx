@@ -10,20 +10,20 @@ import { countTotalPrice } from '../../store/slices/cartSlice';
 interface CartItemProps{
     removeCartItem: (item: any) => void;
     id: number;
-    imgUrl: string;
+    mainImageId: number;
     price: number;
     amount: number;
-    title: string;
+    name: string;
     colors: string[];
     sizes: string[];
 }
 
 export const CartItem: FC<CartItemProps> = ({
     id,
-    imgUrl,
+    mainImageId,
     price,
     amount,
-    title,
+    name,
     colors,
     sizes,
     removeCartItem
@@ -55,12 +55,12 @@ export const CartItem: FC<CartItemProps> = ({
             
             <div className='cart-item__left'>
                 <div className='cart-item__image'>
-                    <img src={imgUrl} alt=''/>
+                    <img src={`${mainImageId}`} alt=''/>
                 </div>            
 
                 <div className='cart-item__info info'>
 
-                    <h2 className='info__title'>{title}</h2>
+                    <h2 className='info__title'>{name}</h2>
 
                     <div className='info__size'>
                         <Sizes sizes={sizes} sizeName='S'/>

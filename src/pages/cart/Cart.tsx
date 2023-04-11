@@ -22,7 +22,7 @@ export const Cart: FC = () => {
 
     return (
         <section className='cart'>
-            <div className='cart__items'>
+            {/* <div className='cart__items'>
                 {loading && <div className='cart__loader'><Loader /></div>}
 
                 {error ? <div className='cart__error'>Что-то пошло не так. Попробуйте еще раз</div>
@@ -37,7 +37,7 @@ export const Cart: FC = () => {
             <div className='cart__oreder-info'>
                 <CartOrderInfo cartList={cartList}  />
                 <button className='cart__button'>Оформить заказ</button>
-            </div>
+            </div> */}
         </section>
     )
 }

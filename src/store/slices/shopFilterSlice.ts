@@ -1,19 +1,17 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { TSortDirection } from "./shopSlice";
 
 interface FilterSliceState {
   filterSize: string;
   filterColor: string;
-  sort: string;
-  currentPage: number;
+  sort: TSortDirection;
 }
 
 const initialState: FilterSliceState = {
   filterSize: "",
   filterColor: "",
-  sort: "",
-  currentPage: 1,
+  sort: "ASC",
 };
 
 const shopFilterSlice = createSlice({
@@ -26,16 +24,14 @@ const shopFilterSlice = createSlice({
     setFilterColor(state, action: PayloadAction<string>) {
       state.filterColor = action.payload;
     },
-    setSort(state, action: PayloadAction<string>) {
+    setSort(state, action: PayloadAction<TSortDirection>) {
       state.sort = action.payload;
-    },
-    setPage(state, action: PayloadAction<number>) {
-      state.currentPage = action.payload;
     },
   },
 });
 export const selectFilter = (state: RootState) => state.shopFilter;
 
-export const {setFilterSize, setFilterColor, setSort, setPage} = shopFilterSlice.actions;
+export const { setFilterSize, setFilterColor, setSort } =
+  shopFilterSlice.actions;
 
 export default shopFilterSlice.reducer;

@@ -10,8 +10,10 @@ export const Product: FC = ({}) => {
         <div className="product--info__images">
           <div className="info--images__scroll"></div>
           <div className="info--images__main">
-            <img/>
-            <Button className="images--main__button" type="link">Посмотреть</Button>
+            <img />
+            <Button className="images--main__button" type="link">
+              Посмотреть
+            </Button>
           </div>
           <StarOutlined />
         </div>
@@ -33,7 +35,7 @@ export const Product: FC = ({}) => {
           <span>Колиество</span>
           <InputNumber min={1} max={10} defaultValue={0} />
         </div>
-        <ProductBuy />
+        {/* <ProductBuy /> */}
       </div>
     </div>
   );

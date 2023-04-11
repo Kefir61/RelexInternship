@@ -96,12 +96,13 @@ const myThanksSlice = createSlice({
     builder
     .addCase(fetchMyThanks.pending, (state)=>{
       state.loading = true
+      state.list = [];
       state.error = ''
     })
-    .addCase(fetchMyThanks.fulfilled, (state, action)=>{
+    .addCase(fetchMyThanks.fulfilled, (state, action)=>{      
       state.list = action.payload.history;
       state.totalPages = action.payload.totalPages;
-      state.loading = false
+      state.loading = false;
     })
     .addCase(fetchMyThanks.rejected, (state, action)=>{
       state.loading = false

@@ -1,3 +1,8 @@
+/**
+ * Translation of colors from English into Russian
+ * @param {enColors} enColors - Array of English color values
+ * @returns {ruColors} - Array of Russian color values
+ */
 export const translateColor = (enColors:string[]) => {
     const ruColors = enColors.map((item) => {
       switch(item){

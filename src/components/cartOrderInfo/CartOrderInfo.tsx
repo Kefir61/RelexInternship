@@ -4,12 +4,13 @@ import './CartOrderInfo.scss';
 import { countTotalPrice, selectCart, setComment } from '../../store/slices/cartSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from '../../store/store';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PageRoutes } from "@utils";
 
 export const CartOrderInfo: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {totalPrice, cartList, deliveryMethod} = useSelector(selectCart);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         dispatch(countTotalPrice({cartList}))
@@ -50,12 +51,15 @@ export const CartOrderInfo: FC = () => {
                 />
             </div>
 
-            <Link
-              className="cart-order-info__link"
-              to={PageRoutes.VALIDATE_ORDER}
-            >
-              Оформить заказ
-            </Link>
+            <button 
+            className={
+                !cartList.length
+                  ? "cart-order-info__link disabled"
+                  : "cart-order-info__link"
+                }
+                onClick={() => navigate(PageRoutes.CONFIRM_ORDER)}
+                disabled={!cartList.length}
+            >Оформить заказ</button>
             
         </section>
     )

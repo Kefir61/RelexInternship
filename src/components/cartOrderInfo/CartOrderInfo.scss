@@ -33,5 +33,10 @@
         display: block;
         text-align: center;
         text-decoration: none;
+        cursor: pointer;
+
+        &.disabled{
+            background-color: #808080;   
+        }
     }
 }

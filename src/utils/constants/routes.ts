@@ -7,7 +7,7 @@ export enum PageRoutes {
     EVENT = 'event/:id',
     SHOP_PRODUCT = 'shop/product/:id',
     THANKS = 'thanks',
-    SHOPPING_CART = 'shopcart',
+    SHOPPING_CART = '/shopcart',
     FAVOURITES = 'favourites',
     CREATE_EVENT = 'create-event',
     PROFILE = 'profile',
@@ -15,5 +15,5 @@ export enum PageRoutes {
     PUBLISH_EVENT = 'publish-event',
     USERES_ORDERS = 'orders',
     FINANCE_HISTORY = 'finance_history',
-    VALIDATE_ORDER = 'validate_order'
+    CONFIRM_ORDER = '/confirm_order'
 };

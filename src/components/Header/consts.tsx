@@ -16,10 +16,11 @@ export const menuLinks = {
   [`/${PageRoutes.SHOP}`]: "Магазин",
   [`/${PageRoutes.THANKS}`]: "Поблагодарить",
   [`/${PageRoutes.PROFILE}`]: "Профиль",
-  [`/${PageRoutes.SHOPPING_CART}`]: "Корзина",
+  [`${PageRoutes.SHOPPING_CART}`]: "Корзина",
   [`/${PageRoutes.FAVOURITES}`]: "Избранное",
   [`/${PageRoutes.USERES_ORDERS}`]: "Мои заказы",
   [`/${PageRoutes.FINANCE_HISTORY}`]: "История финансовых операций",
+  [`${PageRoutes.CONFIRM_ORDER}`]: "Подтверждение заказа",
 };
 
 export const MenuItems: MenuProps["items"] = [

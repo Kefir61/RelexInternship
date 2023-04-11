@@ -15,11 +15,17 @@
     }
 
     &__image{
-        background-color: rgb(128, 128, 255);
+        margin: 0 0.5rem;       
+
+        @media screen and (max-width: 37.5em){
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    &__img{
         width: 11rem;
         height: 10rem;
-        margin: 0 0.5rem;
-
+        
         @media screen and (max-width: 67.8125em){
             width: 9rem;
             height: 8rem;
@@ -33,10 +39,9 @@
         @media screen and (max-width: 49.0625em){
             width: 9rem;
             height: 8rem;
-        }
-
+        }  
+        
         @media screen and (max-width: 37.5em){
-            margin-bottom: 0.5rem;
             width: 11rem;
             height: 10rem;
         }

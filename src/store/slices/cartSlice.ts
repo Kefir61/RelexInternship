@@ -1,13 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import { getCart } from '../../utils/api/requests/cartRequest';
-import { ShopProductItem } from './shopSlice';
+import { changeQuantity, getCart } from '../../utils/api/requests/cartRequest';
 
-export const fetchCart = createAsyncThunk<any, any, {rejectValue: string}>(
+export const fetchCart = createAsyncThunk<fetchCartProps, {}, {rejectValue: string}>(
     'cart/fetchCart',
     async function(_, {rejectWithValue}) {
         try {
             const response = await getCart();
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const changeCartItemQuantity = createAsyncThunk<any, any, {rejectValue: string}>(
+    'cart/ChangeCartItemQuantity',
+    async function(data, {rejectWithValue}) {
+        console.log(data)
+        try {
+            const response = await changeQuantity(data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -30,9 +42,14 @@ export interface cartItemProps{
     quantity: number
 } 
 
+export interface fetchCartProps{
+    cartItems: cartItemProps[];
+    deliveryMethod: string,
+}
+
 interface CartSliseState {
     cartList: cartItemProps[];
-    deliveryMethod: string,
+    deliveryMethod: string;
     loading: boolean;
     status: string | null;
     error: boolean;
@@ -57,7 +74,6 @@ const cartSlice = createSlice({
         countTotalPrice(state, action) {
             state.totalPrice = 0;
             state.cartList.map((item) => {
-                
                 if(item.productVariety.id === action.payload.id){
                     item.quantity = action.payload.quantity
                 }
@@ -65,7 +81,7 @@ const cartSlice = createSlice({
             })
         },
         setComment(state, action){
-            state.comment = action.payload;
+            state.comment = action.payload.comment;
         }
     },
     extraReducers: (builder) => {
@@ -79,6 +95,16 @@ const cartSlice = createSlice({
             state.deliveryMethod = action.payload.deliveryMethod;
         })
         .addCase (fetchCart.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true;
+        })
+        .addCase (changeCartItemQuantity.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase (changeCartItemQuantity.fulfilled, (state, action) => {
+            state.loading = false;
+        })
+        .addCase (changeCartItemQuantity.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         })

@@ -2,40 +2,40 @@ import React, { FC, useState } from 'react';
 import { InputNumber } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import './CartItem.scss';
-import { Colors, Sizes } from '@components';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { cartItemProps, cartProductProps, countTotalPrice } from '../../store/slices/cartSlice';
+import { cartItemProps, countTotalPrice, changeCartItemQuantity } from '../../store/slices/cartSlice';
 
 export const CartItem: FC<cartItemProps> = (props) => {
     const [quantityValue, setQuantityValue] = useState(1);
     const [totalPrice, setTotalPrice] = useState(props.productVariety.price);
-    const [error, setError] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const imgUrl = props.productVariety.mainImageId 
+    ? `http://relex-coin.relex.ru:9102/api/shop/images?id=${props.productVariety.mainImageId}`
+    : "http://relex-coin.relex.ru:9102/api/shop/images";
+    const id = props.productVariety.id; 
 
     const onChangeQuantityField = (quantity: number) => {
-        if(quantity > props.productVariety.quantity){
-            setError(true); 
-            setTimeout(() => setError(false), 3000)  
-        } else {
-            setQuantityValue(quantity);
-            setTotalPrice(quantity*props.productVariety.price);
-            setError(false);
+        setQuantityValue(quantity);
+        setTotalPrice(quantity*props.productVariety.price);
+        dispatch(countTotalPrice({id, quantity}))
 
-            const id = props.productVariety.id;            
-            dispatch(countTotalPrice({id, quantity}))
-        }
+        if(quantity === 0 || quantity === null){
+            deleteItem();
+        } 
+    }
 
-        // if(quantity === 0 || quantity === null){
-        //     removeCartItem(id);
-        // }
+    const deleteItem = () => {
+        const quantity = 2;
+        const productVarietyId = id
+        dispatch(changeCartItemQuantity({productVarietyId, quantity}))   
     }
     
     return (
         <section className='cart-item'>
             
             <div className='cart-item__image'>
-                <img src='' alt=''/>
+                <img className='cart-item__img' src={imgUrl} alt=''/>
             </div>  
                 
             <div className='cart-item__right'>                           
@@ -46,19 +46,14 @@ export const CartItem: FC<cartItemProps> = (props) => {
 
                     <div className='info__size'>
                         {props.productVariety.size && <p className='info__size'>Размер: {props.productVariety.size}</p>} 
-                        {/* <Sizes sizes={sizes} sizeName='S'/> */}
                     </div>
 
                     <div className='info__color color'>
                         <p className='color__title'>Цвет: </p>
                         <div className='color__item' 
-                            style={{ backgroundColor: `${props.productVariety.color}` }}></div> 
-                        {/* <Colors colors={colors} colorName='blue'/> */}
+                            style={{ backgroundColor: `${props.productVariety.color}` }}
+                        ></div>
                     </div>
-
-                    {error && 
-                        <p className='info__error'>Вы не можете заказать больше, чем есть в наличии</p>
-                    }
 
                     <div className='info__quantity quantity'>
                         <div className='quantity__input-wrapper'>
@@ -74,7 +69,8 @@ export const CartItem: FC<cartItemProps> = (props) => {
                         </div>
                         <p  className='quantity__text'>шт.</p>
 
-                        <p  className='quantity__in-stock'>В наличии {props.productVariety.quantity} шт.</p>
+                        <p className='quantity__in-stock'>В наличии {props.productVariety.quantity} шт.</p>
+                        
                     </div>
                 </div>
 
@@ -87,7 +83,7 @@ export const CartItem: FC<cartItemProps> = (props) => {
                     </div>
                 
                     <div className='cart-item__bin'>
-                        <DeleteOutlined /> {/*  onClick={() => removeCartItem(id)}*/}
+                        <DeleteOutlined onClick={deleteItem} /> 
                     </div>
                     
                 </div>

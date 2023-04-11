@@ -23,7 +23,6 @@ export const Header: FC = () => {
   const {balance} = useSelector(selectBalance);
   const {cartList} = useSelector(selectCart);
 
-
   useEffect(() => {
     setMobileMenuOpen(false);
     dispatch(fetchBalance({}));
@@ -118,7 +117,7 @@ export const Header: FC = () => {
               <ShoppingCartOutlined className="shopping-cart__icon" />
             </Link>
             
-            {cartList.length && 
+            {!!cartList.length && 
               <div className="shopping-cart__section">
                 <p className="shopping-cart__quantity">
                   {cartList.length}

@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { FC } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PageRoutes } from "@utils";
 import { PrivateWrapper, Layout } from "@components";
 import {

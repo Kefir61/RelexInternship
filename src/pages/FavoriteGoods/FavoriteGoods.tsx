@@ -1,9 +1,9 @@
-import { ListWithPagination } from "@components";
-import React, { FC, useState } from "react";
-import "./FavoriteGoodsStyle.scss";
 import { SortAscendingOutlined, SortDescendingOutlined } from "@ant-design/icons";
-import { ShopProductItem } from "../../store/slices/shopSlice";
+import { FavoriteProduct, ListWithPagination } from "@components";
+import React, { FC, useState } from "react";
 import { appSelector } from "../../store/hooks";
+import { ShopProductItem } from "../../store/slices/shopSlice";
+import "./FavoriteGoodsStyle.scss";
 
 export const FavoriteGoods: FC = () => {
   const GoodsList = appSelector<ShopProductItem[]>((state) => state.shop.list);
@@ -35,7 +35,7 @@ export const FavoriteGoods: FC = () => {
         </div>
       </div>
       {GoodsList.map((good) => (
-        <div>{good.title}</div>
+        <FavoriteProduct item={good} />
       ))}
     </div>
   );

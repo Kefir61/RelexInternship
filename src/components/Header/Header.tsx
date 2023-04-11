@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import "./Header.scss";
-import { IUserInfo, PageRoutes } from "@utils";
+import { IUserInfo, PageRoutes, generateFio } from "@utils";
 import { Link, useLocation } from "react-router-dom";
 import { ProfileItems, MenuItems, PageHeader } from "@components";
 import { AppDispatch, RootState } from "src/store/store";
@@ -136,7 +136,7 @@ export const Header: FC = () => {
                   <UserOutlined />
                 </div>
                 <span className="user__p dropdown__p">
-                  {user.lastName}
+                  {generateFio(user)}
                 </span>
                 <DownOutlined />
               </div>

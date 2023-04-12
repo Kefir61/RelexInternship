@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { getCart } from "../../utils/api/requests/cartRequest";
+
 type CartItem = {
   id: number;
   mainImageId: number;

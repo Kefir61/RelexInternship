@@ -26,7 +26,7 @@ export const Shop = () => {
         currentPage: currentPage,
         pageSize: 5,
         totalPages: totalPages,
-        descending: sort,
+        order: sort,
         color: filterColor,
         size: filterSize,
       })

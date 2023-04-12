@@ -13,13 +13,16 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   name,
   productVarieties,
 }) => {
-  const colors = [...new Set(productVarieties.map((item: any) => item.color))];
-  const sizes = [...new Set(productVarieties.map((item: any) => item.size))];
-
+  const colors = Array.from(new Set(productVarieties.map((item: any) => item.color)));
+  const sizes = Array.from(new Set(productVarieties.map((item: any) => item.size)));
+console.log(colors)
   const imgUrl = mainImageId
+  //TODO: поменять на BASE_URL, когда это исправят на беке
     ? `${process.env.IMAGE_URL}?id=${mainImageId}`
     : `${process.env.IMAGE_URL}`;
+
   const [favotites, setFavorites] = useState(false);
+
   return (
     <div className="shop--items__item shop--item">
       <div className="shop--item__img">
@@ -36,7 +39,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       </div>
       <div className="shop--item__title">{name}</div>
       <div className="shop--item__colors">
-        {colors[0] != null && (
+        {colors.length != 0 && (
           <>
             Цвета:
             {colors.map((item, index) => (
@@ -50,7 +53,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
         )}
       </div>
       <div className="shop--item__sizes">
-        {sizes[0] != null && (
+        {sizes.length != 0 && (
           <>
             Размеры:
             {sizes.map((item, index) => (

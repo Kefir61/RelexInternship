@@ -1,8 +1,8 @@
 import axiosGlobal from "axios";
-import { BASE_URL, updateAccessToken } from "@utils";
+import { updateAccessToken } from "@utils";
 
 export const axiosOur = axiosGlobal.create({
-  baseURL: BASE_URL,
+  baseURL: process.env.BASE_URL,
   responseType: "json",
   headers: {
     "Content-Type": "application/json",

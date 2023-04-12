@@ -37,15 +37,15 @@ type ShopFetch = {
   colors: string[];
   sizes: string[];
   totalElements: number;
-  descending: boolean;
+  order: TSortDirection;
 };
 
 type FetchShopArgs = {
   pageSize: number;
   totalPages: number;
-  color: string;
-  size: string;
-  descending: TSortDirection;
+  color?: string;
+  size?: string;
+  order: TSortDirection;
   currentPage: number;
 };
 
@@ -60,30 +60,33 @@ interface ShopSliceState {
   status: TStatus;
 }
 
+type TDefaultParams = {
+  currentPage: string;
+  pageSize: string;
+  totalPages: string;
+  order: string;
+  size?: string;
+  color?: string;
+};
+
 export const fetchProducts = createAsyncThunk<ShopFetch, FetchShopArgs>(
   "shop/fetchShopStatus",
   async (requestParams) => {
-    const defaultParams = requestParams.color
-      ? { color: `${requestParams.color}` }
-      : {};
-    const params = new URLSearchParams(
-      requestParams.size
-        ? {
-            ...defaultParams,
-            size: `${requestParams.size}`,
-            currentPage: `${requestParams.currentPage}`,
-            pageSize: `${requestParams.pageSize}`,
-            totalPages: `${requestParams.totalPages}`,
-            descending: `${requestParams.descending}`,
-          }
-        : {
-            ...defaultParams,
-            currentPage: `${requestParams.currentPage}`,
-            pageSize: `${requestParams.pageSize}`,
-            totalPages: `${requestParams.totalPages}`,
-            descending: `${requestParams.descending}`,
-          }
-    );
+    const defaultParams = <TDefaultParams>{
+      currentPage: `${requestParams.currentPage}`,
+      pageSize: `${requestParams.pageSize}`,
+      totalPages: `${requestParams.totalPages}`,
+      order: `${requestParams.order}`,
+    };
+
+    if (requestParams.color) {
+      defaultParams["color"] = `${requestParams.color}`;
+    }
+    if (requestParams.size) {
+      defaultParams["size"] = `${requestParams.size}`;
+    }
+
+    const params = new URLSearchParams(defaultParams);
     const { data } = await axiosOur.get<ShopFetch>(`/shop/products`, {
       params,
     });

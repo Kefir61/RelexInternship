@@ -12,7 +12,7 @@ export const Sort = () => {
   };
   return (
     <div onClick={changeSortValue} className="sort">
-      По цене:{" "}
+      По цене:
       <ArrowDownOutlined
         className={`sort--arow ${sort === "DESC" ? "sort--arrow__top" : ""}`}
       />

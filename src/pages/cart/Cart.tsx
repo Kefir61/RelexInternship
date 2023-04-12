@@ -22,6 +22,7 @@ export const Cart: FC = () => {
 
     return (
         <section className='cart'>
+            //TODO: При разрешении конфликтов и определении типов пропопсов вернуть
             {/* <div className='cart__items'>
                 {loading && <div className='cart__loader'><Loader /></div>}
 

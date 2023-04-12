@@ -27,7 +27,7 @@ const initialState: loaderSliceState = {
 }
 
 const sendThanksSlice = createSlice({
-    name: 'loader',
+    name: 'thanks',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

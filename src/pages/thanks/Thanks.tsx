@@ -159,8 +159,8 @@ export const Thanks: FC = () => {
         )}
 
         {response && (
-          <div className={success ? "form__error success" : "form__error error"}>
-            <p className="error__title">{responseMessage}</p>
+          <div className={success ? "form__response success" : "form__response error"}>
+            <p className="response__title">{responseMessage}</p>
           </div>
         )}
 

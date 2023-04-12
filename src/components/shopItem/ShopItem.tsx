@@ -11,6 +11,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   mainImageId,
   price,
   name,
+  amount,
   productVarieties,
 }) => {
   const colors = Array.from(new Set(productVarieties.map((item: any) => item.color)));
@@ -35,7 +36,7 @@ console.log(colors)
       />
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
-        <div className="item--informations__stock">В наличии: {`0`} шт</div>
+        <div className="item--informations__stock">В наличии: {amount} шт</div>
       </div>
       <div className="shop--item__title">{name}</div>
       <div className="shop--item__colors">

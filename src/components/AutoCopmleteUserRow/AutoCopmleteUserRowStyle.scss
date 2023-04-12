@@ -1,0 +1,10 @@
+.userRow {
+    display: flex;
+    align-items: center;
+    gap:10px;
+    
+    .userImage {
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -1,4 +1,4 @@
-import { IDelivery } from '@utils';
+import { IDelivery, INotification, INotificationInner } from '@utils';
 export interface IUserInfo {
     id: string,
     username: string,
@@ -17,6 +17,7 @@ export interface IUserInfo {
     showBirthday: boolean,
     fromOffice: boolean,
     userDeliveries: IDelivery[],
+    userNotifications: INotificationInner
 };
 
 export interface IUserState {

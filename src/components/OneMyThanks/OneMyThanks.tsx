@@ -1,12 +1,11 @@
-import { EOperaionType, EReactionType, IOneMyThanks, briefLongNum, generateFio } from "@utils";
-import React, { useMemo, useState } from "react";
-import { FC } from "react";
-import "./OneMyThanksStyle.scss";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { EOperaionType, EReactionType, IOneMyThanks, briefLongNum, generateFio } from "@utils";
 import { format, utcToZonedTime } from "date-fns-tz";
+import React, { FC, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/store/store";
 import { fetchReactToThank } from "../../store/slices/myThanksSlice";
+import "./OneMyThanksStyle.scss";
 
 interface OneMyThanksProps {
   thanks: IOneMyThanks;
@@ -34,14 +33,19 @@ export const OneMyThanks: FC<OneMyThanksProps> = ({ thanks }) => {
     }
   };
 
+  const ThankFromOrTo = useMemo(
+    () => `Благодарность ${thanks.operationType === EOperaionType.TO ? "для" : "от"} ${fio}`,
+    []
+  );
+
   return (
     <div className="congratsElem">
-      <div className={thanks.thankAmount > 0 ? "getCurrency" : "lostCurrency"}>{formatedValue}</div>
+      <div className={thanks.operationType === EOperaionType.FROM ? "getCurrency" : "lostCurrency"}>
+        {formatedValue}
+      </div>
       <div className="infoBlock">
         <div className="dateAndCreator">
-          <div>
-            Благодарность {thanks.operationType === EOperaionType.TO ? "для" : "от"} {fio}
-          </div>
+          <div>{ThankFromOrTo}</div>
           <div>{farmatedDate}</div>
         </div>
         <div>{thanks.comment}</div>

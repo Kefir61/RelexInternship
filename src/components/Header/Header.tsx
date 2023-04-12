@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import "./Header.scss";
-import { IUserInfo, PageRoutes } from "@utils";
+import { IUserInfo, PageRoutes, generateFio } from "@utils";
 import { Link, useLocation } from "react-router-dom";
 import { ProfileItems, MenuItems, PageHeader } from "@components";
 import { AppDispatch, RootState } from "src/store/store";
@@ -22,9 +22,18 @@ export const Header: FC = () => {
   const {balance} = useSelector(selectBalance);
 
   useEffect(() => {
-    setMobileMenuOpen(false);
+    setMenuOpen();
     dispatch(fetchBalance({}));
   }, [location]);
+
+  const setMenuOpen = () =>{
+    if(mobileMenuOpen){
+      document.querySelector('body').classList.remove('menu-open')
+    }else{
+      document.querySelector('body').classList.add('menu-open')
+    }
+    setMobileMenuOpen(!mobileMenuOpen)
+  }
   
   return (
     <>
@@ -68,7 +77,7 @@ export const Header: FC = () => {
         <div className="header__mobile-menu mobile-menu">
           <div
             className="mobile-menu__burger burger"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={setMenuOpen}
           >
             <span
               className={
@@ -127,7 +136,7 @@ export const Header: FC = () => {
                   <UserOutlined />
                 </div>
                 <span className="user__p dropdown__p">
-                  {user.lastName}
+                  {generateFio(user)}
                 </span>
                 <DownOutlined />
               </div>

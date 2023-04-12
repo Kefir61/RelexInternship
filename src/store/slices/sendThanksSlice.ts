@@ -1,14 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { API_URLS, axiosOur } from '@utils';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { postThanks } from '../../utils/api/requests/sendThanksRequest';
 import { RootState } from "../store";
 
 export const sendThanks = createAsyncThunk<number, string, {rejectValue: string}>(
     'thanks/sendThanks',
     async (data: string, {rejectWithValue}) => {
         try{
-            const response = await axiosOur.post(`${API_URLS.THANKS}`,
-            data
-        )        
+            const response = await postThanks(data);
         return response.status;
         }catch(error){
             return rejectWithValue(error.code);
@@ -29,7 +27,7 @@ const initialState: loaderSliceState = {
 }
 
 const sendThanksSlice = createSlice({
-    name: 'loader',
+    name: 'thanks',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

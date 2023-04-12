@@ -28,7 +28,7 @@ export const fetchMyThanks = createAsyncThunk<getJsonType, getListParams, {rejec
       currentPage:`${requestParams.currentPage}`,
       pageSize: `${requestParams.pageSize}`,
     });
-    const data = await axiosOur.get<getJsonType>(`/thanks/history/user`, {params})
+    const data = await axiosOur.get<getJsonType>(`/core/thanks/history/user`, {params})
     .then((response)=>response.data)
     .catch((error)=>rejectWithValue(error))
     return data;
@@ -44,7 +44,7 @@ export const fetchReactToThank = createAsyncThunk<string, reactParams, {rejectVa
   'thanks/fetchReactToThank',
   async (requestParams, { rejectWithValue, dispatch }) => {
     const body = {userReaction: requestParams.reaction}
-    await axiosOur.post(`/thanks/${requestParams.id}/vote/user`, body)
+    await axiosOur.post(`/core/thanks/${requestParams.id}/vote/user`, body)
     .then((response)=>{ 
       dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))           
       })

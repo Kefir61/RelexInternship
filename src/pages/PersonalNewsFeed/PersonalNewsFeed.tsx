@@ -1,22 +1,18 @@
-import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { AutoComplete, ListWithPagination, Loader, OneMyThanks } from "@components";
-import { IOneMyThanks, IUser, generateFio } from "@utils";
-import { Input } from "antd";
 import React, { FC, useEffect, useMemo } from "react";
+import "./PersonalNewsFeedStyle.scss";
+import { Input } from "antd";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/store/store";
+import { AutoComplete, MyThanks } from "@components";
+import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { IUser, generateFio } from "@utils";
 import { AutoCompleteUserRow } from "../../components/AutoCopmleteUserRow/AutoCopmleteUserRow";
 import { appSelector } from "../../store/hooks";
 import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
-import { fetchMyThanks } from "../../store/slices/myThanksSlice";
 import "./PersonalNewsFeedStyle.scss";
 
 export const PersonalNewsFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const MyThanksLoading = appSelector<boolean>((state) => state.MyThanks.loading);
-  const MyThanksList = appSelector<IOneMyThanks[]>((state) => state.MyThanks.list);
-  const MyThanksPageCount = appSelector<number>((state) => state.MyThanks.totalPages);
-
   const currentUserId = appSelector<string>((state) => state.UserInfo.user.id);
   const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
 
@@ -52,18 +48,8 @@ export const PersonalNewsFeed: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchMyThanks({ currentPage: 0, pageSize: 3 }));
     dispatch(fetchUsers());
   }, []);
-
-  const onChangeThanksPage = (pageNum: number) => {
-    dispatch(
-      fetchMyThanks({
-        currentPage: pageNum - 1,
-        pageSize: 3,
-      })
-    );
-  };
 
   return (
     <div className="content">
@@ -159,19 +145,7 @@ export const PersonalNewsFeed: FC = () => {
           </a>
         </div>
         <div className="congratsBlock">
-          <h3>Мои благодарности:</h3>
-          {MyThanksLoading && <Loader />}
-          {!!MyThanksList.length && !MyThanksLoading && (
-            <ListWithPagination
-              content={MyThanksList}
-              onChangePage={onChangeThanksPage}
-              renderElement={(OneThank: IOneMyThanks) => (
-                <OneMyThanks key={`${OneThank.user.id} ${OneThank.createdAt}`} thanks={OneThank} />
-              )}
-              totalPages={MyThanksPageCount}
-            />
-          )}
-          {!MyThanksList.length && !MyThanksLoading && <div>История пуста</div>}
+          <MyThanks />
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { FC } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PageRoutes } from "@utils";
 import { PrivateWrapper, Layout } from "@components";
 import {
@@ -31,6 +31,7 @@ export const Router: FC = () => {
             <Route path={PageRoutes.FAVOURITES} element={<FavoriteGoods />} />
             <Route path={PageRoutes.SHOPPING_CART} element={<Cart />} />
             <Route path={PageRoutes.SHOP_PRODUCT} element={<Product />} />
+            <Route path={PageRoutes.SHOPPING_CART} element={<Cart />} />
             <Route path={PageRoutes.THANKS} element={<Thanks />} />
             <Route path={PageRoutes.EVENT} element={<p> Событие </p>} />
           </Route>

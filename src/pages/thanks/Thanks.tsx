@@ -1,8 +1,8 @@
-import { AutoComplete, Loader } from "@components";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import { AutoComplete, Loader, MyThanks } from "@components";
 import { appSelector } from "@store";
 import { IUser, generateFio } from "@utils";
 import { Button, Input, InputNumber } from "antd";
-import React, { FC, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AutoCompleteUserRow } from "../../components/AutoCopmleteUserRow/AutoCopmleteUserRow";
 import { selectSendThanks, sendThanks } from "../../store/slices/sendThanksSlice";
@@ -14,7 +14,8 @@ export const Thanks: FC = () => {
   const { TextArea } = Input;
   const [thanksValue, setThanksValue] = useState("");
   const [sumValue, setSumValue] = useState(0);
-  const [disabledButtons, setDisabledButtons] = useState(true);
+  const [disableSendButton, setDisableSendButton] = useState(true);
+  const [disableCancelButton, setDisableCancelButton] = useState(false);
   const [response, setResponse] = useState(false);
   const [success, setSuccess] = useState(true);
   const [responseMessage, setResponseMessage] = useState("");
@@ -39,17 +40,17 @@ export const Thanks: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, []);
-
-  useEffect(() => {
-    thanksValue.trim().length &&
-    sumValue > 0 &&
-    allUsers.findIndex((user) => user.id === userTo) + 1
-      ? setDisabledButtons(false)
-      : setDisabledButtons(true);
+    setDisableSendButton(!
+      (thanksValue.trim().length && 
+      sumValue > 0 && 
+      allUsers.findIndex((user) => user.id === userTo) + 1
+    ));
   }, [thanksValue, sumValue, userTo]);
 
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
+  
   useEffect(() => {
     if (responseStatus === 200) {
       setSuccess(true);
@@ -70,6 +71,10 @@ export const Thanks: FC = () => {
       setSuccess(false);
     }
   }, [errorCode]);
+
+  useEffect(()=>{
+    setDisableCancelButton(loading);
+  }, [loading])
 
   const send = () => {
     const data = JSON.stringify({
@@ -125,13 +130,14 @@ export const Thanks: FC = () => {
               onChange={onChangeSumField}
               type="number"
               min={0}
+              max={999999}
             />
           </div>
         </div>
 
         <div className="form__item">
           <label htmlFor="thanks" className="form__label">
-            Благодарность:{" "}
+            Благодарность:
           </label>
           <div className="form__input-wrapper form__textarea">
             <TextArea
@@ -153,25 +159,35 @@ export const Thanks: FC = () => {
         )}
 
         {response && (
-          <div className={success ? "form__error success" : "form__error error"}>
-            <p className="error__title">{responseMessage}</p>
+          <div className={success ? "form__response success" : "form__response error"}>
+            <p className="response__title">{responseMessage}</p>
           </div>
         )}
 
         <Button
           type="primary"
           size="middle"
-          disabled={disabledButtons}
+          disabled={disableSendButton}
           onClick={send}
           className="form__button"
         >
           Отправить
         </Button>
 
-        <Button type="primary" size="middle" onClick={clearFields} className="form__button">
+        <Button 
+          type="primary"
+          size="middle"
+          onClick={clearFields} 
+          className="form__button"
+          disabled={disableCancelButton}
+        >
           Отменить
         </Button>
       </form>
+
+      <div className="thanks__my-thanks">
+        <MyThanks />
+      </div>
     </section>
   );
 };

@@ -169,7 +169,7 @@ export const Thanks: FC = () => {
         </Button>
 
         <Button type="primary" size="middle" onClick={clearFields} className="form__button">
-          Отменить
+          Очистить поля
         </Button>
       </form>
     </section>

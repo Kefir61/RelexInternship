@@ -72,13 +72,12 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         countTotalPrice(state, action) {
-            state.totalPrice = 0;
-            state.cartList.map((item) => {
-                if(item.productVariety.id === action.payload.id){
-                    item.quantity = action.payload.quantity
+            state.totalPrice = state.cartList.reduce(function(sum, current) {
+                if(current.productVariety.id === action.payload.id){
+                  current.quantity = action.payload.quantity
                 }
-                state.totalPrice += item.quantity*item.productVariety.price
-            })
+                return sum + current.quantity*current.productVariety.price
+            }, 0);
         },
         setComment(state, action){
             state.comment = action.payload.comment;

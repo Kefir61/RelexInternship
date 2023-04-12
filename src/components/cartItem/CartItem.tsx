@@ -7,8 +7,8 @@ import { AppDispatch } from '../../store/store';
 import { cartItemProps, countTotalPrice, changeCartItemQuantity } from '../../store/slices/cartSlice';
 
 export const CartItem: FC<cartItemProps> = (props) => {
-    const [quantityValue, setQuantityValue] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(props.productVariety.price);
+    const [quantityValue, setQuantityValue] = useState(props.quantity);
+    const [totalPrice, setTotalPrice] = useState(props.quantity*props.productVariety.price);
     const dispatch = useDispatch<AppDispatch>();
     const imgUrl = props.productVariety.mainImageId 
     ? `http://relex-coin.relex.ru:9102/api/shop/images?id=${props.productVariety.mainImageId}`
@@ -20,10 +20,10 @@ export const CartItem: FC<cartItemProps> = (props) => {
         setTotalPrice(quantity*props.productVariety.price);
         dispatch(countTotalPrice({id, quantity}));
         const productVarietyId = id;
-        dispatch(changeCartItemQuantity({productVarietyId, quantity}));
+        //dispatch(changeCartItemQuantity({productVarietyId, quantity})); пока не работает бек
 
         if(quantity === 0 || quantity === null){
-            deleteItem();
+            //deleteItem();
         } 
     }
 

@@ -10,7 +10,7 @@ export const Cart: FC = () => {
     const {loading, error, cartList} = useSelector(selectCart);
 
     useEffect(()=>{
-        dispatch(fetchCart({}))
+      dispatch(fetchCart({}))
     }, [])
 
   return (

@@ -3,9 +3,10 @@ import { IShopProductItem } from "@utils";
 import React, { FC, useMemo } from "react";
 import { ImageScroll } from "../ImageScroll";
 import "./FavoriteProductStyle.scss";
+import { ShopProductItem } from "src/store/slices/shopSlice";
 
 interface FavoriteProductProps {
-  item: IShopProductItem;
+  item: ShopProductItem;
 }
 
 export const FavoriteProduct: FC<FavoriteProductProps> = ({ item }) => {
@@ -18,9 +19,9 @@ export const FavoriteProduct: FC<FavoriteProductProps> = ({ item }) => {
   return (
     <div className="FavProductBlock">
       <div className="fotoAndInfo">
-        <ImageScroll images={[item.imgUrl, "s"]} />
+        {/* <ImageScroll images={[item.imgUrl, "s"]} /> */}
         <div className="infoAboutItem">
-          <h2>{item.title}</h2>
+          <h2>{item.name}</h2>
           <div className="colorsAndSizes">
             {!!item.colors.length && (
               <div className="colorBlock">

@@ -1,11 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import "./productBuy.scss";
 import { Button, Space } from "antd";
-export const ProductBuy = () => {
+import { axiosOur, itemToCart } from "@utils";
+
+type ProductBuyProps = {
+  id: number;
+};
+
+export const ProductBuy: FC<ProductBuyProps> = ({ id }) => {
+  const onClickToCart = () => {
+    itemToCart(id);
+  };
   return (
     <Space className="product--buy">
       <Button>Купить</Button>
-      <Button>В корзину</Button>
+      <Button onClick={onClickToCart}>В корзину</Button>
     </Space>
   );
 };

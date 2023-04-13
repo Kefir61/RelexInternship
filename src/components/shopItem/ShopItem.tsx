@@ -3,22 +3,32 @@ import "./shopItem.scss";
 import { StarOutlined } from "@ant-design/icons";
 import { ShopProductItem } from "src/store/slices/shopSlice";
 import { ProductBuy } from "../productBuy";
-import { Button, Space } from "antd";
+import { Button } from "antd";
 /*
  * Component shop item
  */
 export const ShopItem: React.FC<ShopProductItem> = ({
-  imgUrl,
+  mainImageId,
   price,
+  name,
   amount,
-  title,
-  colors,
-  sizes,
+  productVarieties,
 }) => {
+  const colors = [...(new Set(productVarieties.map((item: any) => item.color)))].filter((elem) => elem);
+  const sizes = [...(new Set(productVarieties.map((item: any) => item.size)))].filter((elem) => elem);
+
+  const imgUrl = mainImageId
+    ? //TODO: поменять на BASE_URL, когда это исправят на беке
+      `${process.env.IMAGE_URL}?id=${mainImageId}`
+    : `${process.env.IMAGE_URL}`;
+
   const [favotites, setFavorites] = useState(false);
+
   return (
     <div className="shop--items__item shop--item">
-      <img src={imgUrl} alt="img" className="shop--item__img" />
+      <div className="shop--item__img">
+        <img src={imgUrl} alt="img" />
+      </div>
       <StarOutlined
         style={favotites ? { color: "gold" } : {}}
         className="shop--item__favotites"
@@ -28,7 +38,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
         <div className="item--informations__price">{price}</div>
         <div className="item--informations__stock">В наличии: {amount} шт</div>
       </div>
-      <div className="shop--item__title">{title}</div>
+      <div className="shop--item__title">{name}</div>
       <div className="shop--item__colors">
         {colors.length != 0 && (
           <>
@@ -55,7 +65,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <ProductBuy />
+      <ProductBuy id={productVarieties[0].id} />
       <Button>Подробнее</Button>
     </div>
   );

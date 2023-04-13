@@ -6,12 +6,12 @@ import { AppDispatch } from '../../store/store';
 import { cartItemProps, fetchCart, selectCart } from "../../store/slices/cartSlice";
 
 export const Cart: FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const {loading, error, cartList} = useSelector(selectCart);
+  const dispatch = useDispatch<AppDispatch>();
+  const {loading, error, cartList} = useSelector(selectCart);
 
-    useEffect(()=>{
-      dispatch(fetchCart({}))
-    }, [])
+  useEffect(()=>{
+    dispatch(fetchCart({}))
+  }, [])
 
   return (
     <section className="cart">
@@ -30,7 +30,8 @@ export const Cart: FC = () => {
           !error &&
           cartList.map((product: cartItemProps) => (
             <CartItem key={product.productVariety.id} {...product} />
-          ))}
+          ))
+        }
         
         {!cartList.length && !error && <p className="cart__empty">Корзина пуста</p>}
       </div>

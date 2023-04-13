@@ -17,4 +17,24 @@
             margin-right: 0;
         }
     }
+    
+    &__response{
+        color: #ffffff;
+        background-color: #ff0000;
+        width: 25rem;
+        padding: 1rem;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .success{
+        background-color: #008000;
+    }
+
+    &__loader{
+        width: 25rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 }

@@ -16,15 +16,15 @@ export const CartItem: FC<cartItemProps> = (props) => {
     const id = props.productVariety.id; 
 
     const onChangeQuantityField = (quantity: number) => {
-        setQuantityValue(quantity);
-        setTotalPrice(quantity*props.productVariety.price);
-        dispatch(countTotalPrice({id, quantity}));
-        const productVarietyId = id;
-        //dispatch(changeCartItemQuantity({productVarietyId, quantity})); пока не работает бек
-
         if(quantity === 0 || quantity === null){
-            //deleteItem();
-        } 
+            deleteItem();
+        } else{
+            setQuantityValue(quantity);
+            setTotalPrice(quantity*props.productVariety.price);
+            dispatch(countTotalPrice({id, quantity}));
+            const productVarietyId = id;
+            dispatch(changeCartItemQuantity({productVarietyId, quantity}));
+        }  
     }
 
     const deleteItem = () => {

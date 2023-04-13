@@ -1,5 +1,5 @@
 import TextArea from "antd/es/input/TextArea";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import './CartOrderInfo.scss';
 import { countTotalPrice, selectCart, setComment } from '../../store/slices/cartSlice';
 import { useDispatch, useSelector } from "react-redux";
@@ -9,17 +9,25 @@ import { PageRoutes } from "@utils";
 
 export const CartOrderInfo: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {totalPrice, cartList, deliveryMethod} = useSelector(selectCart);
+    const {totalPrice, cartList, deliveryMethod, error} = useSelector(selectCart);
     const navigate = useNavigate();
+    const [buttonDisabled, setDuttonDisabled] = useState(false)
 
     useEffect(()=>{
-        dispatch(countTotalPrice({cartList}))
+      dispatch(countTotalPrice({cartList}));
+      setDuttonDisabled(!cartList.length);
     }, [cartList])
 
     const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const comment = e.target.value;
         dispatch(setComment({comment}));
     };
+
+    useEffect(() =>{
+      if(error === true && !cartList.length === false){
+        setDuttonDisabled(true)
+      }      
+    }, [error])
 
   return (
     <section className="cart-order-info">
@@ -53,12 +61,12 @@ export const CartOrderInfo: FC = () => {
 
       <button 
         className={
-          !cartList.length
+          buttonDisabled
             ? "cart-order-info__link disabled"
             : "cart-order-info__link"
         }
         onClick={() => navigate(PageRoutes.CONFIRM_ORDER)}
-        disabled={!cartList.length}
+        disabled={buttonDisabled}
       >Оформить заказ</button>
             
     </section>

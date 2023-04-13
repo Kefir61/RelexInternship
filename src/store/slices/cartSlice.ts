@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import { changeQuantity, getCart } from '../../utils/api/requests/cartRequest';
+import { changeQuantity, getCart, sendOrder } from '../../utils/api/requests/cartRequest';
 
 export const fetchCart = createAsyncThunk<fetchCartProps, {}, {rejectValue: string}>(
     'cart/fetchCart',
@@ -14,15 +14,26 @@ export const fetchCart = createAsyncThunk<fetchCartProps, {}, {rejectValue: stri
     }
 );
 
-export const changeCartItemQuantity = createAsyncThunk<any, any, {rejectValue: string}>(
+export const changeCartItemQuantity = createAsyncThunk<fetchCartProps, {}, {rejectValue: string}>(
     'cart/ChangeCartItemQuantity',
     async function(data, {rejectWithValue}) {
-        console.log(data)
         try {
-            const response = await changeQuantity(data);
+            const response = await changeQuantity(data);            
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const sendCartOrder = createAsyncThunk<number, string, {rejectValue: string}>(
+    'cart/sendCartOrder',
+    async function(comment: string, {rejectWithValue}) {
+        try {
+            const response = await sendOrder(comment);
+            return response.status;
+        } catch (error) {
+            return rejectWithValue(error.code);
         }
     }
 );
@@ -51,8 +62,9 @@ interface CartSliseState {
     cartList: cartItemProps[];
     deliveryMethod: string;
     loading: boolean;
-    status: string | null;
+    responseStatus: number;
     error: boolean;
+    errorCode: string;
     totalPrice: number;
     comment: string;
 }
@@ -60,11 +72,12 @@ interface CartSliseState {
 const initialState: CartSliseState = {
     cartList: [],
     loading: false,
-    status: null,
+    responseStatus: 0,
     error: false,
     totalPrice: 0,
     deliveryMethod: '',
-    comment: ''
+    comment: '',
+    errorCode: ''
 };  
 
 const cartSlice = createSlice({
@@ -93,19 +106,29 @@ const cartSlice = createSlice({
             state.cartList = action.payload.cartItems;
             state.deliveryMethod = action.payload.deliveryMethod;
         })
-        .addCase (fetchCart.rejected, (state, action) => {
+        .addCase (fetchCart.rejected, (state) => {
             state.loading = false;
             state.error = true;
         })
-        .addCase (changeCartItemQuantity.pending, (state) => {
+
+        .addCase (changeCartItemQuantity.fulfilled, (state, action) => {
+            state.cartList = action.payload.cartItems;
+        })
+        .addCase (changeCartItemQuantity.rejected, (state) => {
+            state.error = true;
+        })
+
+        .addCase (sendCartOrder.pending, (state) => {
             state.loading = true;
         })
-        .addCase (changeCartItemQuantity.fulfilled, (state, action) => {
+        .addCase (sendCartOrder.fulfilled, (state, action) => {
             state.loading = false;
+            state.responseStatus = action.payload;
         })
-        .addCase (changeCartItemQuantity.rejected, (state, action) => {
+        .addCase (sendCartOrder.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
+            state.errorCode = action.payload
         })
     }
 })

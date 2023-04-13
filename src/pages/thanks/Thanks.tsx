@@ -45,8 +45,7 @@ export const Thanks: FC = () => {
       allUsers.findIndex((user) => user.id === userTo) + 1
     ));
     setDisableClearButton(!(thanksValue.trim().length ||
-      sumValue > 0 || 
-      allUsers.findIndex((user) => user.id === userTo) + 1
+      sumValue > 0
     ));  
   }, [thanksValue, sumValue, userTo]);
 

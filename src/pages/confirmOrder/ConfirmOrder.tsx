@@ -1,22 +1,49 @@
-import React, { FC, useEffect } from "react";
-import { countTotalPrice, selectCart } from '../../store/slices/cartSlice';
+import React, { FC, useEffect, useState } from "react";
+import { countTotalPrice, selectCart, sendCartOrder } from '../../store/slices/cartSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import "./ConfirmOrder.scss";
 import { IUserInfo, PageRoutes } from "@utils";
 import { Button } from "antd";
 import { useNavigate } from "react-router";
+import { Loader } from "@components";
 
 export const ConfirmOrder: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {totalPrice, cartList, comment} = useSelector(selectCart);
+    const {totalPrice, cartList, comment, responseStatus, errorCode, loading} = useSelector(selectCart);
     const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
     const user = AppSelector<IUserInfo>(state => state.UserInfo.user);
     const navigate = useNavigate();
+    const [response, setResponse] = useState(false);
+    const [success, setSuccess] = useState(true);
+    const [responseMessage, setResponseMessage] = useState("");
+    const [buttonDisabled, setDuttonDisabled] = useState(false)
 
     useEffect(()=>{
         dispatch(countTotalPrice({cartList}));
     }, [cartList])
+
+    useEffect(() => {
+        if (responseStatus === 200) {
+          setSuccess(true);
+          setResponse(true);
+          setResponseMessage("Заказ отправлен успешно");
+          setDuttonDisabled(true)
+          setTimeout(() => navigate(PageRoutes.SHOPPING_CART), 5000);
+        }
+      }, [responseStatus]);
+    
+      useEffect(() => {
+        if (errorCode) {
+          if (errorCode === "INSUFFICIENT_BALANCE") {
+            setResponseMessage("Недостаточно баллов на счете");
+          } else {
+            setResponseMessage("Что-то пошло не так. Попробуйте еще раз");
+          }
+          setResponse(true);
+          setSuccess(false);
+        }
+      }, [errorCode]);
 
     return(
         <section className='confirm-order'>
@@ -41,6 +68,18 @@ export const ConfirmOrder: FC = () => {
                 <p className='confirm-order__value'>{comment}</p>
             </div>
 
+            {loading && (
+              <div className="confirm-order__loader">
+                <Loader />
+              </div>
+            )}
+
+            {response && (
+              <div className={success ? "confirm-order__response success" : "confirm-order__response error"}>
+                <p className="response__title">{responseMessage}</p>
+              </div>
+            )}
+
             <Button
                 type="primary"
                 size="middle"
@@ -53,8 +92,9 @@ export const ConfirmOrder: FC = () => {
             <Button
                 type="primary"
                 size="middle"
-                //onClick={} отправка 
+                onClick={() => dispatch(sendCartOrder(comment))}  
                 className="confirm-order__button"
+                disabled={buttonDisabled}
             >
                 Подтвердить
             </Button>

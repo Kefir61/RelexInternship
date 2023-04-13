@@ -1,137 +1,133 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { axiosOur } from "@utils";
 
-type TSortDirection = "ASC" | "DESC";
+export type TSortDirection = "ASC" | "DESC";
 type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
 
-
-
-type FetchShopArgs = {
-  filterSize: string;
-  filterColor: string;
-  sort: TSortDirection;
-  currentPage: number;
+type TProductVarieties = {
+  nameProduct: string;
+  id: number;
+  color?: string;
+  size?: string;
+  quantity: number;
+  mainImageId: number;
+  price: number;
 };
 
 export type ShopProductItem = {
   id: number;
-  imgUrl: string;
+  description: string;
+  mainImageId: number;
+  productImageIds: number[];
+  productVarieties: TProductVarieties[];
+  featured: boolean;
   price: number;
+  name: string;
   amount: number;
-  title: string;
   colors: string[];
   sizes: string[];
 };
 
+type ShopFetch = {
+  contents: ShopProductItem[];
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  colors: string[];
+  sizes: string[];
+  totalElements: number;
+  order: TSortDirection;
+};
+
+type FetchShopArgs = {
+  pageSize: number;
+  totalPages: number;
+  color?: string;
+  size?: string;
+  order: TSortDirection;
+  currentPage: number;
+};
+
 interface ShopSliceState {
   list: ShopProductItem[];
-  loading: boolean;
+  colors: string[];
+  sizes: string[];
+  currentPage: number;
+  totalElements: number;
+  pageSize: number;
+  totalPages: number;
   status: TStatus;
 }
 
-export const fetchMenu = createAsyncThunk<ShopProductItem[], FetchShopArgs>(
+type TDefaultParams = {
+  currentPage: string;
+  pageSize: string;
+  totalPages: string;
+  order: string;
+  size?: string;
+  color?: string;
+};
+
+export const fetchProducts = createAsyncThunk<ShopFetch, FetchShopArgs>(
   "shop/fetchShopStatus",
-  async (params) => {
-    const { filterSize, filterColor, sort, currentPage } = params;
-    const { data } = await axios.get<ShopProductItem[]>(`url`);
+  async (requestParams) => {
+    const defaultParams = <TDefaultParams>{
+      currentPage: `${requestParams.currentPage}`,
+      pageSize: `${requestParams.pageSize}`,
+      totalPages: `${requestParams.totalPages}`,
+      order: `${requestParams.order}`,
+    };
+
+    if (requestParams.color) {
+      defaultParams["color"] = `${requestParams.color}`;
+    }
+    if (requestParams.size) {
+      defaultParams["size"] = `${requestParams.size}`;
+    }
+
+    const params = new URLSearchParams(defaultParams);
+    const { data } = await axiosOur.get<ShopFetch>(`/shop/products`, {
+      params,
+    });
     return data;
   }
 );
 
 const initialState: ShopSliceState = {
-  list: [
-    {
-      id: 1,
-      imgUrl: "",
-      price: 20.0,
-      amount: 5,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 2,
-      imgUrl: "",
-      price: 20.0,
-      amount: 0,
-      title: "Название товара",
-      colors: [],
-      sizes: [],
-    },
-    {
-      id: 3,
-      imgUrl: "",
-      price: 15.0,
-      amount: 25,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: [],
-    },
-    {
-      id: 4,
-      imgUrl: "",
-      price: 12.0,
-      amount: 5,
-      title: "Название товара",
-      colors: [],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 5,
-      imgUrl: "",
-      price: 8.0,
-      amount: 11,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 6,
-      imgUrl: "",
-      price: 5.0,
-      amount: 9,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: [],
-    },
-    {
-      id: 7,
-      imgUrl: "",
-      price: 5.0,
-      amount: 1,
-      title: "Название товара",
-      colors: ["red", "blue", "orange"],
-      sizes: ["XS", "S", "L", "XL"],
-    },
-    {
-      id: 8,
-      imgUrl: "",
-      price: 4.0,
-      amount: 17,
-      title: "Название товара",
-      colors: [],
-      sizes: [],
-    },
-  ],
-  loading: false,
-  status: "",
+  list: [],
+  colors: [],
+  sizes: [],
+  currentPage: 1,
+  totalElements: 0,
+  pageSize: 8,
+  totalPages: 20,
+  status: "LOADING",
 };
 
 const shopSlice = createSlice({
   name: "shop",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(fetchMenu.pending, (state) => {
+    builder.addCase(fetchProducts.pending, (state) => {
       state.status = "LOADING";
       state.list = [];
     });
-    builder.addCase(fetchMenu.fulfilled, (state, action) => {
-      state.list = action.payload;
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.list = action.payload.contents;
+      state.currentPage = action.payload.currentPage;
+      state.pageSize = action.payload.pageSize;
+      state.colors = action.payload.colors;
+      state.sizes = action.payload.sizes;
+      state.totalElements = action.payload.totalElements;
       state.status = "SUCCESS";
     });
-    builder.addCase(fetchMenu.rejected, (state) => {
+    builder.addCase(fetchProducts.rejected, (state) => {
       state.status = "ERROR";
       state.list = [];
     });
@@ -139,6 +135,6 @@ const shopSlice = createSlice({
 });
 export const selectShop = (state: RootState) => state.shop;
 
-export const {} = shopSlice.actions;
+export const { setPage } = shopSlice.actions;
 
 export default shopSlice.reducer;

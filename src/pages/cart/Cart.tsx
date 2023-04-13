@@ -20,26 +20,25 @@ export const Cart: FC = () => {
     setCartList(cartList.filter((i) => i.id !== id));
   };
 
-  return (
-    <section className="cart">
-      <div className="cart__items">
-        {loading && (
-          <div className="cart__loader">
-            <Loader />
-          </div>
-        )}
-        {error && <div className="cart__error">Что-то пошло не так. Попробуйте еще раз</div>}
-        {!!cartList.length &&
-          !error &&
-          cartList.map((product: ShopProductItem) => (
-            <CartItem key={product.id} {...product} removeCartItem={removeCartItem} />
-          ))}
-        {!cartList.length && !error && <p className="cart__empty">Корзина пуста</p>}
-      </div>
-      <div className="cart__oreder-info">
-        <CartOrderInfo cartList={cartList} />
-        <button className="cart__button">Оформить заказ</button>
-      </div>
-    </section>
-  );
-};
+    return (
+        <section className='cart'>
+            //TODO: При разрешении конфликтов и определении типов пропопсов вернуть
+            {/* <div className='cart__items'>
+                {loading && <div className='cart__loader'><Loader /></div>}
+
+                {error ? <div className='cart__error'>Что-то пошло не так. Попробуйте еще раз</div>
+                : cartList.length ? 
+                    cartList.map((item: ShopProductItem) => (
+                        <CartItem key={item.id} {...item} removeCartItem={removeCartItem}  />
+                    ))
+                : <p className='cart__empty'>Корзина пуста</p>}
+
+            </div>
+            
+            <div className='cart__oreder-info'>
+                <CartOrderInfo cartList={cartList}  />
+                <button className='cart__button'>Оформить заказ</button>
+            </div> */}
+        </section>
+    )
+}

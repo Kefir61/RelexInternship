@@ -54,7 +54,7 @@ export const Login = () => {
   return (
     <div className="wrapper">
       <form className="login" onSubmit={handleLogin}>
-        <h1 className="login__title">Релекс Благодарности</h1>
+        <h1 className="login__title">Релэкс. Благодарности</h1>
         <div className="login__input">
           <Input
             inputRef={inputRef}

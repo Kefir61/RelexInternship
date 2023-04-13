@@ -12,13 +12,14 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   price,
   name,
   productVarieties,
+  amount,
 }) => {
-  const colors = Array.from(new Set(productVarieties.map((item: any) => item.color)));
-  const sizes = Array.from(new Set(productVarieties.map((item: any) => item.size)));
-console.log(colors)
+  const colors = [...(new Set(productVarieties.map((item: any) => item.color)))].filter((elem) => elem);
+  const sizes = [...(new Set(productVarieties.map((item: any) => item.size)))].filter((elem) => elem);
+
   const imgUrl = mainImageId
-  //TODO: поменять на BASE_URL, когда это исправят на беке
-    ? `${process.env.IMAGE_URL}?id=${mainImageId}`
+    ? //TODO: поменять на BASE_URL, когда это исправят на беке
+      `${process.env.IMAGE_URL}?id=${mainImageId}`
     : `${process.env.IMAGE_URL}`;
 
   const [favotites, setFavorites] = useState(false);
@@ -35,7 +36,7 @@ console.log(colors)
       />
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
-        <div className="item--informations__stock">В наличии: {`0`} шт</div>
+        <div className="item--informations__stock">В наличии: {amount} шт</div>
       </div>
       <div className="shop--item__title">{name}</div>
       <div className="shop--item__colors">

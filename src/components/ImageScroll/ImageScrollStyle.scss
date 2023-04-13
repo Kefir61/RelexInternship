@@ -1,0 +1,19 @@
+.fotoScroller {
+    display: flex;
+
+    .switchButton {
+        height: 100%;
+        background-color: #ffffff;
+        border: none;
+	    padding: 0;
+        cursor: pointer;
+        font-size: 23px;
+    }
+
+    .foto {
+        width: 165px;
+        height: 165px;
+        border-radius: 10px;
+    }
+}
+

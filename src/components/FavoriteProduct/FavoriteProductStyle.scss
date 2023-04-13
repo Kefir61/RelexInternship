@@ -1,0 +1,96 @@
+.FavProductBlock {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+    padding: 15px;
+
+    border:1px solid #000000;
+    border-radius: 20px;
+
+    .fotoAndInfo {
+        display: flex;
+        gap:25px;
+
+        .infoAboutItem {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .colorsAndSizes {
+                display: flex;
+                flex-direction: column;
+                gap:14px;
+
+                .colorBlock {
+                    display: flex;
+                    gap:8px;
+
+                    .colorElem {
+                        width: 1em;
+                    }
+                }
+
+                .sizesBlock {
+                    display: flex;
+                    gap:8px;
+                }
+            }
+        }
+    }
+
+    .priceAndButtonsBlock {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .favIcon {
+            align-self: flex-end;
+            color: #ffa500;
+            font-size: 2rem;
+            rotate: 5deg;
+            margin-left: 0.5rem;
+            margin-top: 0.3rem;
+        }
+
+        .priceAndButtonsSection {
+            display: flex;
+            flex-direction: column;
+            margin-right: 15px;
+            gap:20px;
+
+            .priceBlock {
+                align-self: self-start;
+            }
+
+            .buttonsBlock {
+                display: flex;
+                flex-direction: column;
+                gap:15px;
+                width: 180px;
+    
+                .buyAndInCart {
+                    display: flex;
+                    justify-content: space-between;
+    
+                    .buttonStyled {
+                        box-shadow: 3px 3px 3px #000000;
+                        border-radius: 4px;
+                        padding: 3px 10px 4px 10px;
+                    }
+    
+                    .greenButton {
+                        background-color: #059424;
+                        color:#ffffff;
+                    }
+                }
+    
+                .aboutButton {
+                    width: 100%;
+                    box-shadow: 3px 3px 3px #000000;
+                    border-radius: 4px;
+                    padding: 3px 0px 4px 0px;
+                }
+            }
+        }        
+    }
+}

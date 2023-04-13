@@ -24,7 +24,7 @@ export const Shop = () => {
     dispatch(
       fetchProducts({
         currentPage: currentPage,
-        pageSize: 5,
+        pageSize: pageSize,
         totalPages: totalPages,
         order: sort,
         color: filterColor,

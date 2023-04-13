@@ -1,24 +1,24 @@
 import React, { FC, useEffect, useState } from "react";
 import { CartItem, CartOrderInfo, Loader } from "@components";
-import './Cart.scss';
+import "./Cart.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { ShopProductItem, selectShop } from "../../store/slices/shopSlice";
-import { AppDispatch } from '../../store/store';
+import { AppDispatch } from "../../store/store";
 import { fetchCart, selectCart } from "../../store/slices/cartSlice";
 
 export const Cart: FC = () => {
-    const { list } = useSelector(selectShop);
-    const [cartList, setCartList] = useState(list);
-    const dispatch = useDispatch<AppDispatch>();
-    const {loading, error} = useSelector(selectCart);
+  const { list } = useSelector(selectShop);
+  const [cartList, setCartList] = useState(list);
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector(selectCart);
 
-    useEffect(()=>{
-        dispatch(fetchCart({}))
-    }, [])
-    
-    const removeCartItem = (id: number) => {
-        setCartList(cartList.filter(i => i.id !== id))        
-    }
+  useEffect(() => {
+    dispatch(fetchCart({}));
+  }, []);
+
+  const removeCartItem = (id: number) => {
+    setCartList(cartList.filter((i) => i.id !== id));
+  };
 
     return (
         <section className='cart'>

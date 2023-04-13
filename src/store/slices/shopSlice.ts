@@ -100,7 +100,7 @@ const initialState: ShopSliceState = {
   sizes: [],
   currentPage: 1,
   totalElements: 0,
-  pageSize: 0,
+  pageSize: 8,
   totalPages: 20,
   status: "LOADING",
 };

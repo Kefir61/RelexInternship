@@ -11,8 +11,8 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   mainImageId,
   price,
   name,
-  productVarieties,
   amount,
+  productVarieties,
 }) => {
   const colors = [...(new Set(productVarieties.map((item: any) => item.color)))].filter((elem) => elem);
   const sizes = [...(new Set(productVarieties.map((item: any) => item.size)))].filter((elem) => elem);

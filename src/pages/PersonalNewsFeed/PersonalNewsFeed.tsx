@@ -1,7 +1,5 @@
-import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { MyThanks, UserComplete } from "@components";
+import { MyThanks, NewsFeed, UserComplete } from "@components";
 import { INews } from "@utils";
-import { Input } from "antd";
 import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/store/store";
@@ -32,69 +30,7 @@ export const PersonalNewsFeed: FC = () => {
           </div>
         </div>
         <div className="newsBlock">
-          <div className="news">
-            <div>
-              <div className="typeOfNews">Участие в конкурсе</div>
-              <div className="dateAndCreator">
-                <div>10.03.2023 17:30</div>
-                <div>Огранизатор: Техдиректор</div>
-              </div>
-            </div>
-            <h3>Вы зарегистрировались в качестве участника конкурса "Профессионал"</h3>
-            <div className="commentAndLikeSection">
-              <small>Комментарии {">"}</small>
-              <div className="likeSection">
-                <div className="notZeroLikes">
-                  <LikeOutlined /> 1
-                </div>
-                <div className="notZeroDisLikes">
-                  <DislikeOutlined /> 0
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="news">
-            <div>
-              <div className="typeOfNews">Вас благодарят!</div>
-              <div className="dateAndCreator">
-                <div>10.03.2023 16:15</div>
-                <div>Автор: В.С. Сорокин</div>
-              </div>
-            </div>
-            <h3>Спасибо за помощь в проекте</h3>
-            <div className="commentAndLikeSection">
-              <small>Комментарии {">"}</small>
-              <div className="likeSection">
-                <div className="notZeroLikes">
-                  <LikeOutlined /> 0
-                </div>
-                <div className="notZeroDisLikes">
-                  <DislikeOutlined /> 0
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="news">
-            <div>
-              <div className="typeOfNews">Вы победитель</div>
-              <div className="dateAndCreator">
-                <div>9.03.2023 16:15</div>
-                <div>Огранизатор: HR</div>
-              </div>
-            </div>
-            <h3>Конкурс "8 марта" Подведены итоги конкурса.</h3>
-            <div className="commentAndLikeSection">
-              <small>Комментарии {">"}</small>
-              <div className="likeSection">
-                <div className="notZeroLikes">
-                  <LikeOutlined /> 6
-                </div>
-                <div className="notZeroDisLikes">
-                  <DislikeOutlined /> 0
-                </div>
-              </div>
-            </div>
-          </div>
+          <NewsFeed type={"GLOBAL"} />
         </div>
       </div>
       <div className="eventsAndCongrats">

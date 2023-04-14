@@ -1,3 +1,4 @@
-export * from './routes';
+export * from './NewsTypesPhrases';
 export * from './baseUrl';
-export * from './imageUrl'
+export * from './imageUrl';
+export * from './routes';

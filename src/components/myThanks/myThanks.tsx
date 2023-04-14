@@ -44,6 +44,7 @@ export const MyThanks: FC = () => {
           renderElement={(OneThank: IOneMyThanks) => (
             <OneMyThanks key={`${OneThank.user.id} ${OneThank.createdAt}`} thanks={OneThank} />
           )}
+          currentPage={page}
           totalPages={myThanksPageCount}
         />
       )}

@@ -11,18 +11,15 @@ export interface INews {
     votesUp:number,
     votesDown:number,
     createdAt:string,
-    owner:IUser,
+    owner?:IUser,
     eventId?: number,
     eventTitle?: string,
     eventDescription?: string,
     userParticipateType?: EUserParticipateType,
-
     orderId?: number,
     orderAmount?: number,
-
     productId?: number,
-    productName?: string,
-    
+    productName?: string,   
     fromUser?:IUser,
     toUser?:IUser,
     comment?: string,

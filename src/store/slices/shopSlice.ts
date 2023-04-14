@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { axiosOur } from "@utils";
 
 export type TSortDirection = "ASC" | "DESC";
-type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
+export type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
 
 type TProductVarieties = {
   nameProduct: string;
@@ -21,7 +21,6 @@ export type ShopProductItem = {
   mainImageId: number;
   productImageIds: number[];
   productVarieties: TProductVarieties[];
-  featured: boolean;
   price: number;
   name: string;
   amount: number;

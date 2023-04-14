@@ -60,13 +60,13 @@ export const Shop = () => {
         </div>
       </div>
       <div className="shop--items">
-        {status === "LOADING"
-          ? [...new Array(8)].map((_, index) => (
-              <Spin size="large" key={index} className="shop--items__loading" />
-            ))
-          : list.map((item: ShopProductItem) => (
-              <ShopItem key={item.id} {...item} />
-            ))}
+        {status === "LOADING" ? (
+          <Spin size="large" className="shop--items__loading" />
+        ) : (
+          list.map((item: ShopProductItem) => (
+            <ShopItem key={item.id} {...item} />
+          ))
+        )}
       </div>
     </div>
   );

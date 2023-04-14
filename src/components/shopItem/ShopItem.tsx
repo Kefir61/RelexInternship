@@ -4,10 +4,13 @@ import { StarOutlined } from "@ant-design/icons";
 import { ShopProductItem } from "src/store/slices/shopSlice";
 import { ProductBuy } from "../productBuy";
 import { Button } from "antd";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 /*
  * Component shop item
  */
 export const ShopItem: React.FC<ShopProductItem> = ({
+  id,
   mainImageId,
   price,
   name,
@@ -65,8 +68,8 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <ProductBuy id={productVarieties[0].id} />
-      <Button>Подробнее</Button>
+      <ProductBuy id={productVarieties[0].id} quantity={1}/>
+      <Link to={`/shop/product/${id}`} className="shop--item__more"><Button className="item--more__button">Подробнее</Button></Link>
     </div>
   );
 };

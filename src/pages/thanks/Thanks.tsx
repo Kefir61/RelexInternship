@@ -20,7 +20,7 @@ export const Thanks: FC = () => {
   const [success, setSuccess] = useState(true);
   const [responseMessage, setResponseMessage] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, responseStatus, errorCode } = useSelector(selectSendThanks);
+  const { loading, responseStatus, errorCode, error } = useSelector(selectSendThanks);
   const [userTo, setUserTo] = useState("");
 
   const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
@@ -63,7 +63,7 @@ export const Thanks: FC = () => {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (errorCode) {
+    if (error) {
       if (errorCode === "INSUFFICIENT_BALANCE") {
         setResponseMessage("Недостаточно баллов на счете");
       } else {
@@ -72,7 +72,7 @@ export const Thanks: FC = () => {
       setResponse(true);
       setSuccess(false);
     }
-  }, [errorCode]);
+  }, [error]);
 
   const send = () => {
     const data = JSON.stringify({

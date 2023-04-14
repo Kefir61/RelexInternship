@@ -10,7 +10,7 @@ import { Loader } from "@components";
 
 export const ConfirmOrder: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {totalPrice, cartList, comment, responseStatus, errorCode, loading} = useSelector(selectCart);
+    const {totalPrice, cartList, comment, responseStatus, errorCode, loading, error} = useSelector(selectCart);
     const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
     const user = AppSelector<IUserInfo>(state => state.UserInfo.user);
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ export const ConfirmOrder: FC = () => {
       }, [responseStatus]);
     
       useEffect(() => {
-        if (errorCode) {
+        if (error) {
           if (errorCode === "INSUFFICIENT_BALANCE") {
             setResponseMessage("Недостаточно баллов на счете");
           } else {
@@ -43,7 +43,7 @@ export const ConfirmOrder: FC = () => {
           setResponse(true);
           setSuccess(false);
         }
-      }, [errorCode]);
+      }, [error]);
 
     return(
         <section className='confirm-order'>

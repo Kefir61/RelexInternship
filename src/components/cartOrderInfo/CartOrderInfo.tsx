@@ -19,15 +19,15 @@ export const CartOrderInfo: FC = () => {
     }, [cartList])
 
     const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const comment = e.target.value;
-        dispatch(setComment({comment}));
+      const comment = e.target.value;
+      dispatch(setComment({comment}));
     };
 
     useEffect(() =>{
-      if(error === true && !cartList.length === false){
+      if(error || !cartList.length){
         setDuttonDisabled(true)
       }      
-    }, [error])
+    }, [error, cartList])
 
   return (
     <section className="cart-order-info">

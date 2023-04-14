@@ -20,3 +20,4 @@ export * from "./loader";
 export * from "./myThanks";
 export * from "./FavoriteProduct";
 export * from "./productBuy";
+export * from "./myOrderRow";

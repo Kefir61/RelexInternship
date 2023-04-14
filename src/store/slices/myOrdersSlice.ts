@@ -14,7 +14,7 @@ export const fetchMyOrders = createAsyncThunk<any, {}, {rejectValue: string}>(
     }
 );
 
-interface ordersInfo{
+export interface ordersInfo{
     id: number,
     registeredAt: string,
     orderSum: number,

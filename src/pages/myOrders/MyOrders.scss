@@ -1,16 +1,11 @@
 .orders{
-    &__title, .my-order{
+    &__title{
         display: grid;
         grid-template-columns: 0.5fr 1.5fr 1fr 1fr;
         font-weight: bold;
         margin-bottom: 1rem;
     }
     
-    .my-order{
-        margin-bottom: 0.5rem;
-        font-weight: normal;
-    }
-
     &__text{
         text-align: center;
     }  

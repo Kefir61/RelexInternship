@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { fetchMyOrders, selectMyOrders } from '../../store/slices/myOrdersSlice';
 import './MyOrders.scss';
-import { format, utcToZonedTime } from "date-fns-tz";
+import { MyOrderRow } from "@components";
 
 export const MyOrders: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,14 +24,7 @@ export const MyOrders: FC = () => {
             </div>
             
             {ordersList.map((item)=>{
-                return (
-                    <div className="my-order" key={item.id}>
-                        <p className="orders__text">{item.id}</p>
-                        <p className="orders__text">{item.registeredAt}</p>
-                        <p className="orders__text">{item.orderSum}</p>
-                        <p className="orders__text">{item.status}</p>
-                    </div>
-                )
+                return <MyOrderRow key={item.id} {...item}/>
             })}
         </section>
     )

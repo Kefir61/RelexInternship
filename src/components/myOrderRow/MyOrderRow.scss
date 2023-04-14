@@ -1,0 +1,10 @@
+.my-order{
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr 1fr 1fr;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    
+    &__text{
+        text-align: center;
+    }  
+}

@@ -10,7 +10,7 @@ interface IUsersState {
 export const fetchUsers = createAsyncThunk<IUser[], undefined, {rejectValue: string}>(
   'users/getUsers',
   function (_, { rejectWithValue }) {
-    const response = axiosOur.get<IUser[]>(`/users/all`)
+    const response = axiosOur.get<IUser[]>(`/core/users/all`)
     .then((response)=>response.data)
     .catch((error)=>rejectWithValue(error))
     return response;

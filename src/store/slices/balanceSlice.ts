@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { IUserInfo, getUserInfo, getUserImage, IDelivery, IUpdateInfoParams, updateUserInfo, imageUrl } from '@utils';
-import type { RootState, AppDispatch } from '../store';
+import { createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import type { RootState } from '../store';
 import { getBalance } from '../../utils/api/requests/balanceRequests';
 
 export const fetchBalance = createAsyncThunk<number, {}, {rejectValue: string}>(

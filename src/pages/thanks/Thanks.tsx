@@ -15,12 +15,12 @@ export const Thanks: FC = () => {
   const [thanksValue, setThanksValue] = useState("");
   const [sumValue, setSumValue] = useState(0);
   const [disableSendButton, setDisableSendButton] = useState(true);
-  const [disableCancelButton, setDisableCancelButton] = useState(false);
+  const [disableClearButton, setDisableClearButton] = useState(true);
   const [response, setResponse] = useState(false);
   const [success, setSuccess] = useState(true);
   const [responseMessage, setResponseMessage] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, responseStatus, errorCode } = useSelector(selectSendThanks);
+  const { loading, responseStatus, errorCode, error } = useSelector(selectSendThanks);
   const [userTo, setUserTo] = useState("");
 
   const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
@@ -40,11 +40,13 @@ export const Thanks: FC = () => {
   );
 
   useEffect(() => {
-    setDisableSendButton(!
-      (thanksValue.trim().length && 
+    setDisableSendButton(!(thanksValue.trim().length && 
       sumValue > 0 && 
       allUsers.findIndex((user) => user.id === userTo) + 1
     ));
+    setDisableClearButton(!(thanksValue.trim().length ||
+      sumValue > 0
+    ));  
   }, [thanksValue, sumValue, userTo]);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export const Thanks: FC = () => {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (errorCode) {
+    if (error) {
       if (errorCode === "INSUFFICIENT_BALANCE") {
         setResponseMessage("Недостаточно баллов на счете");
       } else {
@@ -70,11 +72,7 @@ export const Thanks: FC = () => {
       setResponse(true);
       setSuccess(false);
     }
-  }, [errorCode]);
-
-  useEffect(()=>{
-    setDisableCancelButton(loading);
-  }, [loading])
+  }, [error]);
 
   const send = () => {
     const data = JSON.stringify({
@@ -177,11 +175,11 @@ export const Thanks: FC = () => {
         <Button 
           type="primary"
           size="middle"
-          onClick={clearFields} 
+          onClick={clearFields}
           className="form__button"
-          disabled={disableCancelButton}
+          disabled={disableClearButton}
         >
-          Отменить
+          Очистить поля
         </Button>
       </form>
 

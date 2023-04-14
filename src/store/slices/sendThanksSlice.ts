@@ -18,12 +18,14 @@ export interface loaderSliceState {
     loading: boolean,
     errorCode: string,
     responseStatus: number,
+    error: boolean,
 }
 
 const initialState: loaderSliceState = {
     loading: false,
     errorCode: '',
-    responseStatus: 0,   
+    responseStatus: 0,
+    error: false,   
 }
 
 const sendThanksSlice = createSlice({
@@ -33,15 +35,18 @@ const sendThanksSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(sendThanks.pending, (state)=>{
-          state.loading = true
+          state.loading = true;
+          state.error = false;
         })
         .addCase(sendThanks.fulfilled, (state, action)=>{
-            state.loading = false
-            state.responseStatus = action.payload
+            state.loading = false;
+            state.error = false;
+            state.responseStatus = action.payload;
         })
         .addCase(sendThanks.rejected, (state, action)=>{
-            state.loading = false
-            state.errorCode = action.payload
+            state.loading = false;
+            state.error = true;
+            state.errorCode = action.payload;
         })
     }
 })

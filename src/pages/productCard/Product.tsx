@@ -117,7 +117,7 @@ export const Product: FC = () => {
           <Space wrap>
             {product.sizes?.length != 0 && (
               <Select
-                defaultValue={`${sizeOptions[0].value}`}
+                defaultValue={`${sizeOptions[0].value ?? ''}`}
                 style={{ width: 120 }}
                 onChange={handleFilterSize}
                 options={sizeOptions}
@@ -125,7 +125,7 @@ export const Product: FC = () => {
             )}
             {product.colors?.length != 0 && (
               <Select
-                defaultValue={`${colorOptions[0].value}`}
+                defaultValue={`${colorOptions[0].value ?? ''}`}
                 style={{ width: 120 }}
                 onChange={handleFilterColor}
                 options={colorOptions}

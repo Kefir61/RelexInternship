@@ -1,4 +1,4 @@
 export enum API_URLS {
-    THANKS = '/thanks',
-    USERS = '/users'
+    THANKS = '/core/thanks',
+    USERS = '/core/users'
 }

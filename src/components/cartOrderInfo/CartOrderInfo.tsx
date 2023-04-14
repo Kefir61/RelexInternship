@@ -11,11 +11,11 @@ export const CartOrderInfo: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {totalPrice, cartList, deliveryMethod, error} = useSelector(selectCart);
     const navigate = useNavigate();
-    const [buttonDisabled, setDuttonDisabled] = useState(false)
+    const [buttonDisabled, setButtonDisabled] = useState(false)
 
     useEffect(()=>{
       dispatch(countTotalPrice({cartList}));
-      setDuttonDisabled(!cartList.length);
+      setButtonDisabled(!cartList.length);
     }, [cartList])
 
     const onChangeTextfield = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -25,7 +25,7 @@ export const CartOrderInfo: FC = () => {
 
     useEffect(() =>{
       if(error || !cartList.length){
-        setDuttonDisabled(true)
+        setButtonDisabled(true)
       }      
     }, [error, cartList])
 

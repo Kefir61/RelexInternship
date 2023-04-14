@@ -85,7 +85,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     countTotalPrice(state, action) {
-      state.totalPrice = state.cartList.reduce(function(sum, current) {
+      state.totalPrice = state.cartList.reduce((sum, current) => {
         if(current.productVariety.id === action.payload.id){
           current.quantity = action.payload.quantity
         }

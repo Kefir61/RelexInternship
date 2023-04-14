@@ -1,14 +1,13 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
-import { AutoComplete, Loader, MyThanks } from "@components";
+import { Loader, MyThanks, UserComplete } from "@components";
 import { appSelector } from "@store";
-import { IUser, generateFio } from "@utils";
+import { IUser } from "@utils";
 import { Button, Input, InputNumber } from "antd";
+import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AutoCompleteUserRow } from "../../components/AutoCopmleteUserRow/AutoCopmleteUserRow";
+import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
 import { selectSendThanks, sendThanks } from "../../store/slices/sendThanksSlice";
 import { AppDispatch } from "../../store/store";
 import "./Thanks.scss";
-import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
 
 export const Thanks: FC = () => {
   const { TextArea } = Input;
@@ -21,38 +20,25 @@ export const Thanks: FC = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { loading, responseStatus, errorCode, error } = useSelector(selectSendThanks);
-  const [userTo, setUserTo] = useState("");
 
+  const [userTo, setUserTo] = useState("");
   const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
-  const currentUserId = appSelector<string>((state) => state.UserInfo.user.id);
-  const contentAutoComplete = useMemo(
-    () =>
-      allUsers
-        .filter((user) => user.id != currentUserId)
-        .map((user) => {
-          return {
-            fieldFillText: generateFio(user),
-            item: user,
-            strToFindIn: `${user.firstName} ${user.lastName} ${user.patronymic || ""}`,
-          };
-        }),
-    [allUsers]
-  );
 
   useEffect(() => {
-    setDisableSendButton(!(thanksValue.trim().length && 
-      sumValue > 0 && 
-      allUsers.findIndex((user) => user.id === userTo) + 1
-    ));
-    setDisableClearButton(!(thanksValue.trim().length ||
-      sumValue > 0
-    ));  
+    setDisableSendButton(
+      !(
+        thanksValue.trim().length &&
+        sumValue > 0 &&
+        allUsers.findIndex((user) => user.id === userTo) + 1
+      )
+    );
+    setDisableClearButton(!(thanksValue.trim().length || sumValue > 0));
   }, [thanksValue, sumValue, userTo]);
 
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
-  
+
   useEffect(() => {
     if (responseStatus === 200) {
       setSuccess(true);
@@ -104,12 +90,11 @@ export const Thanks: FC = () => {
             Сотрудник:
           </label>
           <div className="form__input-wrapper">
-            <AutoComplete
+            <UserComplete
               onSelect={(user: IUser) => {
                 setUserTo(user.id);
               }}
-              content={contentAutoComplete}
-              renderElement={(user: IUser) => <AutoCompleteUserRow user={user} />}
+              currentUserShowed={false}
             />
           </div>
         </div>
@@ -172,7 +157,7 @@ export const Thanks: FC = () => {
           Отправить
         </Button>
 
-        <Button 
+        <Button
           type="primary"
           size="middle"
           onClick={clearFields}

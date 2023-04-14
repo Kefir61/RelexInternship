@@ -1,68 +1,34 @@
-import React, { FC, useEffect, useMemo } from "react";
-import "./PersonalNewsFeedStyle.scss";
+import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { MyThanks, UserComplete } from "@components";
+import { INews } from "@utils";
 import { Input } from "antd";
+import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/store/store";
-import { AutoComplete, MyThanks } from "@components";
-import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { IUser, generateFio } from "@utils";
-import { AutoCompleteUserRow } from "../../components/AutoCopmleteUserRow/AutoCopmleteUserRow";
 import { appSelector } from "../../store/hooks";
-import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
+import { fetchNews } from "../../store/slices/newsFeedSlice";
 import "./PersonalNewsFeedStyle.scss";
 
 export const PersonalNewsFeed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const currentUserId = appSelector<string>((state) => state.UserInfo.user.id);
-  const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
-
-  const getYouContent = (user: IUser): IUser => {
-    return {
-      firstName: "",
-      lastName: "Вы",
-      patronymic: "",
-      mainImageId: user.mainImageId,
-      id: user.id,
-    };
-  };
-
-  const contentAutoComplete = useMemo(
-    () =>
-      allUsers
-        .map((user) => {
-          if (user.id === currentUserId) {
-            return {
-              fieldFillText: "Вы",
-              item: getYouContent(user),
-              strToFindIn: `${user.firstName} ${user.lastName} ${user.patronymic || ""}`,
-            };
-          }
-          return {
-            fieldFillText: generateFio(user),
-            item: user,
-            strToFindIn: `${user.firstName} ${user.lastName} ${user.patronymic || ""}`,
-          };
-        })
-        .sort((x, y) => (x.item.id === currentUserId ? -1 : y.item.id == currentUserId ? 1 : 0)),
-    [allUsers]
-  );
+  const feed = appSelector<INews[]>((state) => state.feed.content);
+  console.log(feed);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(
+      fetchNews({
+        currentPage: 0,
+        pageSize: 4,
+      })
+    );
   }, []);
 
   return (
     <div className="content">
       <div className="feed">
         <div className="searchBar">
-          <Input className="contextSearch" placeholder="Context Search" />
           <div className="chooseBlock">
-            <div>Сотрудник: </div>
-            <AutoComplete
-              onSelect={(user: IUser) => {}}
-              content={contentAutoComplete}
-              renderElement={(user: IUser) => <AutoCompleteUserRow user={user} />}
-            />
+            <UserComplete onSelect={() => {}} currentUserShowed={true} />
           </div>
         </div>
         <div className="newsBlock">

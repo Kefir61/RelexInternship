@@ -8,6 +8,7 @@ interface AutoCompleteProps {
   renderElement: (elem: unknown) => ReactNode;
   content: IContentToAutoComplete[];
   width?: string;
+  placeholder?: string;
 }
 
 export const AutoComplete: FC<AutoCompleteProps> = ({
@@ -15,6 +16,7 @@ export const AutoComplete: FC<AutoCompleteProps> = ({
   renderElement,
   content,
   width,
+  placeholder,
 }) => {
   const [searchOptions, setSearchOptions] = useState<IContentToAutoComplete[]>([]);
   const [value, setValue] = useState("");
@@ -39,7 +41,9 @@ export const AutoComplete: FC<AutoCompleteProps> = ({
   };
 
   const handleSearch = (value: string) => {
-    setSearchOptions(content.filter((elem) => elem.strToFindIn.includes(value)));
+    setSearchOptions(
+      content.filter((elem) => elem.strToFindIn.toLowerCase().includes(value.toLowerCase()))
+    );
   };
 
   const handleChange = (value: string) => {
@@ -57,7 +61,7 @@ export const AutoComplete: FC<AutoCompleteProps> = ({
       onSearch={handleSearch}
       onSelect={handleSelect}
     >
-      <Input className="custom" />
+      <Input className="custom" placeholder={placeholder ?? ""} />
     </AutoCompleteAntd>
   );
 };

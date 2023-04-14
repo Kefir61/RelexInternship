@@ -5,7 +5,6 @@ export * from './layout';
 export * from './privateRouter';
 export * from './router';
 export * from './OneMyThanks'
-export * from "./AutoComplete";
 export * from './CommentsSection'
 export * from './ListWithPagination'
 export * from './CommentsSection';
@@ -20,3 +19,4 @@ export * from "./loader";
 export * from "./myThanks";
 export * from "./FavoriteProduct";
 export * from "./productBuy";
+export * from './UserComplete'

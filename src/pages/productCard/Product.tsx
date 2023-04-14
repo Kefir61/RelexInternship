@@ -21,13 +21,14 @@ import {
 export const Product: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector(selectProductCard);
-  const { filterColor, filterSize, amountToCart } = useSelector(selectFilterProduct);
+  const { filterColor, filterSize, amountToCart } =
+    useSelector(selectFilterProduct);
 
-  const itemToCart = product.productVarieties?.find((item) => {
+  let itemToCart = product.id;
+  product.productVarieties?.forEach((item) => {
     if (item?.color === filterColor && item?.size === filterSize) {
-      return item;
+      itemToCart = item.id 
     }
-    return product;
   });
 
   const { id } = useParams();
@@ -49,11 +50,11 @@ export const Product: FC = () => {
 
   const ruColors = translateColor(product.colors);
 
-  const colorOptions: IOption[] = [{ value: "", label: "Все" }];
+  const colorOptions: IOption[] = [];
   product?.colors.map((item, index) => {
     colorOptions.push({ value: item, label: ruColors[index] });
   });
-  const sizeOptions: IOption[] = [{ value: "", label: "Все" }];
+  const sizeOptions: IOption[] = [];
   product?.sizes.map((item) => {
     sizeOptions.push({ value: item, label: item });
   });
@@ -66,7 +67,7 @@ export const Product: FC = () => {
   };
   const onChangeAmount = (value: number) => {
     dispatch(setAmountToCart(value));
-  }
+  };
   return (
     <div className="product">
       <div className="product--info">
@@ -116,7 +117,7 @@ export const Product: FC = () => {
           <Space wrap>
             {product.sizes?.length != 0 && (
               <Select
-                defaultValue="Размер"
+                defaultValue={`${sizeOptions[0].value}`}
                 style={{ width: 120 }}
                 onChange={handleFilterSize}
                 options={sizeOptions}
@@ -124,7 +125,7 @@ export const Product: FC = () => {
             )}
             {product.colors?.length != 0 && (
               <Select
-                defaultValue="Цвет"
+                defaultValue={`${colorOptions[0].value}`}
                 style={{ width: 120 }}
                 onChange={handleFilterColor}
                 options={colorOptions}
@@ -133,10 +134,15 @@ export const Product: FC = () => {
           </Space>
         </div>
         <div className="product--panel__counts">
-          <span>Колиество</span>
-          <InputNumber min={1} max={product.amount} defaultValue={0} onChange={onChangeAmount}/>
+          <span>Количество</span>
+          <InputNumber
+            min={1}
+            max={product.amount}
+            defaultValue={0}
+            onChange={onChangeAmount}
+          />
         </div>
-        <ProductBuy id={Number(itemToCart?.id)} quantity={amountToCart}/>
+        <ProductBuy id={itemToCart} quantity={amountToCart} />
       </div>
     </div>
   );

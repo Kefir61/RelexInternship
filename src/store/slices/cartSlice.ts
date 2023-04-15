@@ -50,7 +50,8 @@ export interface cartProductProps{
 
 export interface cartItemProps{
   productVariety: cartProductProps,
-  quantity: number
+  quantity: number,
+  cancelDelete: boolean,
 } 
 
 export interface fetchCartProps{
@@ -77,7 +78,7 @@ const initialState: CartSliseState = {
   totalPrice: 0,
   deliveryMethod: '',
   comment: '',
-  errorCode: ''
+  errorCode: '',
 };  
 
 const cartSlice = createSlice({
@@ -94,6 +95,13 @@ const cartSlice = createSlice({
     },
     setComment(state, action){
       state.comment = action.payload.comment;
+    },
+    setCancelDelete(state, action){
+      state.cartList.map((item)=>{
+        if(item.productVariety.id === action.payload.id){
+          return item.cancelDelete = action.payload.cancelDelete;
+        } 
+      })
     }
   },
   extraReducers: (builder) => {
@@ -104,6 +112,11 @@ const cartSlice = createSlice({
     .addCase (fetchCart.fulfilled, (state, action) => {
       state.loading = false;
       state.cartList = action.payload.cartItems;
+
+      state.cartList.map((item)=>{        
+        return item.cancelDelete = false;
+      })
+      
       state.deliveryMethod = action.payload.deliveryMethod;
     })
     .addCase (fetchCart.rejected, (state) => {
@@ -134,7 +147,7 @@ const cartSlice = createSlice({
 })
 
 export const selectCart = (state: RootState) => state.cart;
-export const {countTotalPrice, setComment} = cartSlice.actions;
+export const {countTotalPrice, setComment, setCancelDelete} = cartSlice.actions;
 export const {} = cartSlice.actions;
 
 export default cartSlice.reducer;

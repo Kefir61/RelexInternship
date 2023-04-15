@@ -1,0 +1,1 @@
+export type ENewsTypes = 'thanks' | 'event_user_registered' | 'event_results' | 'new_event' | 'new_order' | 'new_product'

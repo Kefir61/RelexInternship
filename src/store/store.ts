@@ -1,13 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import myThanksReducer from "./slices/myThanksSlice";
 import usersReducer from "./slices/autoCompleteUsersSlice";
-import shopReducer from "./slices/shopSlice";
-import sendThanksReducer from "./slices/sendThanksSlice";
-import userInfoReducer from "./slices/userSlice";
-import shopFilterReducer from "./slices/shopFilterSlice";
 import balanceReducer from "./slices/balanceSlice";
 import cartReducer from "./slices/cartSlice";
 import myOrdersReducer from "./slices/myOrdersSlice";
+import myThanksReducer from "./slices/myThanksSlice";
+import newsReducer from "./slices/newsFeedSlice";
+import sendThanksReducer from "./slices/sendThanksSlice";
+import shopFilterReducer from "./slices/shopFilterSlice";
+import shopReducer from "./slices/shopSlice";
+import userInfoReducer from "./slices/userSlice";
+import productReducer from "./slices/productCardSlice";
+import productFilterReducer from "./slices/productFilterSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -19,7 +23,10 @@ export const store = configureStore({
     sendThanks: sendThanksReducer,
     balance: balanceReducer,
     cart: cartReducer,
-    myOrders: myOrdersReducer
+    myOrders: myOrdersReducer,
+    feed: newsReducer,
+    product: productReducer,
+    productFilter: productFilterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

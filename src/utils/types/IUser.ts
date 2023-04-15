@@ -4,4 +4,5 @@ export interface IUser {
     firstName: string,
     patronymic: string | null,
     mainImageId?: string,
+    job?:string,
   }

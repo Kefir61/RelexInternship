@@ -8,9 +8,35 @@
 
     &__price{
         font-size: 2rem;
+
+        @media screen and (max-width: 67.8125em){
+            font-size: 1.5rem; 
+        }
+
+        @media screen and (max-width: 58.75em){
+            font-size: 2rem;
+        }
     }
 
     &__textarea{
         margin-top: 0.5rem;
+    }
+
+    &__link{
+        width: 100%;
+        margin-top: 0.5rem;
+        color: #ffffff;
+        background-color: #ff0000;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 5px;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        &.disabled{
+            background-color: #808080;   
+        }
     }
 }

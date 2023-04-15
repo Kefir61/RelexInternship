@@ -12,6 +12,7 @@ import { ProfileItems, MenuItems, PageHeader } from "@components";
 import { AppDispatch, RootState } from "src/store/store";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { fetchBalance, selectBalance } from '../../store/slices/balanceSlice';
+import { fetchCart, selectCart } from '../../store/slices/cartSlice';
 
 export const Header: FC = () => {
   const location = useLocation();
@@ -20,10 +21,12 @@ export const Header: FC = () => {
   const user = AppSelector<IUserInfo>(state => state.UserInfo.user);
   const dispatch = useDispatch<AppDispatch>();
   const {balance} = useSelector(selectBalance);
+  const {cartList} = useSelector(selectCart);
 
   useEffect(() => {
     setMenuOpen();
     dispatch(fetchBalance({}));
+    dispatch(fetchCart({}));
   }, [location]);
 
   const setMenuOpen = () =>{
@@ -122,11 +125,15 @@ export const Header: FC = () => {
             >
               <ShoppingCartOutlined className="shopping-cart__icon" />
             </Link>
-            <div className="shopping-cart__section">
-              <p className="shopping-cart__quantity">
-                30
-              </p>
-            </div>
+            
+            {!!cartList.length && 
+              <div className="shopping-cart__section">
+                <p className="shopping-cart__quantity">
+                  {cartList.length}
+                </p>
+              </div>
+            }
+
           </div>
 
           <Dropdown menu={{ items: ProfileItems }}>

@@ -1,56 +1,44 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
-import { AutoComplete, Loader, MyThanks } from "@components";
+import { Loader, MyThanks, UserComplete } from "@components";
 import { appSelector } from "@store";
-import { IUser, generateFio } from "@utils";
+import { IUser } from "@utils";
 import { Button, Input, InputNumber } from "antd";
+import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AutoCompleteUserRow } from "../../components/AutoCopmleteUserRow/AutoCopmleteUserRow";
+import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
 import { selectSendThanks, sendThanks } from "../../store/slices/sendThanksSlice";
 import { AppDispatch } from "../../store/store";
 import "./Thanks.scss";
-import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
 
 export const Thanks: FC = () => {
   const { TextArea } = Input;
   const [thanksValue, setThanksValue] = useState("");
   const [sumValue, setSumValue] = useState(0);
   const [disableSendButton, setDisableSendButton] = useState(true);
-  const [disableCancelButton, setDisableCancelButton] = useState(false);
+  const [disableClearButton, setDisableClearButton] = useState(true);
   const [response, setResponse] = useState(false);
   const [success, setSuccess] = useState(true);
   const [responseMessage, setResponseMessage] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, responseStatus, errorCode } = useSelector(selectSendThanks);
-  const [userTo, setUserTo] = useState("");
+  const { loading, responseStatus, errorCode, error } = useSelector(selectSendThanks);
 
+  const [userTo, setUserTo] = useState("");
   const allUsers = appSelector<IUser[]>((state) => state.users.usersList);
-  const currentUserId = appSelector<string>((state) => state.UserInfo.user.id);
-  const contentAutoComplete = useMemo(
-    () =>
-      allUsers
-        .filter((user) => user.id != currentUserId)
-        .map((user) => {
-          return {
-            fieldFillText: generateFio(user),
-            item: user,
-            strToFindIn: `${user.firstName} ${user.lastName} ${user.patronymic || ""}`,
-          };
-        }),
-    [allUsers]
-  );
 
   useEffect(() => {
-    setDisableSendButton(!
-      (thanksValue.trim().length && 
-      sumValue > 0 && 
-      allUsers.findIndex((user) => user.id === userTo) + 1
-    ));
+    setDisableSendButton(
+      !(
+        thanksValue.trim().length &&
+        sumValue > 0 &&
+        allUsers.findIndex((user) => user.id === userTo) + 1
+      )
+    );
+    setDisableClearButton(!(thanksValue.trim().length || sumValue > 0));
   }, [thanksValue, sumValue, userTo]);
 
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
-  
+
   useEffect(() => {
     if (responseStatus === 200) {
       setSuccess(true);
@@ -61,7 +49,7 @@ export const Thanks: FC = () => {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (errorCode) {
+    if (error) {
       if (errorCode === "INSUFFICIENT_BALANCE") {
         setResponseMessage("Недостаточно баллов на счете");
       } else {
@@ -70,11 +58,7 @@ export const Thanks: FC = () => {
       setResponse(true);
       setSuccess(false);
     }
-  }, [errorCode]);
-
-  useEffect(()=>{
-    setDisableCancelButton(loading);
-  }, [loading])
+  }, [error]);
 
   const send = () => {
     const data = JSON.stringify({
@@ -106,12 +90,11 @@ export const Thanks: FC = () => {
             Сотрудник:
           </label>
           <div className="form__input-wrapper">
-            <AutoComplete
+            <UserComplete
               onSelect={(user: IUser) => {
                 setUserTo(user.id);
               }}
-              content={contentAutoComplete}
-              renderElement={(user: IUser) => <AutoCompleteUserRow user={user} />}
+              currentUserShowed={false}
             />
           </div>
         </div>
@@ -174,14 +157,14 @@ export const Thanks: FC = () => {
           Отправить
         </Button>
 
-        <Button 
+        <Button
           type="primary"
           size="middle"
-          onClick={clearFields} 
+          onClick={clearFields}
           className="form__button"
-          disabled={disableCancelButton}
+          disabled={disableClearButton}
         >
-          Отменить
+          Очистить поля
         </Button>
       </form>
 

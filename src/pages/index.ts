@@ -9,3 +9,4 @@ export * from "./cart";
 export * from './FavoriteGoods';
 export * from "./productCard";
 export * from "./myOrders";
+export * from "./confirmOrder";

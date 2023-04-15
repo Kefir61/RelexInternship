@@ -14,7 +14,7 @@ export const updateUserDelivery = (params: IUpdateAxiosDeilivery): Promise<Axios
 }
 
 export const updateUserNotifications = (params: INotification) => {
-    return axiosOur.put(`/users/notifications`, params);
+    return axiosOur.put(`/core/users/notifications`, params);
 }
 
 export const getUserImage = (id: string): Promise<AxiosResponse<string>> => {

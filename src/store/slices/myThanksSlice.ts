@@ -28,7 +28,7 @@ export const fetchMyThanks = createAsyncThunk<getJsonType, getListParams, {rejec
       currentPage:`${requestParams.currentPage}`,
       pageSize: `${requestParams.pageSize}`,
     });
-    const data = await axiosOur.get<getJsonType>(`/thanks/history/user`, {params})
+    const data = await axiosOur.get<getJsonType>(`/core/thanks/history/user`, {params})
     .then((response)=>response.data)
     .catch((error)=>rejectWithValue(error))
     return data;
@@ -40,16 +40,17 @@ interface reactParams {
   reaction:EReactionType,
 }
 
-export const fetchReactToThank = createAsyncThunk<string, reactParams, {rejectValue: string, dispatch: AppDispatch}>(
+export const fetchReactToThank = createAsyncThunk<number, reactParams, {rejectValue: string, dispatch: AppDispatch}>(
   'thanks/fetchReactToThank',
   async (requestParams, { rejectWithValue, dispatch }) => {
     const body = {userReaction: requestParams.reaction}
-    await axiosOur.post(`/thanks/${requestParams.id}/vote/user`, body)
+    const response = await axiosOur.post(`/core/thanks/${requestParams.id}/vote/user`, body)
     .then((response)=>{ 
-      dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))           
+      dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))    
+      return response.status       
       })
     .catch((error)=>rejectWithValue(error))
-    return 'ok';
+    return response;
 }
 )
 
@@ -70,24 +71,24 @@ const myThanksSlice = createSlice({
   initialState,
   reducers: {
     reactToThank(state, action: PayloadAction<IReactToThankPayload>) {
-      let index = state.list.findIndex(e => e.id === action.payload.id);
-      const oldReaction = state.list[index].userReaction
-      state.list[index].userReaction = action.payload.reaction;
+      let indexOfThankToReact = state.list.findIndex(thank => thank.id === action.payload.id);
+      const prevReaction = state.list[indexOfThankToReact].userReaction
+      state.list[indexOfThankToReact].userReaction = action.payload.reaction;
       if(action.payload.reaction === EReactionType.DISLIKE) {
-        state.list[index].votesDown++
-        if(oldReaction === EReactionType.LIKE) {
-          state.list[index].votesUp--
+        state.list[indexOfThankToReact].votesDown++
+        if(prevReaction === EReactionType.LIKE) {
+          state.list[indexOfThankToReact].votesUp--
         }
       } else if(action.payload.reaction === EReactionType.LIKE) {
-        state.list[index].votesUp++
-        if(oldReaction === EReactionType.DISLIKE) {
-          state.list[index].votesDown--
+        state.list[indexOfThankToReact].votesUp++
+        if(prevReaction === EReactionType.DISLIKE) {
+          state.list[indexOfThankToReact].votesDown--
         }
       } if(action.payload.reaction === EReactionType.NONE) {
-        if(oldReaction === EReactionType.DISLIKE) {
-          state.list[index].votesDown--
-        } else if(oldReaction === EReactionType.LIKE) {
-          state.list[index].votesUp--
+        if(prevReaction === EReactionType.DISLIKE) {
+          state.list[indexOfThankToReact].votesDown--
+        } else if(prevReaction === EReactionType.LIKE) {
+          state.list[indexOfThankToReact].votesUp--
         } 
       }
     },

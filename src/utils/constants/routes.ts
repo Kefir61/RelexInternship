@@ -7,12 +7,13 @@ export enum PageRoutes {
     EVENT = 'event/:id',
     SHOP_PRODUCT = 'shop/product/:id',
     THANKS = 'thanks',
-    SHOPPING_CART = 'shopcart',
+    SHOPPING_CART = '/shopcart',
     FAVOURITES = 'favourites',
     CREATE_EVENT = 'create-event',
     PROFILE = 'profile',
     SUBMIT_EVENT = 'submit-event',
     PUBLISH_EVENT = 'publish-event',
     USERES_ORDERS = 'orders',
-    FINANCE_HISTORY = 'finance_history'
+    FINANCE_HISTORY = 'finance_history',
+    CONFIRM_ORDER = '/confirm_order'
 };

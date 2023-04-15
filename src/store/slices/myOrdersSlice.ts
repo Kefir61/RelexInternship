@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getMyOrders } from '../../utils/api/requests/myOrdersRequest';
 import { RootState } from '../store';
 
-export const fetchMyOrders = createAsyncThunk<any, {}, {rejectValue: string}>(
+export const fetchMyOrders = createAsyncThunk<ordersInfo[], {}, {rejectValue: string}>(
     'orders/fetchMyOrders',
     async function(_, {rejectWithValue}) {
         try {
             const response = await getMyOrders();
-            return response.data;
+            return response.data.ordersInfo;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -45,7 +45,7 @@ const myOrdersSlice = createSlice({
         }),
         builder.addCase(fetchMyOrders.fulfilled, (state, action) => {
             state.loading = false;
-            state.ordersList = action.payload.ordersInfo
+            state.ordersList = action.payload;
         }),
         builder.addCase(fetchMyOrders.rejected, (state) => {
             state.loading = false;

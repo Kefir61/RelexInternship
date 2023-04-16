@@ -67,7 +67,7 @@ export const ShopItem: React.FC<ShopProductItem> = ({
       </div>
       <div className='shop--item__panel'>
         <ProductBuy
-          id={productVarieties[0].id}
+          id={productVarieties?.[0]?.id ?? null}
           quantity={1}
           productVarieties={productVarieties}
           amount={amount}

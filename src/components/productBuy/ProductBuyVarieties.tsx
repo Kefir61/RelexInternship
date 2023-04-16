@@ -24,7 +24,6 @@ export const ProductBuyVarieties: FC<ProductBuyVarietiesProps> = ({
     setCartAmount(cartAmount + quantity);
   };
 
-  console.log(amount);
   return (
     <Space className="product--buy">
       <Button>Купить</Button>

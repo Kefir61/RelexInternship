@@ -1,0 +1,16 @@
+.orders{
+    &__title{
+        display: grid;
+        grid-template-columns: 0.5fr 1.5fr 1fr 1fr;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    
+    &__text{
+        text-align: center;
+    }  
+    
+    @media screen and (max-width: 50em){
+        font-size: 0.8rem;
+    }
+}

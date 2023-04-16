@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import usersReducer from "./slices/autoCompleteUsersSlice";
 import balanceReducer from "./slices/balanceSlice";
 import cartReducer from "./slices/cartSlice";
+import myOrdersReducer from "./slices/myOrdersSlice";
 import myThanksReducer from "./slices/myThanksSlice";
 import newsReducer from "./slices/newsFeedSlice";
 import sendThanksReducer from "./slices/sendThanksSlice";
@@ -22,6 +23,7 @@ export const store = configureStore({
     sendThanks: sendThanksReducer,
     balance: balanceReducer,
     cart: cartReducer,
+    myOrders: myOrdersReducer,
     feed: newsReducer,
     product: productReducer,
     productFilter: productFilterReducer,

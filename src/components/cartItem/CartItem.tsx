@@ -29,7 +29,9 @@ export const CartItem: FC<cartItemProps> = (props) => {
     }
 
     const deleteItem = () => {
-        setQuantityValue(1);   
+        setQuantityValue(1);  
+        setTotalPrice(props.productVariety.price);
+        dispatch(countTotalPrice({id: props.productVariety.id, quantity: 1})); 
         dispatch(setCancelDelete({id: props.productVariety.id, cancelDelete: true}));  
     }
 

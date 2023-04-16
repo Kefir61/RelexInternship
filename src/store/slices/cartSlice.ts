@@ -33,7 +33,7 @@ export const sendCartOrder = createAsyncThunk<number, string, {rejectValue: stri
           const response = await sendOrder(comment);
           return response.status;
         } catch (error) {
-          return rejectWithValue(error.code);
+          return rejectWithValue(error.response.data.code);
         }
     }
 );
@@ -148,6 +148,5 @@ const cartSlice = createSlice({
 
 export const selectCart = (state: RootState) => state.cart;
 export const {countTotalPrice, setComment, setCancelDelete} = cartSlice.actions;
-export const {} = cartSlice.actions;
 
 export default cartSlice.reducer;

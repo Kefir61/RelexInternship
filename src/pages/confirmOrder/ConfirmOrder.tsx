@@ -35,8 +35,8 @@ export const ConfirmOrder: FC = () => {
     
       useEffect(() => {
         if (error) {
-          if (errorCode === "INSUFFICIENT_BALANCE") {
-            setResponseMessage("Недостаточно баллов на счете");
+          if (errorCode === "WALLET_BALANCE_NOT_ENOUGH") {
+            setResponseMessage("Недостаточно средств на счете");
           } else {
             setResponseMessage("Что-то пошло не так. Попробуйте еще раз");
           }

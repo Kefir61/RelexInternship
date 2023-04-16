@@ -5,7 +5,7 @@ import {
   setFilterColor,
   setFilterSize,
 } from "../../store/slices/shopFilterSlice";
-import { selectShop } from "../../store/slices/shopSlice";
+import { selectShop, setPage } from "../../store/slices/shopSlice";
 import { IOption, translateColor } from "@utils";
 
 export const Filter: FC = () => {
@@ -24,9 +24,11 @@ export const Filter: FC = () => {
 
   const handleFilterSize = (value: string) => {
     dispatch(setFilterSize(value));
+    dispatch(setPage(1))
   };
   const handleFilterColor = (value: string) => {
     dispatch(setFilterColor(value));
+    dispatch(setPage(1))
   };
   return (
     <Space wrap>

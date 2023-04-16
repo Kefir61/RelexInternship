@@ -1,20 +1,17 @@
 .shop--item {
-  padding: 10px;
-  width: 200px;
+  position: relative;
+  padding: 10px 10px 85px 10px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 6px #00000033;
   &__img {
     position: relative;
+    text-align: center;
     background-color: #ffffff;
     width: 100%;
-    height: 100px;
+    height: 200px;
     margin-bottom: 10px;
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
   }
   &__favotites {
     text-align: end;
@@ -53,6 +50,7 @@
     & > * {
       width: 15px;
       height: 15px;
+      box-shadow: 0 0 6px #0000005c;
       margin: 0 5px;
       cursor: pointer;
       border-radius: 50%;
@@ -77,6 +75,14 @@
         transform: scale(1.2);
       }
     }
+  }
+
+  &__panel{
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding-right: 20px;
   }
   &__more {
     width: 100%;

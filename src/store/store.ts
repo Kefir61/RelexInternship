@@ -9,8 +9,6 @@ import shopFilterReducer from "./slices/shopFilterSlice";
 import shopReducer from "./slices/shopSlice";
 import userInfoReducer from "./slices/userSlice";
 import productReducer from "./slices/productCardSlice";
-import productFilterReducer from "./slices/productFilterSlice";
-
 
 export const store = configureStore({
   reducer: {
@@ -24,12 +22,11 @@ export const store = configureStore({
     cart: cartReducer,
     feed: newsReducer,
     product: productReducer,
-    productFilter: productFilterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['user/updateStateNotifications'],
+        ignoredActions: ["user/updateStateNotifications"],
       },
     }),
 });

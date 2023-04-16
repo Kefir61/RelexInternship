@@ -1,6 +1,6 @@
 import { axiosOur } from "@utils";
 import { ShopProductItem, TStatus } from "./shopSlice";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 type FetchProductArgs = {
@@ -19,6 +19,9 @@ export const fetchProductCard = createAsyncThunk<
 interface ProductSliceState {
   product: ShopProductItem;
   status: TStatus;
+  filterColor: string;
+  filterSize: string;
+  amountToCart: number;
 }
 
 const defaultProduct: ShopProductItem = {
@@ -32,17 +35,31 @@ const defaultProduct: ShopProductItem = {
   amount: null,
   colors: [],
   sizes: [],
+  featured: null,
 };
 
 const initialState: ProductSliceState = {
   product: defaultProduct,
   status: "LOADING",
+  filterColor: "",
+  filterSize: "",
+  amountToCart: 1,
 };
 
 const productCardSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    setProductFilterSize(state, action: PayloadAction<string>) {
+      state.filterSize = action.payload;
+    },
+    setProductFilterColor(state, action: PayloadAction<string>) {
+      state.filterColor = action.payload;
+    },
+    setAmountToCart(state, action: PayloadAction<number>) {
+      state.amountToCart = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchProductCard.pending, (state) => {
       state.status = "LOADING";
@@ -50,6 +67,8 @@ const productCardSlice = createSlice({
     });
     builder.addCase(fetchProductCard.fulfilled, (state, action) => {
       state.product = action.payload;
+      state.filterColor = action.payload.productVarieties?.[0].color;
+      state.filterSize = action.payload.productVarieties?.[0].size;
       state.status = "SUCCESS";
     });
     builder.addCase(fetchProductCard.rejected, (state) => {
@@ -60,6 +79,7 @@ const productCardSlice = createSlice({
 });
 export const selectProductCard = (state: RootState) => state.product;
 
-export const {} = productCardSlice.actions;
+export const { setProductFilterSize, setProductFilterColor, setAmountToCart } =
+  productCardSlice.actions;
 
 export default productCardSlice.reducer;

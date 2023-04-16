@@ -56,6 +56,7 @@ export const Shop = () => {
             total={totalElements}
             onChange={onChangePage}
             showSizeChanger={false}
+            current={currentPage}
           />
         </div>
       </div>

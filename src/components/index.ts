@@ -19,4 +19,5 @@ export * from './router';
 export * from "./shopItem";
 export * from "./sort";
 export * from './UserComplete';
+export * from './LikesSection'
 

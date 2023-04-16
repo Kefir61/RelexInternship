@@ -12,6 +12,7 @@ export interface INews {
     votesDown:number,
     createdAt:string,
     owner?:IUser,
+    user?:IUser,
     eventId?: number,
     eventTitle?: string,
     eventDescription?: string,

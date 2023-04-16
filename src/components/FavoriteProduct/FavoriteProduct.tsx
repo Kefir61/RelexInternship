@@ -1,9 +1,8 @@
 import { StarOutlined } from "@ant-design/icons";
-import { IShopProductItem } from "@utils";
 import React, { FC, useMemo } from "react";
 import { ImageScroll } from "../ImageScroll";
 import "./FavoriteProductStyle.scss";
-import { ShopProductItem } from "src/store/slices/shopSlice";
+import { ShopProductItem } from "../../store/slices/shopSlice";
 
 interface FavoriteProductProps {
   item: ShopProductItem;
@@ -19,7 +18,7 @@ export const FavoriteProduct: FC<FavoriteProductProps> = ({ item }) => {
   return (
     <div className="FavProductBlock">
       <div className="fotoAndInfo">
-        {/* <ImageScroll images={[item.imgUrl, "s"]} /> */}
+        <ImageScroll images={[...item.productImageIds]} />
         <div className="infoAboutItem">
           <h2>{item.name}</h2>
           <div className="colorsAndSizes">

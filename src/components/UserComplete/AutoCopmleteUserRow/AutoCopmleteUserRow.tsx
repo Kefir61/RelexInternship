@@ -1,6 +1,7 @@
 import { IUser, generateFio } from "@utils";
 import React, { FC, useMemo } from "react";
 import "./AutoCopmleteUserRowStyle.scss";
+import defaultImage from "../../../assets/images/profile.png";
 
 interface AutoCompleteRowUserProps {
   user: IUser;

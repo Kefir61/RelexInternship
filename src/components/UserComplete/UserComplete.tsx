@@ -5,11 +5,11 @@ import { useDispatch } from "react-redux";
 import { fetchUsers } from "../../store/slices/autoCompleteUsersSlice";
 import { AppDispatch } from "../../store/store";
 import { AutoComplete } from "../AutoComplete";
-import { AutoCompleteUserRow } from "../AutoCopmleteUserRow/AutoCopmleteUserRow";
+import { AutoCompleteUserRow } from "./AutoCopmleteUserRow/AutoCopmleteUserRow";
 
 interface UserCompleteProps {
   currentUserShowed: boolean;
-  onSelect: (choosenItem: unknown) => void;
+  onSelect: (user: IUser) => void;
   width?: string;
 }
 
@@ -77,6 +77,7 @@ export const UserComplete: FC<UserCompleteProps> = ({ currentUserShowed, onSelec
 
   return (
     <AutoComplete
+      width="250px"
       onSelect={(user: IUser) => onSelect(user)}
       content={currentUserShowed ? contentWithUser : contentWithoutUser}
       renderElement={(user: IUser) => <AutoCompleteUserRow user={user} />}

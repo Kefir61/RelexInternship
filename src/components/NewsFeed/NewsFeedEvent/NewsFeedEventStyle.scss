@@ -1,36 +1,40 @@
-.news {
+.oneNewsBlock {
+  display: flex;
+  max-width: 600px;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  .news {
     display: flex;
     flex-direction: column;
 
     .typeOfNews {
-        color:#00aa2b;
+      color: #00aa2b;
     }
 
     .dateAndCreator {
-        display: flex;
-        gap: 40px;
-        color: #818183
+      display: flex;
+      gap: 40px;
+      color: #818183;
     }
-}
+  }
 
-.commentAndLikeSection {
+  .commentAndLikeSection {
     display: flex;
+    justify-content: space-between;
     width: 100%;
 
-    .commentSection {
-        color: #818183
-    }
-
     .likeSection {
-        display: flex;
-        gap:10px;
+      display: flex;
+      gap: 10px;
 
-        .notZeroLikes {
-            color: #00aa2b
-        }
+      .notZeroLikes {
+        color: #00aa2b;
+      }
 
-        .notZeroDisLikes {
-            color: #aa0000
-        }
+      .notZeroDisLikes {
+        color: #aa0000;
+      }
     }
+  }
 }

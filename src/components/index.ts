@@ -21,4 +21,5 @@ export * from "./shopItem";
 export * from "./sort";
 export * from './UserComplete';
 export * from './LikesSection'
+export * from './starOutlined';
 

@@ -1,13 +1,11 @@
-import { StarOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { ShopProductItem } from "../../store/slices/shopSlice";
-import { AppDispatch } from "../../store/store";
-import { ProductBuy } from "../productBuy";
+import React from "react";
 import "./shopItem.scss";
-import { addFavorite, deleteOneFavorite } from "../../store/slices/favoritesSlice";
+import { ShopProductItem } from "src/store/slices/shopSlice";
+import { ProductBuy } from "../productBuy";
+import { Button, Image } from "antd";
+import { Link } from "react-router-dom";
+import { StarIcon } from "../starOutlined";
+import "./shopItem.scss";
 /*
  * Component shop item
  */
@@ -20,38 +18,23 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   productVarieties,
   featured,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const colors = [...new Set(productVarieties.map((item: any) => item.color))].filter(
-    (elem) => elem
-  );
-  const sizes = [...new Set(productVarieties.map((item: any) => item.size))].filter((elem) => elem);
-
+  const colors = [
+    ...new Set(productVarieties.map((item: any) => item.color)),
+  ].filter((elem) => elem);
+  const sizes = [
+    ...new Set(productVarieties.map((item: any) => item.size)),
+  ].filter((elem) => elem);
   const imgUrl = mainImageId
     ? //TODO: поменять на BASE_URL, когда это исправят на беке
       `${process.env.IMAGE_URL}?id=${mainImageId}`
     : `${process.env.IMAGE_URL}`;
 
-  const [favotites, setFavorites] = useState(featured);
-
-  const handleFavorite = () => {
-    setFavorites((prev) => !prev);
-    if (!favotites) {
-      dispatch(addFavorite({ id }));
-    } else {
-      dispatch(deleteOneFavorite({ id }));
-    }
-  };
-
   return (
     <div className="shop--items__item shop--item">
       <div className="shop--item__img">
-        <img src={imgUrl} alt="img" />
+        <Image height={"200px"} src={imgUrl} />
       </div>
-      <StarOutlined
-        style={favotites ? { color: "#ffa500" } : {}}
-        className="shop--item__favotites"
-        onClick={handleFavorite}
-      />
+      <StarIcon featured={featured} id={id} />
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
         <div className="item--informations__stock">В наличии: {amount} шт</div>
@@ -83,10 +66,17 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <ProductBuy id={productVarieties[0].id} quantity={1} />
-      <Link to={`/shop/product/${id}`} className="shop--item__more">
-        <Button className="item--more__button">Подробнее</Button>
-      </Link>
+      <div className='shop--item__panel'>
+        <ProductBuy
+          id={productVarieties?.[0]?.id ?? null}
+          quantity={1}
+          productVarieties={productVarieties}
+          amount={amount}
+        />
+        <Link to={`/shop/product/${id}`} className="shop--item__more">
+          <Button className="item--more__button">Подробнее</Button>
+        </Link>
+      </div>
     </div>
   );
 };

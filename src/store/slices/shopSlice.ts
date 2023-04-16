@@ -5,7 +5,7 @@ import { axiosOur } from "@utils";
 export type TSortDirection = "ASC" | "DESC";
 export type TStatus = "" | "LOADING" | "SUCCESS" | "ERROR";
 
-type TProductVarieties = {
+export type TProductVarieties = {
   nameProduct: string;
   id: number;
   color?: string;
@@ -13,6 +13,7 @@ type TProductVarieties = {
   quantity: number;
   mainImageId: number;
   price: number;
+  cartAmount: number;
 };
 
 export type ShopProductItem = {
@@ -26,7 +27,7 @@ export type ShopProductItem = {
   amount: number;
   colors: string[];
   sizes: string[];
-  featured:boolean,
+  featured: boolean;
 };
 
 type ShopFetch = {
@@ -57,6 +58,7 @@ interface ShopSliceState {
   totalElements: number;
   pageSize: number;
   totalPages: number;
+  cartAmount: number;
   status: TStatus;
 }
 
@@ -98,9 +100,10 @@ const initialState: ShopSliceState = {
   list: [],
   colors: [],
   sizes: [],
+  cartAmount: 0,
   currentPage: 1,
   totalElements: 0,
-  pageSize: 8,
+  pageSize: 10,
   totalPages: 20,
   status: "LOADING",
 };

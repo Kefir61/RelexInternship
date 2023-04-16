@@ -39,7 +39,7 @@ export const OneMyThanks: FC<OneMyThanksProps> = ({ thanks }) => {
 
   return (
     <div className="congratsElem">
-      <div className={thanks.operationType === EOperaionType.FROM ? "getCurrency" : "lostCurrency"}>
+      <div className={thanks.toUser.id === currentUserId ? "getCurrency" : "lostCurrency"}> 
         {formatedValue}
       </div>
       <div className="infoBlock">

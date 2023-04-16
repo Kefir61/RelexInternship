@@ -23,7 +23,7 @@ export const NewsTypesOwner = (type: ENewsTypes, users: usersForGen) => {
   if (users.owner) {
     return `${NewsTypesOwnerTitle(type)}: ${generateFio(users.owner)}`;
   } else if (users.userTo.id === users.currentUser) {
-    return `${NewsTypesOwnerTitle(type)}: Вы / Получатель: Вы`;
+    return `${NewsTypesOwnerTitle(type)}: ${generateFio(users.userFrom)}/ Получатель: Вы`;
   } else if (users.userFrom.id === users.currentUser) {
     return `${NewsTypesOwnerTitle(type)}: Вы / Получатель: ${generateFio(users.userTo)}`;
   } else if (users.userFrom && users.userTo) {

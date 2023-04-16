@@ -9,7 +9,7 @@ export const sendThanks = createAsyncThunk<number, string, {rejectValue: string}
             const response = await postThanks(data);
         return response.status;
         }catch(error){
-            return rejectWithValue(error.code);
+            return rejectWithValue(error.response.data.code);
         }
     }
 )
@@ -52,5 +52,4 @@ const sendThanksSlice = createSlice({
 })
 
 export const selectSendThanks = (state: RootState) => state.sendThanks;
-export const {} = sendThanksSlice.actions;
 export default sendThanksSlice.reducer;

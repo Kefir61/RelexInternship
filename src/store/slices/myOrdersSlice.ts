@@ -54,5 +54,4 @@ const myOrdersSlice = createSlice({
 });
 
 export const selectMyOrders = (state: RootState) => state.myOrders;
-export const {} = myOrdersSlice.actions;
 export default myOrdersSlice.reducer;

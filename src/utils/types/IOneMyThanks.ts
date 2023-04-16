@@ -6,7 +6,8 @@ export enum EReactionType {LIKE = 'like', DISLIKE = 'dislike', NONE = null}
 
 export interface IOneMyThanks {
     operationType: EOperaionType,
-    user: IUser,
+    toUser: IUser,
+    fromUser: IUser,
     comment: string,
     votesUp: number,
     votesDown: number,

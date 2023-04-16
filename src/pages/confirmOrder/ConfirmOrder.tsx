@@ -35,8 +35,8 @@ export const ConfirmOrder: FC = () => {
     
       useEffect(() => {
         if (error) {
-          if (errorCode === "INSUFFICIENT_BALANCE") {
-            setResponseMessage("Недостаточно баллов на счете");
+          if (errorCode === "WALLET_BALANCE_NOT_ENOUGH") {
+            setResponseMessage("Недостаточно средств на счете");
           } else {
             setResponseMessage("Что-то пошло не так. Попробуйте еще раз");
           }
@@ -81,22 +81,22 @@ export const ConfirmOrder: FC = () => {
             )}
 
             <Button
-                type="primary"
-                size="middle"
-                onClick={() => navigate(PageRoutes.SHOPPING_CART)}
-                className="confirm-order__button"
+              type="primary"
+              size="middle"
+              onClick={() => navigate(PageRoutes.SHOPPING_CART)}
+              className="confirm-order__button"
             >
-                Отменить
+             Назад   
             </Button>
 
             <Button
-                type="primary"
-                size="middle"
-                onClick={() => dispatch(sendCartOrder(comment))}  
-                className="confirm-order__button"
-                disabled={buttonDisabled}
+              type="primary"
+              size="middle"
+              onClick={() => dispatch(sendCartOrder(comment))}  
+              className="confirm-order__button"
+              disabled={buttonDisabled}
             >
-                Подтвердить
+              Подтвердить
             </Button>
 
         </section>

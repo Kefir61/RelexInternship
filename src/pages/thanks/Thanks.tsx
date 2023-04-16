@@ -50,8 +50,8 @@ export const Thanks: FC = () => {
 
   useEffect(() => {
     if (error) {
-      if (errorCode === "INSUFFICIENT_BALANCE") {
-        setResponseMessage("Недостаточно баллов на счете");
+      if (errorCode === "INSUFFICIENT_BALANCE_ERROR") {
+        setResponseMessage("Недостаточно средств на счете");
       } else {
         setResponseMessage("Что-то пошло не так. Попробуйте еще раз");
       }

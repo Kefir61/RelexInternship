@@ -5,6 +5,7 @@ import { ProductBuy } from "../productBuy";
 import { Button, Image } from "antd";
 import { Link } from "react-router-dom";
 import { StarIcon } from "../starOutlined";
+import "./shopItem.scss";
 /*
  * Component shop item
  */

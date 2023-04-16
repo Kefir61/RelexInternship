@@ -1,5 +1,6 @@
-import { Pagination, Spin } from "antd";
-import React, { FC, ReactNode, memo, useEffect, useMemo, useState } from "react";
+import { Pagination } from "antd";
+import React, { FC, ReactNode, memo } from "react";
+import "./ListWithPaginationStyle.scss";
 
 interface ListProps {
   totalPages: number;
@@ -12,9 +13,10 @@ interface ListProps {
 export const ListWithPagination: FC<ListProps> = memo(
   ({ totalPages, renderElement, onChangePage, content, currentPage }) => {
     return (
-      <div>
+      <div className="MainBlock">
         {content.map((item) => renderElement(item))}
         <Pagination
+          className="pagination"
           size="small"
           pageSize={content.length}
           defaultCurrent={currentPage ?? 1}

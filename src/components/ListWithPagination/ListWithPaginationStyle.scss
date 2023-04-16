@@ -1,0 +1,9 @@
+.MainBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
+    .pagination {
+        padding-left: 40px;
+    }
+}

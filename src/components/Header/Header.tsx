@@ -16,7 +16,7 @@ import { fetchCart, selectCart } from '../../store/slices/cartSlice';
 
 export const Header: FC = () => {
   const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
   const AppSelector: TypedUseSelectorHook<RootState> = useSelector;
   const user = AppSelector<IUserInfo>(state => state.UserInfo.user);
   const dispatch = useDispatch<AppDispatch>();

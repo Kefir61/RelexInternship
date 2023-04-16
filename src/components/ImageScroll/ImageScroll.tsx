@@ -1,15 +1,18 @@
 import React, { FC, useState } from "react";
 import productDefault from "../../assets/images/productPlaceholder.png";
 import "./ImageScrollStyle.scss";
+import { imageUrl } from "@utils";
 
 interface IImageScrollProps {
-  images: string[];
+  images: number[];
 }
 
 export const ImageScroll: FC<IImageScrollProps> = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [leftOver, setLeftOver] = useState(true);
-  const [rightOver, setRightOver] = useState(currentImage === images.length - 1);
+  const [rightOver, setRightOver] = useState(
+    currentImage === images.length - 1 || images.length === 0
+  );
 
   const handleChangeImage = (side: "left" | "right") => {
     if (side === "right" && currentImage + 1 <= images.length - 1) {
@@ -32,7 +35,11 @@ export const ImageScroll: FC<IImageScrollProps> = ({ images }) => {
       >
         {"<"}
       </button>
-      <img src={images[currentImage] || productDefault} className="foto" alt="" />
+      {images[currentImage] ? (
+        <img src={`${process.env.IMAGE_URL}?id=${images[currentImage]}`} className="foto" alt="" />
+      ) : (
+        <img src={productDefault} className="foto" alt="" />
+      )}
       <button
         onClick={() => handleChangeImage("right")}
         disabled={rightOver}

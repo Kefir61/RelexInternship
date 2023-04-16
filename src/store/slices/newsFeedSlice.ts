@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ENewsTypes, EReactionType, INews, axiosOur } from "@utils";
-import { AppDispatch } from "../store";
+import { AppDispatch, RootState } from "../store";
+import { reactToThank } from "./myThanksSlice";
 
 interface INewsFeedState {
   content:INews[],
@@ -32,7 +33,6 @@ export const fetchNews = createAsyncThunk<getJsonType, getListParams, {rejectVal
         category: requestParams?.category,
         userId: requestParams?.userId,
     }
-
     const data = await axiosOur.get<getJsonType>(`/core/feeds`, {params})
     .then((response)=>response.data)
     .catch((error)=>rejectWithValue(error))
@@ -45,12 +45,17 @@ interface reactParams {
   reaction:EReactionType,
 }
 
-export const fetchReactToNews = createAsyncThunk<number, reactParams, {rejectValue: string, dispatch: AppDispatch}>(
+export const fetchReactToNews = createAsyncThunk<number, reactParams, {rejectValue: string, dispatch: AppDispatch, state: RootState}>(
   'thanks/fetchReactToThank',
-  async (requestParams, { rejectWithValue, dispatch }) => {
+  async (requestParams, { getState, rejectWithValue, dispatch }) => {
     const body = {userReaction: requestParams.reaction}
+    const state = getState()
     const response = await axiosOur.post(`/core/feeds/${requestParams.id}/vote/user`, body)
     .then((response)=>{ 
+      const isThank = state.MyThanks.list.find(thank=>thank.id === requestParams.id)
+      if(isThank){
+        dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))    
+      }
       dispatch(reactToNews({id: requestParams.id, reaction: requestParams.reaction})) 
       return response.status     
       })

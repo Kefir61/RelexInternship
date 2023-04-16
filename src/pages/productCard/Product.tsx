@@ -58,11 +58,9 @@ export const Product: FC = () => {
           </div>
           <StarIcon featured={product.featured} id={product.id} />
         </div>
-        <div className="product--info__counts">
-          В наличии: {product.amount}шт
-        </div>
+        <div className="product--info__counts">В наличии: {product.amount}шт</div>
         <div className="product--info__colors">
-          {product.colors?.length != 0 && (
+          {!product.colors?.length && (
             <>
               Цвета:
               {product.colors?.map((item, index) => (
@@ -81,9 +79,7 @@ export const Product: FC = () => {
             </>
           )}
         </div>
-        <div className="product--info__description">
-          Описание товара: {product.description}
-        </div>
+        <div className="product--info__description">Описание товара: {product.description}</div>
       </div>
       <div className="product--panel">
         <div className="product--panel__name">{product.name}</div>
@@ -105,7 +101,7 @@ export const Product: FC = () => {
           <span>Количество</span>
           <InputNumber
             min={1}
-            max={itemActive?.quantity - cartAmount}
+            max={product.amount}
             defaultValue={0}
             onChange={onChangeAmount}
           />

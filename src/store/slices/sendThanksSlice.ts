@@ -1,15 +1,17 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import { postThanks } from '../../utils/api/requests/sendThanksRequest';
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
+import { fetchMyThanks } from './myThanksSlice';
 
-export const sendThanks = createAsyncThunk<number, string, {rejectValue: string}>(
+export const sendThanks = createAsyncThunk<number, string, {rejectValue: string, dispatch: AppDispatch}>(
     'thanks/sendThanks',
-    async (data: string, {rejectWithValue}) => {
+    async (data: string, {rejectWithValue, dispatch}) => {
         try{
             const response = await postThanks(data);
+            dispatch(fetchMyThanks({ currentPage: 0, pageSize: 4 }))
         return response.status;
         }catch(error){
-            return rejectWithValue(error.code);
+            return rejectWithValue(error.response.data.code);
         }
     }
 )
@@ -52,5 +54,4 @@ const sendThanksSlice = createSlice({
 })
 
 export const selectSendThanks = (state: RootState) => state.sendThanks;
-export const {} = sendThanksSlice.actions;
 export default sendThanksSlice.reducer;

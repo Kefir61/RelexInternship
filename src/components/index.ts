@@ -15,9 +15,11 @@ export * from "./myThanks";
 export * from "./pageHeader";
 export * from './privateRouter';
 export * from "./productBuy";
+export * from "./myOrderRow";
 export * from './router';
 export * from "./shopItem";
 export * from "./sort";
 export * from './UserComplete';
+export * from './LikesSection'
 export * from './starOutlined';
 

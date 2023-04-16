@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import usersReducer from "./slices/autoCompleteUsersSlice";
 import balanceReducer from "./slices/balanceSlice";
 import cartReducer from "./slices/cartSlice";
+import myOrdersReducer from "./slices/myOrdersSlice";
 import myThanksReducer from "./slices/myThanksSlice";
 import newsReducer from "./slices/newsFeedSlice";
 import sendThanksReducer from "./slices/sendThanksSlice";
@@ -9,6 +10,8 @@ import shopFilterReducer from "./slices/shopFilterSlice";
 import shopReducer from "./slices/shopSlice";
 import userInfoReducer from "./slices/userSlice";
 import productReducer from "./slices/productCardSlice";
+import favoritesReducer from "./slices/favoritesSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -20,8 +23,10 @@ export const store = configureStore({
     sendThanks: sendThanksReducer,
     balance: balanceReducer,
     cart: cartReducer,
+    myOrders: myOrdersReducer,
     feed: newsReducer,
     product: productReducer,
+    favorites: favoritesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

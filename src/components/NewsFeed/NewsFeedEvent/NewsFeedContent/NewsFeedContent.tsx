@@ -1,4 +1,4 @@
-import { ENewsTypes } from "@utils";
+import { ENewsTypes, IUser, generateFio } from "@utils";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,6 +10,8 @@ interface NewsFeedContentProps {
   productId?: number;
   productName?: string;
   comment?: string;
+  user?: IUser;
+  currentUserId?: string;
 }
 
 export const NewsFeedContent: FC<NewsFeedContentProps> = ({
@@ -20,6 +22,8 @@ export const NewsFeedContent: FC<NewsFeedContentProps> = ({
   productId,
   productName,
   comment,
+  user,
+  currentUserId,
 }) => {
   return (
     <>
@@ -32,8 +36,8 @@ export const NewsFeedContent: FC<NewsFeedContentProps> = ({
       )}
       {type === "event_user_registered" && (
         <h3>
-          Вы зарегистрировались в качестве участника конкурса
-          <Link to="#href">{eventTitle}</Link>
+          {user.id === currentUserId ? "Вы учавствуете " : `${generateFio(user)} учавствует `}в
+          конкурсе <Link to="#href">{eventTitle}</Link>
         </h3>
       )}
       {type === "new_event" && (
@@ -44,13 +48,15 @@ export const NewsFeedContent: FC<NewsFeedContentProps> = ({
           <div>{eventDescription}</div>
         </h3>
       )}
-      {type === "new_order" && (
+      {type === "new_product" && (
         <h3>
-          В магазине размещён новый товар
-          <Link to="#href">{productName}</Link>
+          В магазине размещён новый товар -{" "}
+          <Link to={`/shop/product/${productId}`} replace={true}>
+            {productName}
+          </Link>
         </h3>
       )}
-      {type === "new_product" && <h3>Вы совершили покупку в магазине на сумму {orderAmount}</h3>}
+      {type === "new_order" && <h3>Вы совершили покупку в магазине на сумму {orderAmount}</h3>}
     </>
   );
 };

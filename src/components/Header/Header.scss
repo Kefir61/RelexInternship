@@ -192,6 +192,7 @@
 
                 @media screen and (max-width: 60em) {
                     margin-right: 0.2rem;
+                    line-height: 1rem;
                 }
 
                 @media screen and (max-width: 50em) {
@@ -199,12 +200,14 @@
                     width: 1.5rem;
                     height: 1.5rem;
                     border: 1.5px solid red;
+                    line-height: 1.3rem;
                 }
 
                 @media screen and (max-width: 34em) {
                     width: 1.15rem;
                     height: 1.15rem;
                     border: 1px solid red;
+                    line-height: 1rem;
                 }
            }
         }

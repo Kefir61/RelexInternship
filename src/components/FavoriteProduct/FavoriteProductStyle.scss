@@ -1,8 +1,9 @@
 .FavProductBlock {
     display: flex;
     justify-content: space-between;
-    width: 800px;
+    width: 1000px;
     padding: 15px;
+    margin-bottom: 10px;
 
     border:1px solid #000000;
     border-radius: 20px;
@@ -26,7 +27,9 @@
                     gap:8px;
 
                     .colorElem {
-                        width: 1em;
+                        width: 1rem;
+                        border-radius: 50%;
+                        border:1px solid #000000;
                     }
                 }
 
@@ -42,14 +45,18 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        padding-left: 10px;
 
         .favIcon {
             align-self: flex-end;
-            color: #ffa500;
             font-size: 2rem;
             rotate: 5deg;
             margin-left: 0.5rem;
             margin-top: 0.3rem;
+        }
+
+        .gold {
+            color: #ffa500;
         }
 
         .priceAndButtonsSection {
@@ -77,18 +84,11 @@
                         border-radius: 4px;
                         padding: 3px 10px 4px 10px;
                     }
-    
+
                     .greenButton {
-                        background-color: #059424;
-                        color:#ffffff;
+                        background-color:#158d05;
+                        color:#ffffff
                     }
-                }
-    
-                .aboutButton {
-                    width: 100%;
-                    box-shadow: 3px 3px 3px #000000;
-                    border-radius: 4px;
-                    padding: 3px 0px 4px 0px;
                 }
             }
         }        

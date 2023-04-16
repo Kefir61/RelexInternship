@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { EReactionType, IOneMyThanks, axiosOur } from "@utils";
 import { AppDispatch } from "../store";
+import { reactToNews } from "./newsFeedSlice";
 
 interface IMyThanksState {
   list:IOneMyThanks[],
   totalPages:number,
+  currentPage:number,
   loading:boolean,
   error:string,
 }
@@ -47,6 +49,7 @@ export const fetchReactToThank = createAsyncThunk<number, reactParams, {rejectVa
     const response = await axiosOur.post(`/core/thanks/${requestParams.id}/vote/user`, body)
     .then((response)=>{ 
       dispatch(reactToThank({id: requestParams.id, reaction: requestParams.reaction}))    
+      dispatch(reactToNews({id: requestParams.id, reaction: requestParams.reaction}))    
       return response.status       
       })
     .catch((error)=>rejectWithValue(error))
@@ -57,6 +60,7 @@ export const fetchReactToThank = createAsyncThunk<number, reactParams, {rejectVa
 const initialState: IMyThanksState = {
   list:[],   
   totalPages: 0,
+  currentPage:0,
   loading:false,
   error:''
 };
@@ -103,6 +107,7 @@ const myThanksSlice = createSlice({
     .addCase(fetchMyThanks.fulfilled, (state, action)=>{      
       state.list = action.payload.history;
       state.totalPages = action.payload.totalPages;
+      state.currentPage = action.payload.currentPage;
       state.loading = false;
     })
     .addCase(fetchMyThanks.rejected, (state, action)=>{

@@ -50,7 +50,7 @@ export const NewsFeedContent: FC<NewsFeedContentProps> = ({
       )}
       {type === "new_product" && (
         <h3>
-          В магазине размещён новый товар
+          В магазине размещён новый товар -{" "}
           <Link to={`/shop/product/${productId}`} replace={true}>
             {productName}
           </Link>

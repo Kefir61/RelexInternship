@@ -11,6 +11,7 @@ import shopReducer from "./slices/shopSlice";
 import userInfoReducer from "./slices/userSlice";
 import productReducer from "./slices/productCardSlice";
 import productFilterReducer from "./slices/productFilterSlice";
+import favoritesReducer from "./slices/favoritesSlice";
 
 
 export const store = configureStore({
@@ -27,6 +28,7 @@ export const store = configureStore({
     feed: newsReducer,
     product: productReducer,
     productFilter: productFilterReducer,
+    favorites: favoritesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

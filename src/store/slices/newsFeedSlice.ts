@@ -32,7 +32,6 @@ export const fetchNews = createAsyncThunk<getJsonType, getListParams, {rejectVal
         category: requestParams?.category,
         userId: requestParams?.userId,
     }
-
     const data = await axiosOur.get<getJsonType>(`/core/feeds`, {params})
     .then((response)=>response.data)
     .catch((error)=>rejectWithValue(error))

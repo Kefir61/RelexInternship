@@ -1,0 +1,16 @@
+.likeSection {
+    display: flex;
+    gap:10px;
+
+    .notZeroLikes {
+        color: #00aa2b
+    }
+
+    .notZeroDisLikes {
+        color: #aa0000
+    }
+
+    .zeroLikesOrDis {
+        color: #818183
+    }
+}

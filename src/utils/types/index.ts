@@ -6,7 +6,6 @@ export * from './INewsTypes';
 export * from './INotifications';
 export * from './IOneMyThanks';
 export * from './IOptions';
-export * from './IShopProductItem';
 export * from './IUpdateInfoParams';
 export * from './IUser';
 export * from './IUserInfo';

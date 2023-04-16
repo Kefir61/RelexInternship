@@ -32,6 +32,7 @@ const defaultProduct: ShopProductItem = {
   amount: null,
   colors: [],
   sizes: [],
+  featured:false,
 };
 
 const initialState: ProductSliceState = {

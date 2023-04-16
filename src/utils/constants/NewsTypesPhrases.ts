@@ -23,12 +23,12 @@ export const NewsTypesOwner = (type: ENewsTypes, users: usersForGen) => {
   if (users.owner) {
     return `${NewsTypesOwnerTitle(type)}: ${generateFio(users.owner)}`;
   } else if (users.userTo.id === users.currentUser) {
-    return `${NewsTypesOwnerTitle(type)}: ${generateFio(users.userFrom)}`;
+    return `${NewsTypesOwnerTitle(type)}: Вы / Получатель: Вы`;
   } else if (users.userFrom.id === users.currentUser) {
-    return `Получатель: ${generateFio(users.userTo)}`;
-  } else if(users.userFrom && users.userTo){
-    return `${NewsTypesOwnerTitle(type)}: ${generateFio(users.userFrom)} / Получатель: ${generateFio(
-      users.userTo
-    )}`;
+    return `${NewsTypesOwnerTitle(type)}: Вы / Получатель: ${generateFio(users.userTo)}`;
+  } else if (users.userFrom && users.userTo) {
+    return `${NewsTypesOwnerTitle(type)}: ${generateFio(
+      users.userFrom
+    )} / Получатель: ${generateFio(users.userTo)}`;
   }
 };

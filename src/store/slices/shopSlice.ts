@@ -26,6 +26,7 @@ export type ShopProductItem = {
   amount: number;
   colors: string[];
   sizes: string[];
+  featured:boolean,
 };
 
 type ShopFetch = {

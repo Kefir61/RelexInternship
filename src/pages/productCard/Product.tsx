@@ -1,13 +1,10 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Product.scss";
 import { Filter, ProductBuy } from "@components";
 import { Button, InputNumber, Select, Space } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProductCard,
-  selectProductCard,
-} from "../../store/slices/productCardSlice";
+import { fetchProductCard, selectProductCard } from "../../store/slices/productCardSlice";
 import { AppDispatch } from "src/store/store";
 import { useParams } from "react-router";
 import { IOption, translateColor } from "@utils";
@@ -17,17 +14,18 @@ import {
   setProductFilterColor,
   setProductFilterSize,
 } from "../../store/slices/productFilterSlice";
+import { addFavorite, deleteOneFavorite } from "../../store/slices/favoritesSlice";
 
 export const Product: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector(selectProductCard);
-  const { filterColor, filterSize, amountToCart } =
-    useSelector(selectFilterProduct);
+  const { filterColor, filterSize, amountToCart } = useSelector(selectFilterProduct);
+  const [favotites, setFavorites] = useState(false);
 
   let itemToCart = product.id;
   product.productVarieties?.forEach((item) => {
     if (item?.color === filterColor && item?.size === filterSize) {
-      itemToCart = item.id 
+      itemToCart = item.id;
     }
   });
 
@@ -42,6 +40,10 @@ export const Product: FC = () => {
   useEffect(() => {
     getProduct();
   }, []);
+
+  useEffect(() => {
+    setFavorites(product.featured);
+  }, [product]);
 
   const imgUrl = product.mainImageId
     ? //TODO: поменять на BASE_URL, когда это исправят на беке
@@ -68,6 +70,14 @@ export const Product: FC = () => {
   const onChangeAmount = (value: number) => {
     dispatch(setAmountToCart(value));
   };
+  const handleFavorite = () => {
+    setFavorites((prev) => !prev);
+    if (!favotites) {
+      dispatch(addFavorite({ id: product.id }));
+    } else {
+      dispatch(deleteOneFavorite({ id: product.id }));
+    }
+  };
   return (
     <div className="product">
       <div className="product--info">
@@ -78,13 +88,11 @@ export const Product: FC = () => {
               Посмотреть
             </Button>
           </div>
-          <StarOutlined />
+          <StarOutlined onClick={handleFavorite} style={favotites ? { color: "#ffa500" } : {}} />
         </div>
-        <div className="product--info__counts">
-          В наличии: {product.amount}шт
-        </div>
+        <div className="product--info__counts">В наличии: {product.amount}шт</div>
         <div className="product--info__colors">
-          {product.colors?.length != 0 && (
+          {!product.colors?.length && (
             <>
               Цвета:
               {product.colors?.map((item, index) => (
@@ -103,9 +111,7 @@ export const Product: FC = () => {
             </>
           )}
         </div>
-        <div className="product--info__description">
-          Описание товара: {product.description}
-        </div>
+        <div className="product--info__description">Описание товара: {product.description}</div>
       </div>
       <div className="product--panel">
         <div className="product--panel__name">{product.name}</div>
@@ -117,7 +123,7 @@ export const Product: FC = () => {
           <Space wrap>
             {product.sizes?.length != 0 && (
               <Select
-                defaultValue={`${sizeOptions?.[0].value ?? ''}`}
+                defaultValue={`${sizeOptions?.[0].value ?? ""}`}
                 style={{ width: 120 }}
                 onChange={handleFilterSize}
                 options={sizeOptions}
@@ -125,7 +131,7 @@ export const Product: FC = () => {
             )}
             {product.colors?.length != 0 && (
               <Select
-                defaultValue={`${colorOptions?.[0].value ?? ''}`}
+                defaultValue={`${colorOptions?.[0].value ?? ""}`}
                 style={{ width: 120 }}
                 onChange={handleFilterColor}
                 options={colorOptions}
@@ -135,12 +141,7 @@ export const Product: FC = () => {
         </div>
         <div className="product--panel__counts">
           <span>Количество</span>
-          <InputNumber
-            min={1}
-            max={product.amount}
-            defaultValue={0}
-            onChange={onChangeAmount}
-          />
+          <InputNumber min={1} max={product.amount} defaultValue={0} onChange={onChangeAmount} />
         </div>
         <ProductBuy id={itemToCart} quantity={amountToCart} />
       </div>

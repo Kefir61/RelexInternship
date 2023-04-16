@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import "./shopItem.scss";
 import { StarOutlined } from "@ant-design/icons";
-import { ShopProductItem } from "src/store/slices/shopSlice";
-import { ProductBuy } from "../productBuy";
 import { Button } from "antd";
-import { useNavigate } from "react-router";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ShopProductItem } from "../../store/slices/shopSlice";
+import { AppDispatch } from "../../store/store";
+import { ProductBuy } from "../productBuy";
+import "./shopItem.scss";
+import { addFavorite, deleteOneFavorite } from "../../store/slices/favoritesSlice";
 /*
  * Component shop item
  */
@@ -16,16 +18,29 @@ export const ShopItem: React.FC<ShopProductItem> = ({
   name,
   amount,
   productVarieties,
+  featured,
 }) => {
-  const colors = [...(new Set(productVarieties.map((item: any) => item.color)))].filter((elem) => elem);
-  const sizes = [...(new Set(productVarieties.map((item: any) => item.size)))].filter((elem) => elem);
+  const dispatch = useDispatch<AppDispatch>();
+  const colors = [...new Set(productVarieties.map((item: any) => item.color))].filter(
+    (elem) => elem
+  );
+  const sizes = [...new Set(productVarieties.map((item: any) => item.size))].filter((elem) => elem);
 
   const imgUrl = mainImageId
     ? //TODO: поменять на BASE_URL, когда это исправят на беке
       `${process.env.IMAGE_URL}?id=${mainImageId}`
     : `${process.env.IMAGE_URL}`;
 
-  const [favotites, setFavorites] = useState(false);
+  const [favotites, setFavorites] = useState(featured);
+
+  const handleFavorite = () => {
+    setFavorites((prev) => !prev);
+    if (!favotites) {
+      dispatch(addFavorite({ id }));
+    } else {
+      dispatch(deleteOneFavorite({ id }));
+    }
+  };
 
   return (
     <div className="shop--items__item shop--item">
@@ -33,9 +48,9 @@ export const ShopItem: React.FC<ShopProductItem> = ({
         <img src={imgUrl} alt="img" />
       </div>
       <StarOutlined
-        style={favotites ? { color: "gold" } : {}}
+        style={favotites ? { color: "#ffa500" } : {}}
         className="shop--item__favotites"
-        onClick={() => setFavorites(!favotites)}
+        onClick={handleFavorite}
       />
       <div className="shop--item__informations">
         <div className="item--informations__price">{price}</div>
@@ -68,8 +83,10 @@ export const ShopItem: React.FC<ShopProductItem> = ({
           </>
         )}
       </div>
-      <ProductBuy id={productVarieties[0].id} quantity={1}/>
-      <Link to={`/shop/product/${id}`} className="shop--item__more"><Button className="item--more__button">Подробнее</Button></Link>
+      <ProductBuy id={productVarieties[0].id} quantity={1} />
+      <Link to={`/shop/product/${id}`} className="shop--item__more">
+        <Button className="item--more__button">Подробнее</Button>
+      </Link>
     </div>
   );
 };
